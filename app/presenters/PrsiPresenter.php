@@ -18,7 +18,7 @@ use Nette\Http\SessionSection;
 class PrsiPresenter extends Presenter {
 	
 	/** @var Game */
-	public $activeGame;
+	public $activeGameId;
 	
 	/** @var SessionSection */
 	private $sessionSection;
@@ -32,22 +32,39 @@ class PrsiPresenter extends Presenter {
 		$this->sessionSection = $session->getSection('user');
 		$this->gamesGovernance = $gamesGovernance;
 		
-		$this->activeGame = $this->gamesGovernance->findActiveGame($this->sessionSection->nickname);
+		$this->activeGameId = $this->gamesGovernance->findActiveGameId($this->sessionSection->nickname);
+		\Tracy\Debugger::barDump($this->activeGameId);
+	}
+	
+	public function beforeRender() {
+		if($this->activeGameId && $this->gamesGovernance->getGame($this->activeGameId)->hasGameStarted()
+			&& $playerNickname = $this->gamesGovernance->checkPlayerWon($this->activeGameId)) {
+			$this->flashMessage("Hráč $playerNickname vyhrál. Konec hry");
+			$this->gamesGovernance->finishGame($this->activeGameId);
+		}
 	}
 	
 	public function renderDefault() {
-		if($this->activeGame && $this->activeGame->hasGameStarted()) {
-			$this->getTemplate()->activeGame = $this->activeGame;
+		if($this->activeGameId && $game = $this->gamesGovernance->getGame($this->activeGameId)->hasGameStarted()) {
+			$this->getTemplate()->activeGame = $game;
 		}
 		
 		$this->getTemplate()->nickname = $this->sessionSection->nickname;
 	}
 	
+	public function renderPlay() {
+		$this->getTemplate()->game = $this->gamesGovernance->getGame($this->activeGameId);
+		$this->getTemplate()->nickname = $this->sessionSection->nickname;
+		
+		if($this->isAjax()) {
+			$this->redrawControl("content");
+		}
+	}
+	
 	public function actionCreateGame() {
 		if($playersCount = $this->request->getPost("players_count")) {
-			$this->activeGame = new Game($playersCount);
-			$this->activeGame->joinGame($this->sessionSection->nickname);
-			$this->gamesGovernance->persistGame($this->activeGame);
+			$this->activeGameId = $this->gamesGovernance->createGame($playersCount);
+			$this->gamesGovernance->joinGame($this->activeGameId, $this->sessionSection->nickname);
 		}
 	}
 	
@@ -69,19 +86,8 @@ class PrsiPresenter extends Presenter {
 		$this->redirect("default");
 	}
 	
-	public function actionPlayCard($cardColor, $cardType, $setColor) {
-		$card = new Card($cardColor, $cardType);
-		
-		if($this->activeGame->playCard($card, $setColor)) {
-			$this->activeGame->nextPlayer();
-		} else {
-			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
-		}
-		
-	}
-	
 	public function actionJoinGame($id) {
-		$this->activeGame = $this->gamesGovernance->joinGame($id, $this->sessionSection->nickname);
+		$this->activeGameId = $this->gamesGovernance->joinGame($id, $this->sessionSection->nickname);
 		$this->redirect("findGame");
 	}
 	
@@ -90,28 +96,39 @@ class PrsiPresenter extends Presenter {
 		$this->redirect("findGame");
 	}
 	
+	public function actionPlayCard($cardColor, $cardType, $setColor) {
+		$card = new Card((int) $cardColor, (int) $cardType);
+		
+		if(!$this->gamesGovernance->playCard($card, $setColor, $this->sessionSection->nickname, $this->activeGameId)) {
+			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
+		}
+		
+		$this->redirect("play");
+		
+	}
+	
 	public function actionSkip() {
-		if ($this->activeGame->skip()) {
-			$this->activeGame->nextPlayer();
-		} else {
+		if (!$this->gamesGovernance->skip($this->sessionSection->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tento tah nelze přeskočit");
 		}
+		
+		$this->redirect("play");
 	}
 	
 	public function actionDraw() {
-		if ($this->activeGame->draw()) {
-			$this->activeGame->nextPlayer();
-		} else {
+		if (!$this->gamesGovernance->draw($this->sessionSection->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nelíže");
 		}
+		
+		$this->redirect("play");
 	}
 	
 	public function actionStand() {
-		if ($this->activeGame->stand()) {
-			$this->activeGame->nextPlayer();
-		} else {
+		if (!$this->gamesGovernance->stand($this->sessionSection->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
+		
+		$this->redirect("play");
 	}
 	
 	public function actionPurge() {

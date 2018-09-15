@@ -9,14 +9,10 @@ class CardTypes {
 	const ESO = 1;
 	const CARD_1 = 2;
 	const CARD_2 = 3;
-	const CARD_3 = 4;
-	const CARD_4 = 5;
-	const CARD_5 = 6;
-	const CARD_6 = 7;
-	const CARD_7 = 8;
-	const CARD_8 = 9;
-	const CARD_9 = 10;
-	const CARD_10 = 11;
+	const CARD_7 = 4;
+	const CARD_8 = 5;
+	const CARD_9 = 6;
+	const CARD_10 = 7;
 	
 	public static function getTypes() {
 		return [
@@ -24,10 +20,6 @@ class CardTypes {
 			self::ESO,
 			self::CARD_1,
 			self::CARD_2,
-			self::CARD_3,
-			self::CARD_4,
-			self::CARD_5,
-			self::CARD_6,
 			self::CARD_7,
 			self::CARD_8,
 			self::CARD_9,

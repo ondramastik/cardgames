@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "nette.ajax.js": "vojtech-dobes/nette.ajax.js"
+  }
+}

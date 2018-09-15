@@ -26,10 +26,17 @@ class Player {
 	
 	public function takeCard(Card $card) {
 		foreach ($this->hand as $key => $handCard) {
-			if($handCard === $card) {
+			if($handCard->matchColor($card) && $handCard->matchType($card)) {
 				unset($this->hand[$key]);
 			}
 		}
+	}
+	
+	/**
+	 * @return Card[]
+	 */
+	public function getHand() {
+		return $this->hand;
 	}
 	
 	/**

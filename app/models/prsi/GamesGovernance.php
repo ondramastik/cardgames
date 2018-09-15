@@ -40,7 +40,7 @@ class GamesGovernance {
 		return false;
 	}
 	
-	public function persistGame(Game $game) {
+	private function persistGame(Game $game) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		$games[$game->getId()] = $game;
 		$this->cache->save(self::CACHE_KEY, $games);
@@ -55,9 +55,22 @@ class GamesGovernance {
 	public function getGames() {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
+		$toReturn = [];
+		
+		/** @var Game $game */
+		foreach ($games as $game) {
+			if(!$game->hasGameFinished() || !$game->hasGameStarted()) {
+				$toReturn[] = $game;
+			}
+		}
+		
 		return $games;
 	}
 	
+	/**
+	 * @param $id
+	 * @return Game
+	 */
 	public function getGame($id) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
@@ -91,14 +104,97 @@ class GamesGovernance {
 		$this->cache->save(self::CACHE_KEY, []);
 	}
 	
-	public function findActiveGame($nickname) {
+	public function createGame($targetPlayers) {
+		$game = new Game($targetPlayers);
+		
+		$this->persistGame($game);
+		
+		return $game->getId();
+	}
+	
+	public function findActiveGameId($nickname) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		/** @var Game $game */
 		foreach ($games as $game) {
-			if($game->hasPlayer($nickname)) {
-				return $game;
+			if(!$game->hasGameFinished() && $game->getPlayer($nickname)) {
+				return $game->getId();
 			}
 		}
+	}
+
+	function playCard(Card $card, $setColor, $nickname, $gameId) {
+		/** @var Game $game */
+		$game = $this->getGame($gameId);
+		
+		if($game->getActivePlayer()->getNickname() === $nickname) {
+			if ($game->playCard($card, $setColor)) {
+				$game->nextPlayer();
+				$this->persistGame($game);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function skip($nickname, $gameId) {
+		/** @var Game $game */
+		$game = $this->getGame($gameId);
+		
+		if($game->getActivePlayer()->getNickname() === $nickname) {
+			if ($game->skip()) {
+				$game->nextPlayer();
+				$this->persistGame($game);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function draw($nickname, $gameId) {
+		/** @var Game $game */
+		$game = $this->getGame($gameId);
+		
+		if($game->getActivePlayer()->getNickname() === $nickname) {
+			if ($game->draw()) {
+				$game->nextPlayer();
+				$this->persistGame($game);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function stand($nickname, $gameId) {
+		/** @var Game $game */
+		$game = $this->getGame($gameId);
+		
+		if($game->getActivePlayer()->getNickname() === $nickname) {
+			if($game->stand()) {
+				$game->nextPlayer();
+				$this->persistGame($game);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function checkPlayerWon($gameId) {
+		foreach ($this->getGame($gameId)->getPlayers() as $player) {
+			if(count($player->getHand()) === 0) {
+				return $player->getNickname();
+			}
+		}
+		return false;
+	}
+	
+	public function finishGame($gameId) {
+		$game = $this->getGame($gameId);
+		$game->setGameFinished(true);
+		$this->persistGame($game);
 	}
 	
 }

@@ -17,6 +17,7 @@ class CardsDeck {
 	 */
 	public function __construct() {
 		$this->cards = $this->fetchCards();
+		$this->topCardInEffect = true;
 	}
 	
 	private function fetchCards() {
@@ -50,7 +51,7 @@ class CardsDeck {
 	}
 	
 	public function showTopCard() {
-		return $this->cards[0];
+		return $this->cards[count($this->cards) - 1];
 	}
 	
 	/**

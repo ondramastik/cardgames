@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="67492d8f-f670-475e-9189-9f5d122371a6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/Card.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/CardColors.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/CardTypes.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/CardsDeck.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/Game.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/GamesGovernance.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/prsi/Player.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/Prsi/createGame.latte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/Prsi/default.latte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/Prsi/findGame.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/config.neon" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.neon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/@layout.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/@layout.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/403.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/403.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/404.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/404.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/405.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/405.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/410.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/410.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/4xx.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/4xx.latte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/500.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/500.phtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Error/503.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Error/503.phtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/presenters/templates/Homepage/default.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Homepage/default.latte" afterDir="false" />
-    </list>
+    <list default="true" id="67492d8f-f670-475e-9189-9f5d122371a6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="DatabaseView">
@@ -54,7 +30,8 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.php.new.class">
@@ -64,46 +41,54 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="latte" value="3" />
+          <entry key="js" value="1" />
+          <entry key="latte" value="6" />
           <entry key="neon" value="1" />
-          <entry key="php" value="13" />
+          <entry key="php" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Latte file" value="3" />
+          <entry key="JavaScript" value="1" />
+          <entry key="Latte file" value="6" />
           <entry key="Neon" value="1" />
-          <entry key="PHP" value="13" />
+          <entry key="PHP" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="4" />
-          <entry key="latte" value="686" />
+          <entry key="latte" value="2121" />
           <entry key="neon" value="24" />
-          <entry key="php" value="5871" />
+          <entry key="php" value="7259" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Latte file" value="686" />
+          <entry key="Latte file" value="2121" />
           <entry key="Neon" value="24" />
-          <entry key="PHP" value="5871" />
+          <entry key="PHP" value="7259" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/presenters/PrsiPresenter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="46" column="70" selection-start-line="46" selection-start-column="70" selection-end-line="46" selection-end-column="70" />
-              <folding>
-                <element signature="e#117#142#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="313">
+              <caret line="110" column="89" lean-forward="true" selection-start-line="110" selection-start-column="89" selection-end-line="110" selection-end-column="89" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/prsi/CardTypes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -111,8 +96,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/prsi/Player.php">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/prsi/CardColors.php">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="10" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -120,8 +114,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/Prsi/findGame.latte">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+            <state relative-caret-position="136">
+              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -129,8 +123,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/prsi/GamesGovernance.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="670">
-              <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+            <state relative-caret-position="1139">
+              <caret line="69" column="7" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
               <folding>
                 <element signature="e#36#60#0#PHP" expanded="true" />
               </folding>
@@ -139,28 +133,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vendor/nette/application/src/Application/UI/Presenter.php">
+        <entry file="file://$PROJECT_DIR$/app/templates/Prsi/play.latte">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/Prsi/default.latte">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/Prsi/createGame.latte">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="3" selection-start-column="3" selection-end-column="4" />
+            <state relative-caret-position="143">
+              <caret line="18" column="45" lean-forward="true" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#span#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -168,53 +147,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/prsi/Game.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="517">
-              <caret line="199" column="64" lean-forward="true" selection-start-line="199" selection-start-column="64" selection-end-line="199" selection-end-column="64" />
-              <folding>
-                <element signature="e#377#433#0#PHP" />
-                <element signature="e#396#461#0#PHP" />
-                <element signature="e#624#660#0#PHP" />
-                <element signature="e#702#736#0#PHP" />
-                <element signature="e#809#823#0#PHP" />
-                <element signature="e#729#827#0#PHP" />
-                <element signature="e#655#684#0#PHP" />
-                <element signature="e#101#159#0#PHP" />
-                <element signature="e#782#818#0#PHP" />
-                <element signature="e#846#860#0#PHP" />
-                <element signature="e#810#998#0#PHP" />
-                <element signature="e#529#544#0#PHP" />
-                <element signature="e#540#594#0#PHP" />
-                <element signature="e#835#859#0#PHP" />
-                <element signature="e#861#929#0#PHP" />
-                <element signature="e#1254#1295#0#PHP" />
-                <element signature="e#1281#2884#0#PHP" />
-                <element signature="e#1152#2597#0#PHP" />
-                <element signature="e#1200#1635#0#PHP" />
-                <element signature="e#1366#1459#0#PHP" />
-                <element signature="e#1452#1470#0#PHP" />
-                <element signature="e#1388#1418#0#PHP" />
-                <element signature="e#1646#2597#0#PHP" />
-                <element signature="e#1625#2063#0#PHP" />
-                <element signature="e#1795#1938#0#PHP" />
-                <element signature="e#1881#1938#0#PHP" />
-                <element signature="e#1684#1713#0#PHP" />
-                <element signature="e#2146#2597#0#PHP" />
-                <element signature="e#2362#2597#0#PHP" />
-                <element signature="e#2590#2604#0#PHP" />
-                <element signature="e#2078#2241#0#PHP" />
-                <element signature="e#2945#3009#0#PHP" />
-                <element signature="e#2245#2338#0#PHP" />
-                <element signature="e#3111#3283#0#PHP" />
-                <element signature="e#2342#2418#0#PHP" />
-                <element signature="e#3523#3706#0#PHP" />
-                <element signature="e#4248#4272#0#PHP" />
-                <element signature="e#4274#4322#0#PHP" />
-                <element signature="e#4215#4240#0#PHP" />
-                <element signature="e#4242#4307#0#PHP" />
-                <element signature="e#4502#4568#0#PHP" />
-                <element signature="e#4312#4338#0#PHP" />
-                <element signature="e#4340#4410#0#PHP" />
-              </folding>
+            <state relative-caret-position="2057">
+              <caret line="121" column="29" selection-start-line="121" selection-start-column="29" selection-end-line="121" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/@layout.latte">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -222,13 +165,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="42" column="8" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
+            <state relative-caret-position="493">
+              <caret line="29" column="8" lean-forward="true" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Tracy\De</find>
+      <find>-&gt;hasGameStarted()</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -238,18 +187,20 @@
       <list>
         <option value="$PROJECT_DIR$/app/models/prsi/Constants.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/CardColors.php" />
-        <option value="$PROJECT_DIR$/app/models/prsi/CardTypes.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/CardsEngine.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/Card.php" />
         <option value="$PROJECT_DIR$/app/templates/Prsi/createGame.latte" />
         <option value="$PROJECT_DIR$/app/config/config.neon" />
-        <option value="$PROJECT_DIR$/app/models/prsi/Player.php" />
         <option value="$PROJECT_DIR$/app/templates/Prsi/default.latte" />
+        <option value="$PROJECT_DIR$/app/models/prsi/CardTypes.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/CardsDeck.php" />
-        <option value="$PROJECT_DIR$/app/templates/Prsi/findGame.latte" />
+        <option value="$PROJECT_DIR$/app/models/prsi/Player.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/GamesGovernance.php" />
+        <option value="$PROJECT_DIR$/app/templates/Prsi/findGame.latte" />
+        <option value="$PROJECT_DIR$/app/templates/@layout.latte" />
         <option value="$PROJECT_DIR$/app/models/prsi/Game.php" />
         <option value="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" />
+        <option value="$PROJECT_DIR$/app/templates/Prsi/play.latte" />
       </list>
     </option>
   </component>
@@ -259,9 +210,12 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/www/node_modules" />
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
-      <path value="$PROJECT_DIR$/vendor/nette/forms/package.json" />
+      <path value="$PROJECT_DIR$/www/package.json" />
     </packageJsonPaths>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.1">
@@ -351,7 +305,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
+    <property name="SearchEverywhereHistoryKey" value="layo&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -389,25 +343,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1536937969823</updated>
-      <workItem from="1536937970974" duration="12222000" />
+      <workItem from="1536937970974" duration="22870000" />
+      <workItem from="1537006386402" duration="2569000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12222000" />
+    <option name="totallyTimeSpent" value="25439000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -415,10 +365,15 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Database" weight="0.32995737" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,20 +387,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="2" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardColors.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardTypes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
         </state>
       </provider>
     </entry>
@@ -473,6 +414,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/createGame.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3" selection-start-column="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/Prsi/default.latte">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -480,31 +428,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/Player.php">
+    <entry file="file://$PROJECT_DIR$/www/node_modules/nette.ajax.js/nette.ajax.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        <state relative-caret-position="299">
+          <caret line="155" column="4" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardColors.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="8" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
+        <state relative-caret-position="119">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="10" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/Prsi/findGame.latte">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+        <state relative-caret-position="136">
+          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/prsi/GamesGovernance.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+        <state relative-caret-position="1139">
+          <caret line="69" column="7" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
           <folding>
             <element signature="e#36#60#0#PHP" expanded="true" />
           </folding>
@@ -513,70 +461,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/prsi/Game.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="199" column="64" lean-forward="true" selection-start-line="199" selection-start-column="64" selection-end-line="199" selection-end-column="64" />
+        <state relative-caret-position="2057">
+          <caret line="121" column="29" selection-start-line="121" selection-start-column="29" selection-end-line="121" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/@layout.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/play.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="18" column="45" lean-forward="true" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
           <folding>
-            <element signature="e#377#433#0#PHP" />
-            <element signature="e#396#461#0#PHP" />
-            <element signature="e#624#660#0#PHP" />
-            <element signature="e#702#736#0#PHP" />
-            <element signature="e#809#823#0#PHP" />
-            <element signature="e#729#827#0#PHP" />
-            <element signature="e#655#684#0#PHP" />
-            <element signature="e#101#159#0#PHP" />
-            <element signature="e#782#818#0#PHP" />
-            <element signature="e#846#860#0#PHP" />
-            <element signature="e#810#998#0#PHP" />
-            <element signature="e#529#544#0#PHP" />
-            <element signature="e#540#594#0#PHP" />
-            <element signature="e#835#859#0#PHP" />
-            <element signature="e#861#929#0#PHP" />
-            <element signature="e#1254#1295#0#PHP" />
-            <element signature="e#1281#2884#0#PHP" />
-            <element signature="e#1152#2597#0#PHP" />
-            <element signature="e#1200#1635#0#PHP" />
-            <element signature="e#1366#1459#0#PHP" />
-            <element signature="e#1452#1470#0#PHP" />
-            <element signature="e#1388#1418#0#PHP" />
-            <element signature="e#1646#2597#0#PHP" />
-            <element signature="e#1625#2063#0#PHP" />
-            <element signature="e#1795#1938#0#PHP" />
-            <element signature="e#1881#1938#0#PHP" />
-            <element signature="e#1684#1713#0#PHP" />
-            <element signature="e#2146#2597#0#PHP" />
-            <element signature="e#2362#2597#0#PHP" />
-            <element signature="e#2590#2604#0#PHP" />
-            <element signature="e#2078#2241#0#PHP" />
-            <element signature="e#2945#3009#0#PHP" />
-            <element signature="e#2245#2338#0#PHP" />
-            <element signature="e#3111#3283#0#PHP" />
-            <element signature="e#2342#2418#0#PHP" />
-            <element signature="e#3523#3706#0#PHP" />
-            <element signature="e#4248#4272#0#PHP" />
-            <element signature="e#4274#4322#0#PHP" />
-            <element signature="e#4215#4240#0#PHP" />
-            <element signature="e#4242#4307#0#PHP" />
-            <element signature="e#4502#4568#0#PHP" />
-            <element signature="e#4312#4338#0#PHP" />
-            <element signature="e#4340#4410#0#PHP" />
+            <element signature="n#style#0;n#div#0;n#span#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/createGame.latte">
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardTypes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3" selection-start-column="3" selection-end-column="4" />
+        <state relative-caret-position="34">
+          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/Player.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="8" lean-forward="true" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/presenters/PrsiPresenter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="46" column="70" selection-start-line="46" selection-start-column="70" selection-end-line="46" selection-end-column="70" />
-          <folding>
-            <element signature="e#117#142#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="313">
+          <caret line="110" column="89" lean-forward="true" selection-start-line="110" selection-start-column="89" selection-end-line="110" selection-end-column="89" />
         </state>
       </provider>
     </entry>

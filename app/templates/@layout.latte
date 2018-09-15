@@ -5,15 +5,24 @@
 	<meta name="viewport" content="width=device-width">
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/node_modules/nette.ajax.js/nette.ajax.js"></script>
 </head>
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-	{include content}
+	{snippet content}
+		{include content}
+	{/snippet}
 
-	{block scripts}
-	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-	{/block}
+	<script type="text/javascript">
+		$(function () {
+			$.nette.init();
+		});
+	</script>
+	{ifset scripts}
+		{include scripts}
+	{/ifset}
 </body>
 </html>

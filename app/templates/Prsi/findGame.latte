@@ -17,8 +17,9 @@
                 <span n:foreach="$game->getPlayers() as $player">{$player->getNickname()} </span>
             </td>
             <td>
-                <a n:if="!$gamesGovernance->getGame($game->getId())->hasPlayer($nickname)" n:href="joinGame $game->getId()">Připojit se</a>
-                <a n:if="$gamesGovernance->getGame($game->getId())->hasPlayer($nickname)" n:href="leaveGame $game->getId()">Odpojit se</a>
+                <a n:if="!$gamesGovernance->getGame($game->getId())->getPlayer($nickname)" n:href="joinGame $game->getId()">Připojit se</a>
+                <a n:if="$gamesGovernance->getGame($game->getId())->getPlayer($nickname)" n:href="leaveGame $game->getId()">Odpojit se</a>
+                <a n:if="$gamesGovernance->getGame($game->getId())->hasGameStarted()" n:href="play">Hrát</a>
             </td>
         </tr>
     </tbody>
