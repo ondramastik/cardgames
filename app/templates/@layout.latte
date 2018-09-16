@@ -12,7 +12,7 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+	<div n:foreach="$flashes as $flash" n:class="alert, 'alert-'.$flash->type">{$flash->message}</div>
 
 	<div n:snippet="content" style="padding-top: 40px;">
 		{include content}

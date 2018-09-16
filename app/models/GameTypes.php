@@ -1,5 +1,5 @@
 <?php
 
-class GameTypes {
+abstract class GameTypes {
 	const PRSI = 0;
 }

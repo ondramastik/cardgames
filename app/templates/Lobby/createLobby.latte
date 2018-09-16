@@ -1,11 +1,19 @@
 {block content}
 
 <div class="container">
+    <h2>Tvorba lobby</h2>
     <form method="post" action="{link createLobby}">
-        <label for="players_count">Jméno lobbby</label>
-        <input type="text" name="name" id="name">
-        <input type="submit" value="Vytvořit lobby">
+        <div class="row">
+            <div class="col-md-6 input-group">
+                <input class="form-control" type="text" name="name" id="name" placeholder="Jméno lobby">
+                <div class="input-group-append">
+                    <input class="btn btn-primary" type="submit" value="Vytvořit lobby">
+                </div>
+            </div>
+        </div>
     </form>
+    <hr>
+    <div>
+        <a n:href="list" class="btn btn-secondary" role="button">Zpět</a>
+    </div>
 </div>
-
-<a n:href="list">Zpět</a>

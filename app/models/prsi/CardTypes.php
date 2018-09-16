@@ -3,7 +3,7 @@
 namespace App\Models\Prsi;
 
 
-class CardTypes {
+abstract class CardTypes {
 	
 	const MENIC = 0;
 	const ESO = 1;

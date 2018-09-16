@@ -28,6 +28,20 @@ class PrsiPresenter extends BasePresenter {
 	}
 	
 	public function renderPlay() {
+		$game = $this->gameGovernance->getGame($this->activeGameId);
+		$lobby = $this->lobbyGovernance->findUsersLobby($this->nickname);
+		
+		if(!$game) {
+			$this->flashMessage("Neexistuja žádná vaše aktivní hra", "danger");
+			$this->redirect("Lobby:default");
+		}
+		
+		if($player = $this->gameGovernance->checkPlayerWon($this->activeGameId)) {
+			$this->flashMessage("Konec hry. Hráč $player vyhrál.", "success");
+			$this->lobbyGovernance->setActiveGame($lobby->getId(), null);
+			$this->redirect("Lobby:default");
+		}
+		
 		$this->getTemplate()->game = $this->gameGovernance->getGame($this->activeGameId);
 		$this->getTemplate()->nickname = $this->nickname;
 		
@@ -37,6 +51,9 @@ class PrsiPresenter extends BasePresenter {
 	}
 	
 	public function actionStartGame($lobbyId) {
+		\Tracy\Debugger::barDump($this->gameGovernance->getGames());
+		\Tracy\Debugger::barDump($this->gameGovernance->findActiveGameId($this->nickname));
+		
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
 		
 		$gameId = $this->gameGovernance->createGame(count($lobby->getMembers()));
@@ -85,10 +102,6 @@ class PrsiPresenter extends BasePresenter {
 		}
 		
 		$this->redirect("play");
-	}
-	
-	public function actionPurge() {
-		$this->gameGovernance->purgeGames();
 	}
 	
 }

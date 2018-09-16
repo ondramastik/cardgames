@@ -21,7 +21,7 @@ class GameGovernance {
 		$storage = new FileStorage('C:\git\cardgames\temp');
 		$this->cache = new Cache($storage);
 		
-		if(!$this->cache->load(self::CACHE_KEY)) {
+		if (!$this->cache->load(self::CACHE_KEY)) {
 			$this->cache->save(self::CACHE_KEY, []);
 		}
 	}
@@ -59,26 +59,26 @@ class GameGovernance {
 		
 		/** @var Game $game */
 		foreach ($games as $game) {
-			if(!$game->hasGameFinished() || !$game->hasGameStarted()) {
+			if (!$game->hasGameFinished()) {
 				$toReturn[] = $game;
 			}
 		}
 		
-		return $games;
+		return $toReturn;
 	}
 	
 	/**
 	 * @param $id
-	 * @return Game
+	 * @return Game|bool
 	 */
 	public function getGame($id) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
-		if(isset($games[$id])) {
+		if (isset($games[$id])) {
 			return $games[$id];
 		}
 		
-		throw new InvalidArgumentException("Game '$id' does not exist");
+		return false;
 	}
 	
 	public function joinGame($gameId, $nickname) {
@@ -93,7 +93,7 @@ class GameGovernance {
 	public function leaveGame($gameId, $nickname) {
 		/** @var Game $game */
 		$game = $this->getGame($gameId);
-		if(!$game->leaveGame($nickname)) {
+		if (!$game->leaveGame($nickname)) {
 			$this->cancelGame($game);
 		} else {
 			$this->persistGame($game);
@@ -116,20 +116,19 @@ class GameGovernance {
 	}
 	
 	public function findActiveGameId($nickname) {
-		$games = $this->cache->load(self::CACHE_KEY);
 		/** @var Game $game */
-		foreach ($games as $game) {
-			if(!$game->hasGameFinished() && $game->getPlayer($nickname)) {
+		foreach ($this->getGames() as $game) {
+			if ($game->getPlayer($nickname)) {
 				return $game->getId();
 			}
 		}
 	}
-
+	
 	function playCard(Card $card, $setColor, $nickname, $gameId) {
 		/** @var Game $game */
 		$game = $this->getGame($gameId);
 		
-		if($game->getActivePlayer()->getNickname() === $nickname) {
+		if ($game->getActivePlayer()->getNickname() === $nickname) {
 			if ($game->playCard($card, $setColor)) {
 				$game->nextPlayer();
 				$this->persistGame($game);
@@ -144,7 +143,7 @@ class GameGovernance {
 		/** @var Game $game */
 		$game = $this->getGame($gameId);
 		
-		if($game->getActivePlayer()->getNickname() === $nickname) {
+		if ($game->getActivePlayer()->getNickname() === $nickname) {
 			if ($game->skip()) {
 				$game->nextPlayer();
 				$this->persistGame($game);
@@ -159,7 +158,7 @@ class GameGovernance {
 		/** @var Game $game */
 		$game = $this->getGame($gameId);
 		
-		if($game->getActivePlayer()->getNickname() === $nickname) {
+		if ($game->getActivePlayer()->getNickname() === $nickname) {
 			if ($game->draw()) {
 				$game->nextPlayer();
 				$this->persistGame($game);
@@ -174,8 +173,8 @@ class GameGovernance {
 		/** @var Game $game */
 		$game = $this->getGame($gameId);
 		
-		if($game->getActivePlayer()->getNickname() === $nickname) {
-			if($game->stand()) {
+		if ($game->getActivePlayer()->getNickname() === $nickname) {
+			if ($game->stand()) {
 				$game->nextPlayer();
 				$this->persistGame($game);
 				return true;
@@ -187,7 +186,8 @@ class GameGovernance {
 	
 	public function checkPlayerWon($gameId) {
 		foreach ($this->getGame($gameId)->getPlayers() as $player) {
-			if(count($player->getHand()) === 0) {
+			if (count($player->getHand()) === 0) {
+				$this->finishGame($gameId);
 				return $player->getNickname();
 			}
 		}

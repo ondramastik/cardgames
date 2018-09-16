@@ -21,10 +21,10 @@ class Game {
 	/** @var  */
 	private $targetPlayers;
 	
-	/** @var boolean */
+	/** @var bool */
 	private $gameStarted;
 	
-	/** @var boolean */
+	/** @var bool */
 	private $gameFinished;
 	
 	/**

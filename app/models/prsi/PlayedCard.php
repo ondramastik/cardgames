@@ -8,7 +8,7 @@ class PlayedCard {
 	/** @var Card */
 	private $card;
 	
-	/** @var boolean */
+	/** @var bool */
 	private $inEffect;
 	
 	/** @var int */
