@@ -174,6 +174,8 @@ class Game {
 		$topCard = $this->cardsDeck->getLastPlayedCard();
 		
 		if($topCard->isInEffect() && $topCard->getCard()->getType() == CardTypes::CARD_7) {
+			\Tracy\Debugger::barDump($this->cardsDeck->getStreakOfCard(CardTypes::CARD_7), "Pocet sedmicek v rade
+		");
 			for($i = 0; $i < $this->cardsDeck->getStreakOfCard(CardTypes::CARD_7); $i++) {
 				$this->getActivePlayer()->giveCard($this->cardsDeck->draw());
 				$this->getActivePlayer()->giveCard($this->cardsDeck->draw());

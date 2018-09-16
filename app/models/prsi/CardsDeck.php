@@ -48,7 +48,7 @@ class CardsDeck {
 	}
 	
 	public function discardCard(PlayedCard $playedCard) {
-		array_push($this->playedCards, $playedCard);
+		$this->playedCards[] = $playedCard;
 	}
 	
 	/**
@@ -70,13 +70,10 @@ class CardsDeck {
 	public function getStreakOfCard($cardType) {
 		$streak = 0;
 		
-		$playedCards = $this->playedCards;
-		array_reverse($playedCards);
-		
-		foreach ($this->playedCards as $playedCard) {
-			if(!$playedCard->isInEffect()) break;
+		for($i = count($this->playedCards) - 1; $i > 0; $i--) {
+			if(!$this->playedCards[$i]->isInEffect()) break;
 			
-			if($playedCard->getCard()->getType() == $cardType) {
+			if($this->playedCards[$i]->getCard()->getType() === $cardType) {
 				$streak++;
 			}
 		}
