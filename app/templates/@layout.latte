@@ -4,17 +4,19 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 
-	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+	<title>{ifset title}{include title|stripHtml} | {/ifset}Card games</title>
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="/node_modules/nette.ajax.js/nette.ajax.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-	{snippet content}
+	<div n:snippet="content" style="padding-top: 40px;">
 		{include content}
-	{/snippet}
+	</div>
 
 	<script type="text/javascript">
 		$(function () {

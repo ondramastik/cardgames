@@ -1,0 +1,36 @@
+{block scripts}
+    <script type="text/javascript">
+        setInterval(function() {
+            $.nette.ajax({
+                url: {link list}
+            });
+        }, 1000);
+    </script>
+{/block}
+
+{block content}
+
+<div class="container">
+    <h2>Seznam dostupných lobby</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Název lobby</th>
+                <th>Připojení hráči</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody n:snippet="available-lobbies">
+            <tr n:foreach="$lobbies as $lobby">
+                <td>{$lobby->getName()}</td>
+                <td>{implode(", ", $lobby->getMembers())}</td>
+                <td>
+                    <a n:href="joinLobby $lobby->getId()" class="btn btn-default" role="button">Připojit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a n:href="createLobby" class="btn btn-default" role="button">Vytvořit lobby</a>
+    </div>
+</div>

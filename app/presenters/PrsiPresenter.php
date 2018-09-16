@@ -1,104 +1,61 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Ondra
- * Date: 14.09.2018
- * Time: 17:34
- */
 
 namespace App\Presenters;
 
 
+use App\Models\Lobby\LobbyGovernance;
 use App\Models\Prsi\Card;
 use App\Models\Prsi\Game;
-use App\Models\Prsi\GamesGovernance;
-use Nette\Application\UI\Presenter;
-use Nette\Http\SessionSection;
+use App\Models\Prsi\GameGovernance;
 
-class PrsiPresenter extends Presenter {
+class PrsiPresenter extends BasePresenter {
 	
 	/** @var Game */
 	public $activeGameId;
 	
-	/** @var SessionSection */
-	private $sessionSection;
+	/** @var GameGovernance */
+	private $gameGovernance;
 	
-	/** @var GamesGovernance */
-	private $gamesGovernance;
+	/** @var LobbyGovernance */
+	private $lobbyGovernance;
 	
-	public function __construct(\Nette\Http\Session $session, GamesGovernance $gamesGovernance) {
-		parent::__construct();
+	public function __construct(\Nette\Http\Session $session, GameGovernance $gameGovernance, LobbyGovernance $lobbyGovernance) {
+		parent::__construct($session);
+		$this->gameGovernance = $gameGovernance;
+		$this->lobbyGovernance = $lobbyGovernance;
 		
-		$this->sessionSection = $session->getSection('user');
-		$this->gamesGovernance = $gamesGovernance;
-		
-		$this->activeGameId = $this->gamesGovernance->findActiveGameId($this->sessionSection->nickname);
-	}
-	
-	public function beforeRender() {
-		if($this->activeGameId && $this->gamesGovernance->getGame($this->activeGameId)->hasGameStarted()
-			&& $playerNickname = $this->gamesGovernance->checkPlayerWon($this->activeGameId)) {
-			$this->flashMessage("Hráč $playerNickname vyhrál. Konec hry");
-			$this->gamesGovernance->finishGame($this->activeGameId);
-		}
-	}
-	
-	public function renderDefault() {
-		if($this->activeGameId && $game = $this->gamesGovernance->getGame($this->activeGameId)->hasGameStarted()) {
-			$this->getTemplate()->activeGame = $game;
-		}
-		
-		$this->getTemplate()->nickname = $this->sessionSection->nickname;
+		$this->activeGameId = $this->gameGovernance->findActiveGameId($this->nickname);
 	}
 	
 	public function renderPlay() {
-		$this->getTemplate()->game = $this->gamesGovernance->getGame($this->activeGameId);
-		$this->getTemplate()->nickname = $this->sessionSection->nickname;
+		$this->getTemplate()->game = $this->gameGovernance->getGame($this->activeGameId);
+		$this->getTemplate()->nickname = $this->nickname;
 		
 		if($this->isAjax()) {
 			$this->redrawControl("content");
 		}
 	}
 	
-	public function actionCreateGame() {
-		if($playersCount = $this->request->getPost("players_count")) {
-			$this->activeGameId = $this->gamesGovernance->createGame($playersCount);
-			$this->gamesGovernance->joinGame($this->activeGameId, $this->sessionSection->nickname);
+	public function actionStartGame($lobbyId) {
+		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
+		
+		$gameId = $this->gameGovernance->createGame(count($lobby->getMembers()));
+		
+		foreach ($lobby->getMembers() as $member) {
+			$this->gameGovernance->joinGame($gameId, $member);
 		}
-	}
-	
-	public function renderFindGame() {
-		$this->getTemplate()->nickname = $this->sessionSection->nickname;
-		$this->getTemplate()->gamesGovernance = $this->gamesGovernance;
-		$this->getTemplate()->games = $this->gamesGovernance->getGames();
-	}
-	
-	public function actionSetName() {
-		$this->sessionSection->nickname = $this->getRequest()->getPost("nickname");
-		$this->redirect("default");
-	}
-	
-	public function actionStartGame() {
-		if ($this->gamesGovernance->checkPlayerInGame($this->sessionSection->nickname)) {
-			$this->flashMessage("Hráč již hraje jinou hru");
-		}
-		$this->redirect("default");
-	}
-	
-	public function actionJoinGame($id) {
-		$this->activeGameId = $this->gamesGovernance->joinGame($id, $this->sessionSection->nickname);
-		$this->redirect("findGame");
-	}
-	
-	public function actionLeaveGame($id) {
-		$this->gamesGovernance->leaveGame($id, $this->sessionSection->nickname);
-		$this->redirect("findGame");
+		
+		$this->gameGovernance->startGame($gameId);
+		
+		$this->lobbyGovernance->setActiveGame($lobbyId, \GameTypes::PRSI);
+		
+		$this->redirect("play");
 	}
 	
 	public function actionPlayCard($cardColor, $cardType, $setColor) {
 		$card = new Card((int) $cardColor, (int) $cardType);
 		
-		if(!$this->gamesGovernance->playCard($card, (int) $setColor, $this->sessionSection->nickname, $this->activeGameId)) {
+		if(!$this->gameGovernance->playCard($card, (int) $setColor, $this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
 		}
 		
@@ -107,7 +64,7 @@ class PrsiPresenter extends Presenter {
 	}
 	
 	public function actionSkip() {
-		if (!$this->gamesGovernance->skip($this->sessionSection->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->skip($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tento tah nelze přeskočit");
 		}
 		
@@ -115,7 +72,7 @@ class PrsiPresenter extends Presenter {
 	}
 	
 	public function actionDraw() {
-		if (!$this->gamesGovernance->draw($this->sessionSection->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->draw($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nelíže");
 		}
 		
@@ -123,7 +80,7 @@ class PrsiPresenter extends Presenter {
 	}
 	
 	public function actionStand() {
-		if (!$this->gamesGovernance->stand($this->sessionSection->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->stand($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
 		
@@ -131,7 +88,7 @@ class PrsiPresenter extends Presenter {
 	}
 	
 	public function actionPurge() {
-		$this->gamesGovernance->purgeGames();
+		$this->gameGovernance->purgeGames();
 	}
 	
 }

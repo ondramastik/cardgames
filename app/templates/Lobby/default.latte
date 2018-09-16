@@ -1,0 +1,44 @@
+{block scripts}
+    <script type="text/javascript">
+        setInterval(function() {
+            $.nette.ajax({
+                url: {link default}
+            });
+        }, 1000);
+    </script>
+{/block}
+
+{block content}
+
+<div class="container">
+    <h1 style="text-align: center">Lobby</h1>
+    <div>
+        <h3>{$lobby->getName()}</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nick</th>
+                    <th>Akce</th>
+                </tr>
+            </thead>
+            <tbody n:snippet="joined-members">
+                <tr n:foreach="$lobby->getMembers() as $member" >
+                    <td>{$member}</td>
+                    <td>
+                        <a n:href="kickMember $lobby->getId(), $member"
+                           n:if="$lobby->getMembers()[0] === $nickname && $member != $nickname">Vyhodit hráče</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="controls">
+        <div class="guest-controls" n:if="$lobby->getMembers()[0] !== $nickname">
+            <a n:href="leaveLobby" class="btn btn-warning" role="button">Opustit lobby</a>
+        </div>
+        <div class="admin-controls" n:if="$lobby->getMembers()[0] === $nickname">
+            <a n:href="cancelLobby $lobby->getId()" class="btn btn-danger" role="button">Rozpustit lobby</a>
+            <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right" role="button">Spustit prší</a>
+        </div>
+    </div>
+</div>

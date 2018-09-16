@@ -2,9 +2,13 @@
 
 namespace App\Presenters;
 
-use Nette;
 
-
-class HomepagePresenter extends Nette\Application\UI\Presenter
-{
+class HomepagePresenter extends BasePresenter {
+	
+	public function actionDefault() {
+		if($nickname = $this->getRequest()->getPost("nickname")) {
+			$this->sessionSection->nickname = $nickname;
+		}
+	}
+	
 }

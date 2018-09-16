@@ -9,57 +9,73 @@
 {/block}
 
 {block content}
-{dump $game->getCardsDeck()->getLastPlayedCard()}
-<div>
-    <h2>Hráč na tahu: {$game->getActivePlayer()->getNickname()}</h2>
-    <h4>{$nickname}</h4>
-    <div>
-        <h3>odhazovaci balicek</h3>
-        <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
-        <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
-            {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
-                Žaludy
-            {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
-                Srdce
-            {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
-                Listy
-            {else}
-                Kule
-            {/if}
-        </span>
-    </div>
-    <div>
-        <h3>Karty v ruce</h3>
-        <span n:foreach="$game->getPlayer($nickname)->getHand() as $card">
-            <a n:href="playCard $card->getColor(), $card->getType(), $card->getColor()" n:tag-if="!$game->isGameFinished()">
-                <img src="/images/prsi/cards/{$card->getColor()}x{$card->getType()}.jpeg">
-            </a>
-            <div n:if="$card->getType() === App\Models\Prsi\CardTypes::MENIC" style="display: inline-block">
-                <div>
-                    <a n:href="playCard $card->getColor(), $card->getType(), 0" n:tag-if="!$game->isGameFinished()">LISTY</a>
-                </div>
-                <div>
-                    <a n:href="playCard $card->getColor(), $card->getType(), 1" n:tag-if="!$game->isGameFinished()">SRDCE</a>
-                </div>
-                <div>
-                    <a n:href="playCard $card->getColor(), $card->getType(), 2" n:tag-if="!$game->isGameFinished()">KULE</a>
-                </div>
-                <div>
-                    <a n:href="playCard $card->getColor(), $card->getType(), 3" n:tag-if="!$game->isGameFinished()">ZALUDY</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Hráč na tahu: <span class="badge badge-success">{$game->getActivePlayer()->getNickname()}</span></h1>
+            <h4>{$nickname}</h4>
+            <div n:if="!$game->isGameFinished()">
+                <div class="btn-group" role="group" aria-label="akce">
+                    <a n:href="skip" class="btn btn-secondary" role="button">Líznout si kartu</a>
+                    <a n:href="stand" class="btn btn-warning" role="button">Stojím</a>
+                    <a n:href="draw" class="btn btn-danger" role="button">Beru na sedmu</a>
                 </div>
             </div>
-        </span>
-    </div>
-    <div n:if="!$game->isGameFinished()">
-        <h3>Akce</h3>
-        <a n:href="skip">Líznout si kartu</a>
-        <a n:href="stand">Stojím</a>
-        <a n:href="draw">Beru na sedmu</a>
-    </div>
-    <div n:foreach="$game->getPlayers() as $p" n:if="$p->getNickname() != $nickname">
-        <h2>{$p->getNickname()}</h2>
-        <span n:foreach="$p->getHand() as $card">
-            <img src="/images/prsi/cards/back.jpeg">
-        </span>
+            <hr>
+            <div>
+                <h3>odhazovaci balicek</h3>
+                <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
+                <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
+                {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
+                    <img src="/images/prsi/zaludy.jpg" width="30">
+                {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
+                    <img src="/images/prsi/srdce.jpg" width="30">
+                {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
+                    <img src="/images/prsi/listy.jpg" width="30">
+                {else}
+                    <img src="/images/prsi/kule.jpg" width="30">
+                {/if}
+            </span>
+            </div>
+            <hr>
+            <div>
+                <h3>Karty v ruce</h3>
+                <span n:foreach="$game->getPlayer($nickname)->getHand() as $card">
+                    <a n:href="playCard $card->getColor(), $card->getType(), $card->getColor()" n:tag-if="!$game->isGameFinished()">
+                        <img src="/images/prsi/cards/{$card->getColor()}x{$card->getType()}.jpeg">
+                    </a>
+                    <div n:if="$card->getType() === App\Models\Prsi\CardTypes::MENIC" style="display: inline-block">
+                        <div>
+                            <a n:href="playCard $card->getColor(), $card->getType(), 0" n:tag-if="!$game->isGameFinished()">
+                                <img src="/images/prsi/listy.jpg" width="30">
+                            </a>
+                        </div>
+                        <div>
+                            <a n:href="playCard $card->getColor(), $card->getType(), 1" n:tag-if="!$game->isGameFinished()">
+                                <img src="/images/prsi/srdce.jpg" width="30">
+                            </a>
+                        </div>
+                        <div>
+                            <a n:href="playCard $card->getColor(), $card->getType(), 2" n:tag-if="!$game->isGameFinished()">
+                                <img src="/images/prsi/kule.jpg" width="30">
+                            </a>
+                        </div>
+                        <div>
+                            <a n:href="playCard $card->getColor(), $card->getType(), 3" n:tag-if="!$game->isGameFinished()">
+                                <img src="/images/prsi/zaludy.jpg" width="30">
+                            </a>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div n:foreach="$game->getPlayers() as $p" n:if="$p->getNickname() != $nickname">
+                <h2>{$p->getNickname()}</h2>
+                <span n:foreach="$p->getHand() as $card">
+                <img src="/images/prsi/cards/back.jpeg">
+            </span>
+            </div>
+        </div>
     </div>
 </div>

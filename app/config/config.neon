@@ -13,4 +13,5 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
-	gameGovernance: App\Models\Prsi\GamesGovernance
+	gameGovernance: App\Models\Prsi\GameGovernance
+	lobbyGovernance: App\Models\Lobby\LobbyGovernance

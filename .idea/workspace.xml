@@ -2,8 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67492d8f-f670-475e-9189-9f5d122371a6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/models/prsi/CardsDeck.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/prsi/CardsDeck.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/GameTypes.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/lobby/Lobby.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/lobby/LobbyGovernance.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/presenters/BasePresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/presenters/LobbyPresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/Lobby/createLobby.latte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/Lobby/default.latte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/Lobby/list.latte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config.neon" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.neon" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/prsi/Game.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/prsi/Game.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/prsi/GamesGovernance.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/prsi/GameGovernance.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/presenters/HomepagePresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/presenters/HomepagePresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/@layout.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/@layout.latte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Homepage/default.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Homepage/default.latte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Prsi/createGame.latte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Prsi/default.latte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Prsi/findGame.latte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Prsi/play.latte" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Prsi/play.latte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/www/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,98 +61,93 @@
       </usages-collector>
       <usages-collector id="statistics.php.new.class">
         <counts>
-          <entry key="PHP Class.type" value="10" />
+          <entry key="PHP Class.type" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="js" value="1" />
-          <entry key="latte" value="6" />
-          <entry key="neon" value="1" />
-          <entry key="php" value="18" />
+          <entry key="latte" value="19" />
+          <entry key="neon" value="2" />
+          <entry key="php" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JavaScript" value="1" />
-          <entry key="Latte file" value="6" />
-          <entry key="Neon" value="1" />
-          <entry key="PHP" value="18" />
+          <entry key="Latte file" value="18" />
+          <entry key="Neon" value="2" />
+          <entry key="PHP" value="32" />
+          <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="4" />
-          <entry key="latte" value="2154" />
-          <entry key="neon" value="24" />
-          <entry key="php" value="8936" />
+          <entry key="latte" value="4143" />
+          <entry key="neon" value="60" />
+          <entry key="php" value="12202" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Latte file" value="2154" />
-          <entry key="Neon" value="24" />
-          <entry key="PHP" value="8936" />
-          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="Latte file" value="4125" />
+          <entry key="Neon" value="60" />
+          <entry key="PHP" value="12202" />
+          <entry key="PLAIN_TEXT" value="22" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/presenters/PrsiPresenter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1394">
-              <caret line="121" column="32" lean-forward="true" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/PlayedCard.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41">
-              <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/Player.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/CardColors.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="23" lean-forward="true" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/Prsi/findGame.latte">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/GamesGovernance.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1139">
-              <caret line="69" column="7" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
+            <state relative-caret-position="-78">
+              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
               <folding>
-                <element signature="e#36#60#0#PHP" expanded="true" />
+                <element signature="e#35#72#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/GameTypes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/Lobby/createLobby.latte">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/Lobby/default.latte">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+              <folding>
+                <element signature="n#style#0;n#h3#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/Lobby/list.latte">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="578">
+              <caret line="34" column="10" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -139,26 +155,50 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/Prsi/play.latte">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="48" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+            <state relative-caret-position="102">
+              <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/Game.php">
+        <entry file="file://$PROJECT_DIR$/app/presenters/HomepagePresenter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="176" column="63" lean-forward="true" selection-start-line="176" selection-start-column="63" selection-end-line="176" selection-end-column="63" />
+            <state relative-caret-position="85">
+              <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/@layout.latte">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="61" column="4" lean-forward="true" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+            <state relative-caret-position="442">
+              <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/Homepage/default.latte">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/presenters/BasePresenter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+              <folding>
+                <element signature="e#34#69#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -174,9 +214,15 @@
       <find>getActiveColor(</find>
       <find>array_flip</find>
       <find>getColoe</find>
+      <find>game</find>
+      <find>nickname</find>
+      <find>sess</find>
+      <find>$this-&gt;sessionSection-&gt;nickname</find>
     </findStrings>
     <replaceStrings>
       <replace>array_reverse</replace>
+      <replace>lobby</replace>
+      <replace>$this-&gt;nickname</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -190,18 +236,31 @@
         <option value="$PROJECT_DIR$/app/models/prsi/CardsEngine.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/Card.php" />
         <option value="$PROJECT_DIR$/app/templates/Prsi/createGame.latte" />
-        <option value="$PROJECT_DIR$/app/config/config.neon" />
         <option value="$PROJECT_DIR$/app/templates/Prsi/default.latte" />
         <option value="$PROJECT_DIR$/app/models/prsi/CardTypes.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/Player.php" />
-        <option value="$PROJECT_DIR$/app/models/prsi/GamesGovernance.php" />
         <option value="$PROJECT_DIR$/app/templates/Prsi/findGame.latte" />
-        <option value="$PROJECT_DIR$/app/templates/@layout.latte" />
         <option value="$PROJECT_DIR$/app/models/prsi/PlayedCard.php" />
-        <option value="$PROJECT_DIR$/app/templates/Prsi/play.latte" />
-        <option value="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" />
-        <option value="$PROJECT_DIR$/app/models/prsi/Game.php" />
         <option value="$PROJECT_DIR$/app/models/prsi/CardsDeck.php" />
+        <option value="$PROJECT_DIR$/app/templates/Prsi/lobby.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Lobby/createGame.latte" />
+        <option value="$PROJECT_DIR$/app/models/prsi/GamesGovernance.php" />
+        <option value="$PROJECT_DIR$/app/config/config.neon" />
+        <option value="$PROJECT_DIR$/app/models/prsi/GameGovernance.php" />
+        <option value="$PROJECT_DIR$/app/models/prsi/Game.php" />
+        <option value="$PROJECT_DIR$/app/models/GameTypes.php" />
+        <option value="$PROJECT_DIR$/app/models/lobby/Lobby.php" />
+        <option value="$PROJECT_DIR$/app/models/lobby/LobbyGovernance.php" />
+        <option value="$PROJECT_DIR$/app/presenters/PrsiPresenter.php" />
+        <option value="$PROJECT_DIR$/app/presenters/LobbyPresenter.php" />
+        <option value="$PROJECT_DIR$/app/presenters/BasePresenter.php" />
+        <option value="$PROJECT_DIR$/app/templates/@layout.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Lobby/createLobby.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Lobby/default.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Homepage/default.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Prsi/play.latte" />
+        <option value="$PROJECT_DIR$/app/templates/Lobby/list.latte" />
+        <option value="$PROJECT_DIR$/app/presenters/HomepagePresenter.php" />
       </list>
     </option>
   </component>
@@ -277,6 +336,13 @@
               <item name="cardgames" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="lobby" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cardgames" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cardgames" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="prsi" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -296,6 +362,20 @@
               <item name="cardgames" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cardgames" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cardgames" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="Lobby" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cardgames" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cardgames" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="Prsi" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -306,20 +386,22 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="layo&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
+    <property name="SearchEverywhereHistoryKey" value="bas&#9;FILE&#9;file://C:/git/cardgames/app/presenters/BasePresenter.php&#10;conf&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;@lay&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;layo&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\git\cardgames\app\templates\Lobby" />
+      <recent name="C:\git\cardgames\app\templates\lobby" />
+      <recent name="C:\git\cardgames\app" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\git\cardgames\app\templates\Prsi" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\git\cardgames\app" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -346,18 +428,18 @@
       <updated>1536937969823</updated>
       <workItem from="1536937970974" duration="22870000" />
       <workItem from="1537006386402" duration="2569000" />
-      <workItem from="1537107068721" duration="6063000" />
+      <workItem from="1537107068721" duration="18189000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31502000" />
+    <option name="totallyTimeSpent" value="43628000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17270789" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17270789" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -392,38 +474,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/Card.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="32" column="55" selection-start-line="32" selection-start-column="55" selection-end-line="32" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/nette/application/src/Application/UI/Presenter.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.neon">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/createGame.latte">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3" selection-start-column="3" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/default.latte">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -455,34 +509,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/GamesGovernance.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="69" column="7" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
-          <folding>
-            <element signature="e#36#60#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/@layout.latte">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/temp/cache/latte/templates-Prsi-play.latte--1a7160adfc.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="67" column="118" selection-start-line="67" selection-start-column="118" selection-end-line="67" selection-end-column="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/play.latte">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="48" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -500,24 +530,154 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/presenters/PrsiPresenter.php">
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="121" column="32" lean-forward="true" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
+        <state relative-caret-position="240">
+          <caret line="57" column="72" lean-forward="true" selection-start-line="57" selection-start-column="72" selection-end-line="57" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.neon">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/Card.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+          <folding>
+            <element signature="e#6#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/default.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/prsi/GameGovernance.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="86" column="18" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
+          <folding>
+            <element signature="e#36#60#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/prsi/Game.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="176" column="63" lean-forward="true" selection-start-line="176" selection-start-column="63" selection-end-line="176" selection-end-column="63" />
+        <state relative-caret-position="214">
+          <caret line="41" column="7" lean-forward="true" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/prsi/CardsDeck.php">
+    <entry file="file://$PROJECT_DIR$/app/models/lobby/Lobby.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="61" column="4" lean-forward="true" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+        <state relative-caret-position="1350">
+          <caret line="93" column="5" lean-forward="true" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/lobby/LobbyGovernance.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1486">
+          <caret line="109" column="52" lean-forward="true" selection-start-line="109" selection-start-column="52" selection-end-line="109" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/presenters/LobbyPresenter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="636">
+          <caret line="44" column="68" lean-forward="true" selection-start-line="44" selection-start-column="68" selection-end-line="44" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/@layout.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Lobby/list.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="10" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/presenters/HomepagePresenter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Prsi/play.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Lobby/createLobby.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Homepage/default.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/presenters/BasePresenter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding>
+            <element signature="e#34#69#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/GameTypes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/Lobby/default.latte">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#h3#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/presenters/PrsiPresenter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-78">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+          <folding>
+            <element signature="e#35#72#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

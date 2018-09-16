@@ -7,7 +7,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\InvalidArgumentException;
 
-class GamesGovernance {
+class GameGovernance {
 	
 	const CACHE_KEY = "prsi_instances";
 	
@@ -15,7 +15,7 @@ class GamesGovernance {
 	private $cache;
 	
 	/**
-	 * GamesGovernance constructor.
+	 * GameGovernance constructor.
 	 */
 	public function __construct() {
 		$storage = new FileStorage('C:\git\cardgames\temp');
@@ -100,8 +100,11 @@ class GamesGovernance {
 		}
 	}
 	
-	public function purgeGames() {
-		$this->cache->save(self::CACHE_KEY, []);
+	public function startGame($id) {
+		/** @var Game $game */
+		$game = $this->getGame($id);
+		$game->start();
+		$this->persistGame($game);
 	}
 	
 	public function createGame($targetPlayers) {

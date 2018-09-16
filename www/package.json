@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bootstrap": "^4.1.3",
     "nette.ajax.js": "vojtech-dobes/nette.ajax.js"
   }
 }

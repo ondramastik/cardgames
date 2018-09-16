@@ -42,7 +42,7 @@ class Game {
 	/**
 	 * Set initial params
 	 */
-	private function startGame() {
+	public function start() {
 		$this->activePlayer = 0;
 		$this->initCardsDeck();
 		$this->dealTheCards();
@@ -56,9 +56,6 @@ class Game {
 	 */
 	public function joinGame($nickname) {
 		$this->players[] = new Player($nickname);
-		if(count($this->players) == $this->targetPlayers) {
-			$this->startGame();
-		}
 	}
 	
 	/**
