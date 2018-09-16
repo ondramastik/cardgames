@@ -2,9 +2,6 @@
 
 namespace App\Models\Prsi;
 
-
-use Nette\InvalidStateException;
-
 class Game {
 	
 	const INITIAL_CARDS_COUNT = 4;
@@ -21,15 +18,13 @@ class Game {
 	/** @var int */
 	private $activePlayer;
 	
-	/** @var string */
-	private $activeColor;
-	
 	/** @var  */
 	private $targetPlayers;
 	
 	/** @var boolean */
 	private $gameStarted;
 	
+	/** @var boolean */
 	private $gameFinished;
 	
 	/**
@@ -44,15 +39,21 @@ class Game {
 		$this->gameFinished = false;
 	}
 	
+	/**
+	 * Set initial params
+	 */
 	private function startGame() {
 		$this->activePlayer = 0;
 		$this->initCardsDeck();
 		$this->dealTheCards();
-		$this->activeColor = $this->cardsDeck->showTopCard()->getColor();
+		$this->cardsDeck->drawFirstCard();
 		shuffle($this->players);
 		$this->gameStarted = true;
 	}
 	
+	/**
+	 * @param $nickname
+	 */
 	public function joinGame($nickname) {
 		$this->players[] = new Player($nickname);
 		if(count($this->players) == $this->targetPlayers) {
@@ -60,6 +61,9 @@ class Game {
 		}
 	}
 	
+	/**
+	 * Inits cards deck
+	 */
 	public function initCardsDeck() {
 		$this->cardsDeck = new CardsDeck();
 		$this->cardsDeck->shuffle();
@@ -72,6 +76,9 @@ class Game {
 		return $this->players;
 	}
 	
+	/**
+	 * Shifts active player index
+	 */
 	public function nextPlayer() {
 		$this->activePlayer += 1;
 		
@@ -80,91 +87,98 @@ class Game {
 		}
 	}
 	
+	/**
+	 *
+	 */
 	private function dealTheCards() {
 		for($i = 0; $i < self::INITIAL_CARDS_COUNT; $i++) {
 			foreach ($this->players as $player) {
-				$player->giveCard($this->cardsDeck->getNextCard());
+				$player->giveCard($this->cardsDeck->draw());
 			}
 		}
 	}
 	
+	/**
+	 * @param Card $card
+	 * @param $setColor
+	 * @return bool
+	 */
 	public function playCard(Card $card, $setColor) {
-		$topCard = $this->cardsDeck->showTopCard();
-		\Tracy\Debugger::barDump($card, "zahraná karta");
-		\Tracy\Debugger::barDump($topCard, "odhazovaci balicek");
+		$topCard = $this->cardsDeck->getLastPlayedCard();
 		
-		if($topCard->getType() === CardTypes::ESO) {
-			if($card->getType() === CardTypes::ESO
-				|| !$this->cardsDeck->isTopCardInEffect() && $topCard->matchColor($card)) {
-				$this->getPlayers()[$this->getActivePlayerIndex()]->takeCard($card);
-				$this->cardsDeck->discardCard($card);
-				if($card->getType() == CardTypes::MENIC) {
-					$this->activeColor = $setColor;
-				} else {
-					$this->activeColor = $card->getColor();
-				}
+		if($topCard->getCard()->getType() === CardTypes::ESO && $topCard->isInEffect()) {
+			if($card->getType() === CardTypes::ESO) {
+				$this->players[$this->getActivePlayerIndex()]->takeCard($card);
+				$this->cardsDeck->discardCard(new PlayedCard($card));
 				return true;
 			} else {
 				return false;
 			}
-		} else if ($topCard->getType() === CardTypes::CARD_7) {
-			if($card->getType() === CardTypes::CARD_7
-				|| !$this->cardsDeck->isTopCardInEffect() && ($topCard->matchColor($card))) {
+		} else if ($topCard->getCard()->getType() === CardTypes::CARD_7 && $topCard->isInEffect()) {
+			if($card->getType() === CardTypes::CARD_7) {
 				$this->players[$this->getActivePlayerIndex()]->takeCard($card);
-				$this->cardsDeck->discardCard($card);
-				if($card->getType() == CardTypes::MENIC) {
-					$this->activeColor = $setColor;
-				} else {
-					$this->activeColor = $card->getColor();
-				}
+				$this->cardsDeck->discardCard(new PlayedCard($card));
 				return true;
 			} else {
 				return false;
 			}
 		} else if($card->getType() == CardTypes::MENIC) {
-			$this->activeColor = $setColor;
+			$playedCard = new PlayedCard($card);
+			$playedCard->setActiveColor($setColor);
+			
 			$this->getPlayers()[$this->getActivePlayerIndex()]->takeCard($card);
-			$this->cardsDeck->discardCard($card);
+			$this->cardsDeck->discardCard($playedCard);
 			return true;
-		} else if($card->getColor() === $this->getActiveColor() || $card->getType() === $topCard->getType()) {
+		} else if($card->getColor() === $this->cardsDeck->getLastPlayedCard()->getActiveColor()
+			|| $card->getType() === $topCard->getCard()->getType()) {
 			$this->getPlayers()[$this->getActivePlayerIndex()]->takeCard($card);
-			$this->cardsDeck->discardCard($card);
+			$this->cardsDeck->discardCard(new PlayedCard($card));
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function stand() {
-		$topCard = $this->cardsDeck->showTopCard();
+		$topCard = $this->cardsDeck->getLastPlayedCard();
 		
-		if($topCard->getType() === CardTypes::ESO) {
-			$this->cardsDeck->setTopCardInEffect(false);
+		if($topCard->getCard()->getType() === CardTypes::ESO && $topCard->isInEffect()) {
+			$topCard->setInEffect(false);
 			return true;
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function skip() {
-		$topCard = $this->cardsDeck->showTopCard();
+		$topCard = $this->cardsDeck->getLastPlayedCard();
 		
-		if($this->cardsDeck->isTopCardInEffect()
-			&& ($topCard->getType() === CardTypes::ESO || $topCard->getType() === CardTypes::CARD_7)) {
+		if($topCard->isInEffect() && ($topCard->getCard()->getType() === CardTypes::ESO || $topCard->getCard()->getType() === CardTypes::CARD_7)) {
 			return false;
 		}
 		
-		$this->getActivePlayer()->giveCard($this->cardsDeck->getNextCard());
+		$this->getActivePlayer()->giveCard($this->cardsDeck->draw());
 		return true;
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function draw() {
-		$topCard = $this->cardsDeck->showTopCard();
+		$topCard = $this->cardsDeck->getLastPlayedCard();
 		
-		if($this->cardsDeck->isTopCardInEffect() && $topCard->getType() == CardTypes::CARD_7) {
-			$this->getActivePlayer()->giveCard($this->cardsDeck->getNextCard());
-			$this->getActivePlayer()->giveCard($this->cardsDeck->getNextCard());
-			$this->cardsDeck->setTopCardInEffect(false);
+		if($topCard->isInEffect() && $topCard->getCard()->getType() == CardTypes::CARD_7) {
+			for($i = 0; $i < $this->cardsDeck->getStreakOfCard(CardTypes::CARD_7); $i++) {
+				$this->getActivePlayer()->giveCard($this->cardsDeck->draw());
+				$this->getActivePlayer()->giveCard($this->cardsDeck->draw());
+			}
+			$topCard->setInEffect(false);
 			return true;
 		}
 		
@@ -185,6 +199,9 @@ class Game {
 		return $this->gameStarted;
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function hasGameFinished() {
 		return $this->gameFinished;
 	}
@@ -203,6 +220,10 @@ class Game {
 		$this->gameFinished = $gameFinished;
 	}
 	
+	/**
+	 * @param $nickname
+	 * @return Player|bool
+	 */
 	public function getPlayer($nickname) {
 		foreach ($this->getPlayers() as $player) {
 			if($player->getNickname() == $nickname) return $player
@@ -211,6 +232,10 @@ class Game {
 		return false;
 	}
 	
+	/**
+	 * @param $nickname
+	 * @return bool
+	 */
 	public function leaveGame($nickname) {
 		foreach ($this->getPlayers() as $key => $player) {
 			if($player->getNickname() == $nickname) {
@@ -222,7 +247,7 @@ class Game {
 	}
 	
 	/**
-	 * @return mixed
+	 * @return int
 	 */
 	public function getTargetPlayers() {
 		return $this->targetPlayers;
@@ -235,6 +260,9 @@ class Game {
 		return $this->activePlayer;
 	}
 	
+	/**
+	 * @return Player
+	 */
 	public function getActivePlayer() {
 		return $this->players[$this->getActivePlayerIndex()];
 	}
@@ -244,13 +272,6 @@ class Game {
 	 */
 	public function getCardsDeck() {
 		return $this->cardsDeck;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getActiveColor() {
-		return $this->activeColor;
 	}
 	
 }

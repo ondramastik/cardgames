@@ -33,7 +33,6 @@ class PrsiPresenter extends Presenter {
 		$this->gamesGovernance = $gamesGovernance;
 		
 		$this->activeGameId = $this->gamesGovernance->findActiveGameId($this->sessionSection->nickname);
-		\Tracy\Debugger::barDump($this->activeGameId);
 	}
 	
 	public function beforeRender() {
@@ -99,7 +98,7 @@ class PrsiPresenter extends Presenter {
 	public function actionPlayCard($cardColor, $cardType, $setColor) {
 		$card = new Card((int) $cardColor, (int) $cardType);
 		
-		if(!$this->gamesGovernance->playCard($card, $setColor, $this->sessionSection->nickname, $this->activeGameId)) {
+		if(!$this->gamesGovernance->playCard($card, (int) $setColor, $this->sessionSection->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
 		}
 		

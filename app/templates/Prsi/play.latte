@@ -9,19 +9,19 @@
 {/block}
 
 {block content}
-
+{dump $game->getCardsDeck()->getLastPlayedCard()}
 <div>
     <h2>Hráč na tahu: {$game->getActivePlayer()->getNickname()}</h2>
     <h4>{$nickname}</h4>
     <div>
         <h3>odhazovaci balicek</h3>
-        <img src="/images/prsi/cards/{$game->getCardsDeck()->showTopCard()->getColor()}x{$game->getCardsDeck()->showTopCard()->getType()}.jpeg">
-        <span n:if="$game->getCardsDeck()->showTopCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
-            {if $game->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
+        <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
+        <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
+            {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
                 Žaludy
-            {elseif $game->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
+            {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
                 Srdce
-            {elseif $game->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
+            {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
                 Listy
             {else}
                 Kule

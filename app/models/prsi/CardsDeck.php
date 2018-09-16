@@ -8,16 +8,15 @@ class CardsDeck {
 	/** @var Card[] */
 	private $cards;
 	
-	/** @var boolean */
-	private $topCardInEffect;
+	/** @var PlayedCard[] */
+	private $playedCards;
 	
 	/**
 	 * CardsDeck constructor.
-	 * @param Card[] $cards
 	 */
 	public function __construct() {
 		$this->cards = $this->fetchCards();
-		$this->topCardInEffect = true;
+		$this->playedCards = [];
 	}
 	
 	private function fetchCards() {
@@ -35,9 +34,12 @@ class CardsDeck {
 		shuffle($this->cards);
 	}
 	
-	public function getNextCard() {
-		$card = $this->cards[0];
+	public function draw() {
+		if(!count($this->cards)) {
+			$this->tipUpPlayedCards();
+		}
 		
+		$card = $this->cards[0];
 		unset($this->cards[0]);
 		
 		$this->cards = array_values($this->cards);
@@ -45,27 +47,53 @@ class CardsDeck {
 		return $card;
 	}
 	
-	public function discardCard(Card $card) {
-		array_push($this->cards, $card);
-		$this->setTopCardInEffect(true);
-	}
-	
-	public function showTopCard() {
-		return $this->cards[count($this->cards) - 1];
+	public function discardCard(PlayedCard $playedCard) {
+		array_push($this->playedCards, $playedCard);
 	}
 	
 	/**
-	 * @return bool
+	 * @return PlayedCard
 	 */
-	public function isTopCardInEffect() {
-		return $this->topCardInEffect;
+	public function getLastPlayedCard() {
+		$playedCard = $this->playedCards[count($this->playedCards) - 1];
+		
+		return $playedCard;
 	}
 	
-	/**
-	 * @param bool $topCardInEffect
-	 */
-	public function setTopCardInEffect($topCardInEffect) {
-		$this->topCardInEffect = $topCardInEffect;
+	public function drawFirstCard() {
+		$firstCard = new PlayedCard($this->draw());
+		$firstCard->setInEffect(false);
+		
+		$this->playedCards[] = $firstCard;
+	}
+	
+	public function getStreakOfCard($cardType) {
+		$streak = 0;
+		
+		$playedCards = $this->playedCards;
+		array_reverse($playedCards);
+		
+		foreach ($this->playedCards as $playedCard) {
+			if(!$playedCard->isInEffect()) break;
+			
+			if($playedCard->getCard()->getType() == $cardType) {
+				$streak++;
+			}
+		}
+		
+		return $streak;
+	}
+	
+	private function tipUpPlayedCards() {
+		$lastPlayedCard = array_pop($this->playedCards);
+		
+		array_reverse($this->playedCards);
+		
+		foreach ($this->playedCards as $playedCard) {
+			$this->cards[] = $playedCard->getCard();
+		}
+		
+		$this->playedCards = [$lastPlayedCard];
 	}
 	
 }
