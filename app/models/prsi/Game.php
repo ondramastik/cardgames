@@ -27,6 +27,9 @@ class Game {
 	/** @var bool */
 	private $gameFinished;
 	
+	/** @var int */
+	private $finishReason;
+	
 	/**
 	 * Game constructor.
 	 * @param $targetPlayers
@@ -271,6 +274,20 @@ class Game {
 	 */
 	public function getCardsDeck() {
 		return $this->cardsDeck;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getFinishReason() {
+		return $this->finishReason;
+	}
+	
+	/**
+	 * @param int $finishReason
+	 */
+	public function setFinishReason($finishReason) {
+		$this->finishReason = $finishReason;
 	}
 	
 }

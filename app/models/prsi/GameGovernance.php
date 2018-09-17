@@ -45,25 +45,10 @@ class GameGovernance {
 		$this->cache->save(self::CACHE_KEY, $games);
 	}
 	
-	public function cancelGame(Game $game) {
-		$games = $this->cache->load(self::CACHE_KEY);
-		unset($games[$game->getId()]);
-		$this->cache->save(self::CACHE_KEY, $games);
-	}
-	
 	public function getGames() {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
-		$toReturn = [];
-		
-		/** @var Game $game */
-		foreach ($games as $game) {
-			if (!$game->hasGameFinished()) {
-				$toReturn[] = $game;
-			}
-		}
-		
-		return $toReturn;
+		return $games;
 	}
 	
 	/**
@@ -73,6 +58,8 @@ class GameGovernance {
 	public function getGame($id) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
+		\Tracy\Debugger::barDump($games);
+		\Tracy\Debugger::barDump($id);
 		if (isset($games[$id])) {
 			return $games[$id];
 		}
@@ -87,16 +74,6 @@ class GameGovernance {
 		$this->persistGame($game);
 		
 		return $game;
-	}
-	
-	public function leaveGame($gameId, $nickname) {
-		/** @var Game $game */
-		$game = $this->getGame($gameId);
-		if (!$game->leaveGame($nickname)) {
-			$this->cancelGame($game);
-		} else {
-			$this->persistGame($game);
-		}
 	}
 	
 	public function startGame($id) {
@@ -186,16 +163,26 @@ class GameGovernance {
 	public function checkPlayerWon($gameId) {
 		foreach ($this->getGame($gameId)->getPlayers() as $player) {
 			if (count($player->getHand()) === 0) {
-				$this->finishGame($gameId);
 				return $player->getNickname();
 			}
 		}
 		return false;
 	}
 	
-	public function finishGame($gameId) {
+	public function finishGame($gameId, $finishReason) {
 		$game = $this->getGame($gameId);
+		
 		$game->setGameFinished(true);
+		$game->setFinishReason($finishReason);
+		
+		$this->persistGame($game);
+	}
+	
+	public function removeFromGame($gameId, $nickname) {
+		$game = $this->getGame($gameId);
+		
+		$game->leaveGame($nickname);
+		
 		$this->persistGame($game);
 	}
 	

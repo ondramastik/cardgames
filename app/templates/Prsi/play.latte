@@ -13,6 +13,7 @@
 
 {block content}
 <div class="container-fluid" id="prsi">
+    <a n:href="leaveGame" class="btn btn-danger ajax float-right" role="button">Ukončit hru</a>
     <div class="row">
         <div class="col-lg-6">
             <h1>Hráč na tahu: <span class="badge badge-success" n:snippet="active-player">{$game->getActivePlayer()->getNickname()}</span></h1>
