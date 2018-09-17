@@ -42,18 +42,18 @@ class PrsiPresenter extends BasePresenter {
 			$this->redirect("Lobby:default");
 		}
 		
-		$this->getTemplate()->game = $this->gameGovernance->getGame($this->activeGameId);
+		$this->getTemplate()->game = $game;
 		$this->getTemplate()->nickname = $this->nickname;
 		
 		if($this->isAjax()) {
-			$this->redrawControl("content");
+			$this->redrawControl("hand");
+			$this->redrawControl("hands");
+			$this->redrawControl("played-cards");
+			$this->redrawControl("active-player");
 		}
 	}
 	
 	public function actionStartGame($lobbyId) {
-		\Tracy\Debugger::barDump($this->gameGovernance->getGames());
-		\Tracy\Debugger::barDump($this->gameGovernance->findActiveGameId($this->nickname));
-		
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
 		
 		$gameId = $this->gameGovernance->createGame(count($lobby->getMembers()));
@@ -69,39 +69,34 @@ class PrsiPresenter extends BasePresenter {
 		$this->redirect("play");
 	}
 	
-	public function actionPlayCard($cardColor, $cardType, $setColor) {
+	public function handlePlayCard($cardColor, $cardType, $setColor) {
 		$card = new Card((int) $cardColor, (int) $cardType);
 		
 		if(!$this->gameGovernance->playCard($card, (int) $setColor, $this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
 		}
-		
-		$this->redirect("play");
-		
+		$this->redrawControl("flashes");
 	}
 	
-	public function actionSkip() {
+	public function handleSkip() {
 		if (!$this->gameGovernance->skip($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Tento tah nelze přeskočit");
 		}
-		
-		$this->redirect("play");
+		$this->redrawControl("flashes");
 	}
 	
-	public function actionDraw() {
+	public function handleDraw() {
 		if (!$this->gameGovernance->draw($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nelíže");
 		}
-		
-		$this->redirect("play");
+		$this->redrawControl("flashes");
 	}
 	
-	public function actionStand() {
+	public function handleStand() {
 		if (!$this->gameGovernance->stand($this->nickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
-		
-		$this->redirect("play");
+		$this->redrawControl("flashes");
 	}
 	
 }

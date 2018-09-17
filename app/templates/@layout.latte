@@ -9,10 +9,16 @@
 	<script type="text/javascript" src="/node_modules/nette.ajax.js/nette.ajax.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+	{ifset head}
+		{include head}
+	{/ifset}
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="alert, 'alert-'.$flash->type">{$flash->message}</div>
+	<div n:snippet="flashes">
+		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-'.$flash->type">{$flash->message}</div>
+	</div>
 
 	<div n:snippet="content" style="padding-top: 40px;">
 		{include content}
