@@ -5,7 +5,6 @@ namespace App\Models\Prsi;
 
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
-use Nette\InvalidArgumentException;
 
 class GameGovernance {
 	
