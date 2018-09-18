@@ -8,10 +8,10 @@ class Player {
 	/** @var string */
 	private $nickname;
 	
-	/** @var Card */
+	/** @var Card[] */
 	private $hand;
 	
-	/** @var BlueCard */
+	/** @var BlueCard[] */
 	private $table;
 	
 	/** @var Character */
@@ -55,7 +55,7 @@ class Player {
 	}
 	
 	/**
-	 * @return Card
+	 * @return Card[]
 	 */
 	public function getHand() {
 		return $this->hand;
@@ -76,7 +76,7 @@ class Player {
 	}
 	
 	/**
-	 * @return BlueCard
+	 * @return BlueCard[]
 	 */
 	public function getTable() {
 		return $this->table;
@@ -151,7 +151,6 @@ class Player {
 	}
 	
 	public function drawFromHand(Card $card) {
-		/** @var Card $handCard */
 		foreach ($this->hand as $key => $handCard) {
 			if($handCard instanceof $card && $handCard->getValue() === $card->getValue() && $handCard->getType() === $card->getType()) {
 				unset($this->hand[$key]);
@@ -162,5 +161,22 @@ class Player {
 		return false;
 	}
 	
+	public function calculateDefaultPositiveDistance() {
+		$distance = 0;
+		foreach ($this->getTable() as $card) {
+			$card->getPositiveDistanceImpact();
+		}
+		
+		return $distance ?: 1;
+	}
+	
+	public function calculateDefaultNegativeDistance() {
+		$distance = 1;
+		foreach ($this->getTable() as $card) {
+			$card->getNegativeDistanceImpact();
+		}
+		
+		return $distance;
+	}
 	
 }

@@ -2,30 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67492d8f-f670-475e-9189-9f5d122371a6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/models/bang/cards/CardTypes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/CardsDeck.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/CardsDeck.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/Game.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/Game.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/GameGovernance.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/GameGovernance.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/Player.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/cards/Card.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/Card.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/cards/beige/Bang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/beige/Bang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/cards/beige/BeigeCard.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/beige/BeigeCard.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/OrbitBlueCard.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/PersonalBlueCard.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/characters/CalamityJanet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/characters/CalamityJanet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/bang/characters/Character.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/bang/characters/Character.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +62,7 @@
           <entry key="js" value="1" />
           <entry key="latte" value="25" />
           <entry key="neon" value="3" />
-          <entry key="php" value="137" />
+          <entry key="php" value="151" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -83,7 +71,7 @@
           <entry key="JavaScript" value="1" />
           <entry key="Latte file" value="24" />
           <entry key="Neon" value="3" />
-          <entry key="PHP" value="137" />
+          <entry key="PHP" value="151" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -93,7 +81,7 @@
           <entry key="dummy" value="4" />
           <entry key="latte" value="4651" />
           <entry key="neon" value="97" />
-          <entry key="php" value="18597" />
+          <entry key="php" value="18861" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -101,7 +89,7 @@
           <entry key="CSS" value="170" />
           <entry key="Latte file" value="4633" />
           <entry key="Neon" value="97" />
-          <entry key="PHP" value="18597" />
+          <entry key="PHP" value="18861" />
           <entry key="PLAIN_TEXT" value="22" />
         </counts>
       </usages-collector>
@@ -110,40 +98,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/Game.php">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="149" column="4" lean-forward="true" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
+            <state relative-caret-position="272">
+              <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/Player.php">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="517">
-              <caret line="148" column="8" lean-forward="true" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
+            <state relative-caret-position="765">
+              <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/Player.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/GameGovernance.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
-              <folding>
-                <element signature="e#36#60#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="517">
+              <caret line="166" column="47" lean-forward="true" selection-start-line="166" selection-start-column="47" selection-end-line="166" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -151,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state relative-caret-position="255">
+              <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -160,8 +136,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state relative-caret-position="340">
+              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -169,26 +145,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state relative-caret-position="340">
+              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+            <state relative-caret-position="612">
+              <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+            <state relative-caret-position="102">
+              <caret line="6" column="4" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -217,6 +211,7 @@
       <find>nickname</find>
       <find>boolean</find>
       <find>gener</find>
+      <find>getNe</find>
     </findStrings>
     <replaceStrings>
       <replace>array_reverse</replace>
@@ -265,23 +260,23 @@
         <option value="$PROJECT_DIR$/app/models/bang/characters/CalamityJanet.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/beige/BeigeCard.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/CardTypes.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/Card.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/beige/Bang.php" />
         <option value="$PROJECT_DIR$/app/models/bang/CardsDeck.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/GameGovernance.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/Game.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php" />
         <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/GameGovernance.php" />
+        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php" />
         <option value="$PROJECT_DIR$/app/models/bang/Player.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php" />
-        <option value="$PROJECT_DIR$/app/models/bang/Game.php" />
       </list>
     </option>
   </component>
@@ -455,7 +450,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="conf&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;bas&#9;FILE&#9;file://C:/git/cardgames/app/presenters/BasePresenter.php&#10;@lay&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;layo&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
+    <property name="SearchEverywhereHistoryKey" value="Player&#9;FILE&#9;file://C:/git/cardgames/app/models/bang/Player.php&#10;conf&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;bas&#9;FILE&#9;file://C:/git/cardgames/app/presenters/BasePresenter.php&#10;@lay&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;layo&#9;FILE&#9;file://C:/git/cardgames/app/templates/@layout.latte&#10;config&#9;FILE&#9;file://C:/git/cardgames/app/config/config.neon&#10;Car&#9;ACTION&#9;EditorCloneCaretAbove" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -505,12 +500,12 @@
       <workItem from="1537201793177" duration="5673000" />
       <workItem from="1537217176364" duration="1984000" />
       <workItem from="1537286458028" duration="6858000" />
-      <workItem from="1537301974159" duration="5105000" />
+      <workItem from="1537301974159" duration="5729000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65027000" />
+    <option name="totallyTimeSpent" value="65651000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -791,13 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/Card.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/bang/CardsDeck.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
@@ -812,69 +800,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="29" lean-forward="true" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/bang/GameGovernance.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -885,13 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/bang/Player.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="148" column="8" lean-forward="true" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/bang/Game.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="434">
@@ -899,17 +817,94 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/Card.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="19" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Winchester.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Volcanic.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Schofield.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/RevCarabine.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Remington.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Prigione.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+        <state relative-caret-position="765">
+          <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mustang.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        <state relative-caret-position="272">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Mirino.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Dinamite.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/BlueCard.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="4" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/cards/blue/Barile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/bang/Player.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="166" column="47" lean-forward="true" selection-start-line="166" selection-start-column="47" selection-end-line="166" selection-end-column="47" />
         </state>
       </provider>
     </entry>

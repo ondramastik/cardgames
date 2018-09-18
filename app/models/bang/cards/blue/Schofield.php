@@ -13,4 +13,12 @@ class Schofield extends BlueCard {
 		return false;
 	}
 	
+	public function getNegativeDistanceImpact(): int {
+		return 0;
+	}
+	
+	public function getPositiveDistanceImpact(): int {
+		return 2;
+	}
+	
 }

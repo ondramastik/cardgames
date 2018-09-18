@@ -3,9 +3,9 @@
 namespace App\Models\Bang;
 
 
-class Barile extends PersonalBlueCard {
+class Barile extends BlueCard {
 	
-	public function performAction(GameGovernance $gameGovernance, $targetPlayer) {
+	public function performAction(GameGovernance $gameGovernance, $targetPlayer, $isSourceHand = true) {
 		return false;
 	}
 	
@@ -20,6 +20,14 @@ class Barile extends PersonalBlueCard {
 		}
 		
 		return false;
+	}
+	
+	public function getNegativeDistanceImpact(): int {
+		return 0;
+	}
+	
+	public function getPositiveDistanceImpact(): int {
+		return 0;
 	}
 	
 }

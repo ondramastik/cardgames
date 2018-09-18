@@ -13,4 +13,12 @@ class Mustang extends BlueCard {
 		return false;
 	}
 	
+	public function getNegativeDistanceImpact(): int {
+		return 1;
+	}
+	
+	public function getPositiveDistanceImpact(): int {
+		return 0;
+	}
+	
 }
