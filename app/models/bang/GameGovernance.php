@@ -13,6 +13,12 @@ class GameGovernance {
 	/** @var Cache */
 	private $cache;
 	
+	/** @var Game */
+	private $game;
+	
+	/** @var string */
+	private $nickname;
+	
 	/**
 	 * GameGovernance constructor.
 	 */
@@ -25,6 +31,27 @@ class GameGovernance {
 		}
 	}
 	
+	/**
+	 * @param Game $game
+	 */
+	public function setGame(Game $game) {
+		$this->game = $game;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getNickname() {
+		return $this->nickname;
+	}
+	
+	/**
+	 * @param string $nickname
+	 */
+	public function setNickname($nickname) {
+		$this->nickname = $nickname;
+	}
+	
 	public function checkPlayerInGame($nickname) {
 		/** @var Game[] $games */
 		$games = $this->cache->load(self::CACHE_KEY);
@@ -32,7 +59,7 @@ class GameGovernance {
 		if (count($games)) {
 			foreach ($games as $game) {
 				foreach ($game->getPlayers() as $player) {
-					if($player->getNickname() === $nickname) {
+					if ($player->getNickname() === $nickname) {
 						return true;
 					}
 				}
@@ -57,14 +84,18 @@ class GameGovernance {
 	 * @param $id
 	 * @return Game|bool
 	 */
-	public function getGame($id) {
-		$games = $this->cache->load(self::CACHE_KEY);
-		
-		if (isset($games[$id])) {
-			return $games[$id];
+	public function getGame($id = null) {
+		if ($id) {
+			$games = $this->cache->load(self::CACHE_KEY);
+			
+			if (isset($games[$id])) {
+				return $games[$id];
+			}
+			
+			return false;
+		} else {
+			return $this->game;
 		}
-		
-		return false;
 	}
 	
 	public function createGame($nicknames) {
@@ -86,24 +117,24 @@ class GameGovernance {
 	
 	/**
 	 * @param Card $card
-	 * @param int $targetPlayer
+	 * @param $targetPlayer
+	 * @param bool $isSourceHand
 	 * @return boolean
 	 */
-	public function playCard(Card $card, $targetPlayer) {
-		if($card instanceof BlueCard) {
-			return $this->playBlueCard($card, $targetPlayer);
-		} elseif ($card instanceof BeigeCard) {
-			return $card->performAction($this, $targetPlayer);
-		}
-		
-		return false;
+	public function play(Card $card, $targetPlayer, $isSourceHand = true) {
+		return $card->performAction($this, $targetPlayer, $isSourceHand);
 	}
 	
-	/**
-	 * @param Card $card
-	 */
 	public function respond(Card $card) {
+		if ($this->game->getPlayerToRespond()->getNickname() === $this->nickname) {
+			return $card->performResponseAction($this);
+		} else {
+			return false;
+		}
+	}
 	
+	public function fakeCard(Card $card) {
+		$this->game->getCardsDeck()->fakeCard($card);
 	}
 	
 	/**
@@ -127,5 +158,10 @@ class GameGovernance {
 		
 		return $gameId;
 	}
+	
+	public function __destruct() {
+		$this->persistGame($this->game);
+	}
+	
 	
 }

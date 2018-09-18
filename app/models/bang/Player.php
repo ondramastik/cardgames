@@ -138,5 +138,29 @@ class Player {
 		$this->hp++;
 	}
 	
+	public function drawFromTable(BlueCard $card) {
+		/** @var BlueCard $tableCard */
+		foreach ($this->table as $key => $tableCard) {
+			if($tableCard instanceof $card && $tableCard->getValue() === $card->getValue() && $tableCard->getType() === $card->getType()) {
+				unset($this->table[$key]);
+				return $tableCard;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function drawFromHand(Card $card) {
+		/** @var Card $handCard */
+		foreach ($this->hand as $key => $handCard) {
+			if($handCard instanceof $card && $handCard->getValue() === $card->getValue() && $handCard->getType() === $card->getType()) {
+				unset($this->hand[$key]);
+				return $handCard;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 }

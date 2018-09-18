@@ -10,7 +10,7 @@ class CardsDeck {
 	/**
 	 * return Card
 	 */
-	public function drawCard() {
+	public function drawCard() : Card {
 		throw new NotImplementedException();
 	}
 	
@@ -33,6 +33,20 @@ class CardsDeck {
 	 * @return BeigeCard
 	 */
 	public function getActiveCard() {
+		throw new NotImplementedException();
+	}
+	
+	/**
+	 * @param Card $card
+	 */
+	public function discardCard(Card $card) {
+		throw new NotImplementedException();
+	}
+	
+	/**
+	 * @param Card $card
+	 */
+	public function fakeCard(Card $card) {
 		throw new NotImplementedException();
 	}
 	

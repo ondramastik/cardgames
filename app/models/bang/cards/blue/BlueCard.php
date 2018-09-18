@@ -3,6 +3,6 @@
 namespace App\Models\Bang;
 
 
-class BlueCard extends Card {
+abstract class BlueCard extends Card {
 	
 }

@@ -15,10 +15,10 @@ class Game {
 	private $players;
 	
 	/** @var int */
-	private $activePlayer;
+	private $activePlayerIndex;
 	
 	/** @var int */
-	private $playerToRespond;
+	private $playerToRespondIndex;
 	
 	/** @var bool */
 	private $gameStarted;
@@ -60,7 +60,7 @@ class Game {
 			);
 			
 			if($player->getCharacter() instanceof Sceriffo) {
-				$this->setActivePlayer($key);
+				$this->setActivePlayerIndex($key);
 				$player->heal();
 			}
 			
@@ -111,32 +111,65 @@ class Game {
 		$this->players = $players;
 	}
 	
+	public function getPlayer($nickname) {
+		foreach ($this->getPlayers() as $player) {
+			if($player->getNickname() === $nickname) {
+				return $player;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
-	 * @return int
+	 * @return Player
 	 */
 	public function getActivePlayer() {
-		return $this->activePlayer;
+		return $this->players[$this->activePlayerIndex];
 	}
 	
 	/**
-	 * @param int $activePlayer
+	 * @param int $activePlayerIndex
 	 */
-	public function setActivePlayer($activePlayer) {
-		$this->activePlayer = $activePlayer;
+	public function setActivePlayerIndex($activePlayerIndex) {
+		$this->activePlayerIndex = $activePlayerIndex;
 	}
 	
 	/**
-	 * @return int
+	 * @return Player
+	 */
+	public function getNextPlayer() {
+		$nextPlayerIndex = $this->activePlayerIndex + 1;
+		
+		if($nextPlayerIndex === count($this->getPlayers())) {
+			$nextPlayerIndex = 0;
+		}
+		
+		return $this->getPlayers()[$nextPlayerIndex];
+	}
+	
+	public function nextPlayer() {
+		$nextPlayerIndex = $this->activePlayerIndex + 1;
+		
+		if($nextPlayerIndex === count($this->getPlayers())) {
+			$nextPlayerIndex = 0;
+		}
+		
+		$this->setActivePlayerIndex($nextPlayerIndex);
+	}
+	
+	/**
+	 * @return Player
 	 */
 	public function getPlayerToRespond() {
-		return $this->playerToRespond;
+		return $this->players[$this->playerToRespondIndex];
 	}
 	
 	/**
-	 * @param int $playerToRespond
+	 * @param int $playerToRespondIndex
 	 */
-	public function setPlayerToRespond($playerToRespond) {
-		$this->playerToRespond = $playerToRespond;
+	public function setPlayerToRespondIndex($playerToRespondIndex) {
+		$this->playerToRespondIndex = $playerToRespondIndex;
 	}
 	
 	/**

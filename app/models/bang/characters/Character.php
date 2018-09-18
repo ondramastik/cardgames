@@ -17,10 +17,11 @@ abstract class Character {
 	
 	/**
 	 * @param GameGovernance $gameGovernance
-	 * @param BeigeCard $offenseCard
-	 * @param BeigeCard $respondCard
+	 * @param BeigeCard $playedCard
+	 * @param BeigeCard $requiredCard
+	 * @param null $targetPlayer
 	 * @return mixed
 	 */
-	public abstract function processSpecialSkillResponse(GameGovernance $gameGovernance, BeigeCard $offenseCard, BeigeCard $respondCard);
+	public abstract function processSpecialSkillCardPlay(GameGovernance $gameGovernance, BeigeCard $playedCard, BeigeCard $requiredCard, $targetPlayer = null);
 	
 }
