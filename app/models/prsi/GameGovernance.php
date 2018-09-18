@@ -58,8 +58,6 @@ class GameGovernance {
 	public function getGame($id) {
 		$games = $this->cache->load(self::CACHE_KEY);
 		
-		\Tracy\Debugger::barDump($games);
-		\Tracy\Debugger::barDump($id);
 		if (isset($games[$id])) {
 			return $games[$id];
 		}

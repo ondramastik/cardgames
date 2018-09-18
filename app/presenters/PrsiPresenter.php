@@ -6,12 +6,11 @@ namespace App\Presenters;
 use App\Models\Lobby\LobbyGovernance;
 use App\Models\Prsi\Card;
 use App\Models\Prsi\FinishReasons;
-use App\Models\Prsi\Game;
 use App\Models\Prsi\GameGovernance;
 
 class PrsiPresenter extends BasePresenter {
 	
-	/** @var Game */
+	/** @var int */
 	public $activeGameId;
 	
 	/** @var GameGovernance */
