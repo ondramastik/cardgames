@@ -5,7 +5,7 @@
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"require": {
-		"php": ">= 5.6",
+		"php": ">= 7.1",
 		"nette/application": "^2.4",
 		"nette/bootstrap": "^2.4.2",
 		"nette/caching": "^2.5",
@@ -19,7 +19,10 @@
 		"nette/security": "^2.4",
 		"nette/utils": "^2.4",
 		"latte/latte": "^2.4",
-		"tracy/tracy": "^2.4"
+		"tracy/tracy": "^2.4",
+		"ipub/websockets-wamp": "^1.0",
+		"ipub/websockets-session": "^1.0",
+		"ipub/websockets": "^1.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"
@@ -27,7 +30,7 @@
 	"minimum-stability": "stable",
 	"config": {
 		"platform": {
-			"php": "5.6"
+			"php": "7.1.9"
 		}
 	}
 }

@@ -15,3 +15,7 @@ nette.ajax.js@vojtech-dobes/nette.ajax.js:
   resolved "https://codeload.github.com/vojtech-dobes/nette.ajax.js/tar.gz/638d3cfc9061c8f4ed31cecd3462f898d2b674be"
   dependencies:
     jquery ">=1.7.0"
+
+websockets-wamp@iPublikuj/websockets-wamp:
+  version "0.0.0"
+  resolved "https://codeload.github.com/iPublikuj/websockets-wamp/tar.gz/fd4707bdc8d86fd559151f8389d562e4868a2c86"

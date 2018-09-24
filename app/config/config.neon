@@ -16,4 +16,10 @@ services:
 	prsiGovernance: App\Models\Prsi\GameGovernance
 	lobbyGovernance: App\Models\Lobby\LobbyGovernance
 	bangGovernance: App\Models\Bang\GameGovernance
+	- {class: App\WebSocketsRouterFactory, tags: [ipub.websockets.routes]}
+
+extensions:
+    webSockets: IPub\WebSockets\DI\WebSocketsExtension
+    webSocketsWAMP: IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
+    console: Kdyby\Console\DI\ConsoleExtension
 

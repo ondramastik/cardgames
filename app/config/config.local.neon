@@ -5,3 +5,16 @@ database:
 	dsn: 'mysql:host=127.0.0.1;dbname=test'
 	user:
 	password:
+
+# WebSockets server
+webSockets:
+    clients:
+        storage:
+            driver: @clients.driver.memory
+            ttl:    0
+    server:
+        httpHost:   localhost
+        port:       8080
+        address:    0.0.0.0
+    mapping:
+        *: App\Controllers\*Controller
