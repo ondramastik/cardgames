@@ -26,6 +26,7 @@ class LobbyPresenter extends BasePresenter {
 		}
 		
 		$this->getTemplate()->lobby = $lobby;
+		$this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
 		
 		if($this->isAjax()) {
 			$this->redrawControl("joined-members");

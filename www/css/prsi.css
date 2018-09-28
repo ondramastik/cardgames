@@ -17,3 +17,23 @@
 #prsi div.card {
     padding: 5px;
 }
+
+#prsi .played-cards {
+    display: inline-block;
+    width: 40%;
+    height: 100%;
+}
+
+#chat-window {
+    position: fixed;
+
+    bottom: 0;
+    right: 20px;
+
+    width: 30vh;
+    height: 40vh;
+
+    max-width: 100%;
+
+    border: 1px solid gray;
+}

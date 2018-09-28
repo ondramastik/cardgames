@@ -57,6 +57,7 @@ class PrsiPresenter extends BasePresenter {
 		
 		$this->getTemplate()->game = $game;
 		$this->getTemplate()->nickname = $this->nickname;
+		$this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
 		
 		if ($this->isAjax()) {
 			$this->redrawControl("hand");
@@ -121,6 +122,13 @@ class PrsiPresenter extends BasePresenter {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
 		$this->redrawControl("flashes");
+	}
+	
+	public function createComponentChat() {
+		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId(),
+			$this->context->getParameters()['serverIp']);
+		
+		return $chat;
 	}
 	
 }

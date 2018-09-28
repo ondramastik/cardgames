@@ -2,41 +2,10 @@
     <link rel="stylesheet" type="text/css" href="/css/prsi.css">
 {/block}
 {block scripts}
+    <script type="text/javascript" src="/js/chat.js"></script>
+    <script type="text/javascript" src="/js/prsi.js"></script>
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/autobahn.js"></script>
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/ipub.websockets.wamp.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var webSocket = IPub.WebSockets.WAMP.initialize('ws://127.0.0.1:8080');
-            var globalSession = null;
-
-            webSocket.on('socket/connect', function(session) {
-                console.log('Successfully Connected!');
-
-                globalSession = session;
-
-                globalSession.subscribe('communication/prsi/play/{$game->getId()}', function(uri, payload) {
-                    console.log("Prisla zprava", payload);
-                    $.nette.ajax({
-                        url: {link play},
-                        off: ['publish']
-                    });
-                });
-            });
-
-            webSocket.on('socket/disconnect', function(error){
-                console.log('Disconnected for ' + error.reason + ' with code ' + error.code);
-            });
-
-            $.nette.ext('publish', {
-                success: function () {
-                    if(globalSession) {
-                        console.log("Publishing");
-                        globalSession.publish('communication/prsi/play/{$game->getId()}', "played");
-                    }
-                }
-            });
-        })
-    </script>
 {/block}
 
 {block content}
@@ -55,19 +24,21 @@
             </div>
             <hr>
             <div n:snippet="played-cards">
-                <h3>odhazovaci balicek</h3>
-                <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
-                <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
-                {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
-                    <img src="/images/prsi/zaludy.jpg" width="30">
-                {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
-                    <img src="/images/prsi/srdce.jpg" width="30">
-                {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
-                    <img src="/images/prsi/listy.jpg" width="30">
-                {else}
-                    <img src="/images/prsi/kule.jpg" width="30">
-                {/if}
-            </span>
+                <div class="played-cards">
+                    <h3>odhazovaci balicek</h3>
+                    <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
+                    <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
+                        {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
+                            <img src="/images/prsi/zaludy.jpg" width="30">
+                        {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
+                            <img src="/images/prsi/srdce.jpg" width="30">
+                        {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::LISTY}
+                            <img src="/images/prsi/listy.jpg" width="30">
+                        {else}
+                            <img src="/images/prsi/kule.jpg" width="30">
+                        {/if}
+                    </span>
+                </div>
             </div>
             <hr>
             <h3>Karty v ruce</h3>
@@ -110,3 +81,4 @@
         </div>
     </div>
 </div>
+{control chat}

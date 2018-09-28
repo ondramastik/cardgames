@@ -1,11 +1,8 @@
+{block head}
+    <link rel="stylesheet" type="text/css" href="/css/lobby.css">
+{/block}
 {block scripts}
-    <script type="text/javascript">
-        //setInterval(function() {
-        //    $.nette.ajax({
-        //        url: {link default}
-        //    });
-        //}, 1000);
-    </script>
+    <script type="text/javascript" src="/js/chat.js"></script>
 {/block}
 
 {block content}
@@ -41,5 +38,5 @@
             <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right" role="button">Spustit prší</a>
         </div>
     </div>
-    {control chat}
 </div>
+{control chat}
