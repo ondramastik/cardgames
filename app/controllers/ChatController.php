@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Controllers;
+
+use IPub;
+use Nette\Utils\Json;
+
+class ChatController extends IPub\WebSockets\Application\Controller\Controller {
+	
+	/**
+	 * @param $event
+	 * @param IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic
+	 * @param IPub\WebSockets\Entities\Clients\IClient $client
+	 * @throws \Nette\Utils\JsonException
+	 */
+	public function actionPublish($event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic, IPub\WebSockets\Entities\Clients\IClient $client) {
+		$message = new \App\Models\Chat\Message($client->getId(), new \DateTime(), $event);
+		
+		/** @var IPub\WebSocketsWAMP\Entities\Clients\IClient $otherClient */
+		foreach ($topic as $otherClient) {
+			if ($otherClient->getId() === $client->getId()) {
+				continue;
+			}
+			
+			$otherClient->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
+		}
+		
+		$message->setOtherSender(false);
+		
+		$client->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
+	}
+	
+}

@@ -90,4 +90,10 @@ class LobbyPresenter extends BasePresenter {
 		
 		$this->flashMessage("Nelze vyhodit člena z tohto lobby");
 	}
+	
+	public function createComponentChat() {
+		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId());
+		
+		return $chat;
+	}
 }

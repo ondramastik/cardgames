@@ -9,7 +9,10 @@ class WebSocketsRouterFactory
 	public static function createRouter() : RouteList
 	{
 		$router = new RouteList;
+		
 		$router[] = new Route('/communication/prsi/play/<gameId>', 'Prsi:');
+		
+		$router[] = new Route('/communication/chat/<lobbyId>', 'Chat:');
 		
 		return $router;
 	}
