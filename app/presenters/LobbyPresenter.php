@@ -92,7 +92,8 @@ class LobbyPresenter extends BasePresenter {
 	}
 	
 	public function createComponentChat() {
-		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId());
+		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId(),
+			$this->context->getParameters()['serverIp']);
 		
 		return $chat;
 	}

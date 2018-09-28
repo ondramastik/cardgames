@@ -16,7 +16,7 @@
         }
 
         $(function () {
-            var webSocket = IPub.WebSockets.WAMP.initialize('ws://127.0.0.1:8080');
+            var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8080');
 
             webSocket.on('socket/connect', function(session) {
                 console.log('Successfully connected to chat!');
