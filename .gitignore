@@ -3,3 +3,4 @@ temp/*
 log/*
 vendor/*
 .idea/*
+app/config/config.local.neon
