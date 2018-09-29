@@ -23,7 +23,7 @@
         <tbody n:snippet="available-lobbies">
             <tr n:foreach="$lobbies as $lobby">
                 <td>{$lobby->getName()}</td>
-                <td>{implode(", ", $lobby->getMembers())}</td>
+                <td n:inner-foreach="$lobby->getMembers() as $member">{$member->getNickname()} </td>
                 <td>
                     <a n:href="joinLobby $lobby->getId()" class="btn btn-default" role="button">Připojit</a>
                 </td>

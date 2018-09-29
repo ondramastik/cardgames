@@ -13,8 +13,8 @@ class ChatController extends IPub\WebSockets\Application\Controller\Controller {
 	 * @param IPub\WebSockets\Entities\Clients\IClient $client
 	 * @throws \Nette\Utils\JsonException
 	 */
-	public function actionPublish($event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic, IPub\WebSockets\Entities\Clients\IClient $client) {
-		$message = new \App\Models\Chat\Message($client->getId(), new \DateTime(), $event);
+	public function actionPublish(array $event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic, IPub\WebSockets\Entities\Clients\IClient $client) {
+		$message = new \App\Models\Chat\Message($event['sender'], new \DateTime(), $event['text']);
 		
 		/** @var IPub\WebSocketsWAMP\Entities\Clients\IClient $otherClient */
 		foreach ($topic as $otherClient) {

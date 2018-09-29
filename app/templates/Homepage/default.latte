@@ -1,14 +1,13 @@
-{* This is the welcome page, you can delete it *}
-
 {block content}
 
 <div class="container">
-	<form n:if="!$nickname" method="post">
-		<label for="nickname">Přezdívka</label>
-		<input type="text" name="nickname" id="nickname">
-		<input type="submit" value="Nastavit">
-	</form>
-
-	<a class="btn btn-success" role="button" n:href="Lobby:list">Hledat spoluhráče</a>
+	<div n:if="$presenter->getUser()->isLoggedIn()">
+		<a class="btn btn-success" role="button" n:href="Lobby:list">Hledat spoluhráče</a>
+		<a class="btn btn-warning" role="button" n:href="Sign:out">Odhlásit</a>
+	</div>
+	<div n:if="!$presenter->getUser()->isLoggedIn()">
+		<a class="btn btn-info" role="button" n:href="Sign:in">Přihlásit</a>
+		<a class="btn btn-info" role="button" n:href="Sign:up">Registrovat</a>
+	</div>
 </div>
 

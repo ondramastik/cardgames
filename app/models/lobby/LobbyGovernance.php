@@ -2,6 +2,7 @@
 
 namespace App\Models\Lobby;
 
+use App\Models\Security\UserEntity;
 use Nette\Caching\Cache;
 
 class LobbyGovernance {
@@ -11,13 +12,18 @@ class LobbyGovernance {
 	/** @var \Nette\Caching\Cache */
 	private $cache;
 	
+	/** @var \Nette\Security\User */
+	private $user;
+	
 	/**
 	 * LobbyGovernance constructor.
+	 * @param \Nette\Security\User $user
 	 * @throws \Throwable
 	 */
-	public function __construct() {
+	public function __construct(\Nette\Security\User $user) {
 		$storage = new \Nette\Caching\Storages\FileStorage('C:\git\cardgames\temp');
 		$this->cache = new Cache($storage);
+		$this->user = $user;
 		
 		if (!$this->getLobbies()) {
 			$this->saveLobbies([]);
@@ -25,12 +31,11 @@ class LobbyGovernance {
 	}
 	
 	/**
-	 * @param $nickname
 	 * @return Lobby|bool
 	 */
-	public function findUsersLobby($nickname) {
+	public function findUsersLobby() {
 		foreach ($this->getLobbies() as $lobby) {
-			if (in_array($nickname, $lobby->getMembers())) {
+			if(isset($lobby->getMembers()[$this->user->getId()])) {
 				return $lobby;
 			}
 		}
@@ -39,17 +44,16 @@ class LobbyGovernance {
 	}
 	
 	/**
-	 * @param $adminNickname
 	 * @param $name
 	 * @return Lobby
 	 * @throws \Throwable
 	 */
-	public function createLobby($adminNickname, $name) {
+	public function createLobby($name) {
 		$lobbies = $this->getLobbies();
 		
 		$lobby = new Lobby($this->generateLobbyId(), $name);
-		$lobby->setOwner($adminNickname);
-		$lobby->addMember($adminNickname);
+		$lobby->setOwner($this->user->getIdentity()->userEntity);
+		$lobby->addMember($this->user->getIdentity()->userEntity);
 		
 		$lobbies[$lobby->getId()] = $lobby;
 		
@@ -93,23 +97,23 @@ class LobbyGovernance {
 	
 	/**
 	 * @param $lobbyId
-	 * @param $nickname
+	 * @param $userId
 	 * @throws \Throwable
 	 */
-	public function kickMember($lobbyId, $nickname) {
+	public function kickMember($lobbyId, $userId) {
 		$lobby = $this->getLobby($lobbyId);
-		$lobby->removeMember($nickname);
+		$lobby->removeMember($userId);
 		$this->saveLobby($lobby);
 	}
 	
 	/**
 	 * @param $lobbyId
-	 * @param $nickname
+	 * @param UserEntity $user
 	 * @throws \Throwable
 	 */
-	public function addMember($lobbyId, $nickname) {
+	public function addMember($lobbyId, UserEntity $user) {
 		$lobby = $this->getLobby($lobbyId);
-		$lobby->addMember($nickname);
+		$lobby->addMember($user);
 		$this->saveLobby($lobby);
 	}
 	

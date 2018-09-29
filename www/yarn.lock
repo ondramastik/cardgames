@@ -10,6 +10,10 @@ jquery@>=1.7.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
+nette-forms@nette/forms:
+  version "2.4.2"
+  resolved "https://codeload.github.com/nette/forms/tar.gz/c2d4d93342026536b8d67b86e702e3b91c5111f9"
+
 nette.ajax.js@vojtech-dobes/nette.ajax.js:
   version "2.3.0"
   resolved "https://codeload.github.com/vojtech-dobes/nette.ajax.js/tar.gz/638d3cfc9061c8f4ed31cecd3462f898d2b674be"

@@ -2,15 +2,17 @@
 
 namespace App\Models\Lobby;
 
+use App\Models\Security\UserEntity;
+
 class Lobby {
 	
 	/** @var int */
 	private $id;
 	
-	/** @var string */
+	/** @var UserEntity */
 	private $owner;
 	
-	/** @var string[] */
+	/** @var UserEntity[] */
 	private $members;
 	
 	/** @var string */
@@ -22,11 +24,12 @@ class Lobby {
 	/**
 	 * Lobby constructor.
 	 * @param $id
+	 * @param $name
 	 */
 	public function __construct($id, $name) {
 		$this->id = $id;
-		$this->members = [];
 		$this->name = $name;
+		$this->members = [];
 	}
 	
 	/**
@@ -37,38 +40,37 @@ class Lobby {
 	}
 	
 	/**
-	 * @param $nickname
+	 * @param UserEntity $userEntity
 	 */
-	public function setOwner($nickname) {
-		$this->owner = $nickname;
+	public function setOwner(UserEntity $userEntity) {
+		$this->owner = $userEntity;
 	}
 	
 	/**
-	 * @return string
+	 * @return UserEntity
 	 */
-	public function getOwner() {
+	public function getOwner() : UserEntity {
 		return $this->owner;
 	}
 	
 	/**
-	 * @param $nickname
+	 * @param UserEntity $userEntity
 	 */
-	public function addMember($nickname) {
-		$this->members[] = $nickname;
-	}
-	
-	public function removeMember($nickname) {
-		foreach ($this->members as $key => $member) {
-			if($member === $nickname) {
-				unset($this->members[$key]);
-			}
-		}
+	public function addMember(UserEntity $userEntity) {
+		$this->members[$userEntity->getId()] = $userEntity;
 	}
 	
 	/**
-	 * @return string[]
+	 * @param int $userId
 	 */
-	public function getMembers() {
+	public function removeMember($userId) {
+		unset($this->members[$userId]);
+	}
+	
+	/**
+	 * @return UserEntity[]
+	 */
+	public function getMembers() : array {
 		return $this->members;
 	}
 	

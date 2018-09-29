@@ -21,7 +21,6 @@
 		"latte/latte": "^2.4",
 		"tracy/tracy": "^2.4",
 		"ipub/websockets-wamp": "^1.0",
-		"ipub/websockets-session": "^1.0",
 		"ipub/websockets": "^1.0",
 		"kdyby/doctrine": "^3.3"
 	},

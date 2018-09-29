@@ -2,8 +2,8 @@
     <link rel="stylesheet" type="text/css" href="/css/prsi.css">
 {/block}
 {block scripts}
-    <script type="text/javascript" src="/js/chat.js"></script>
-    <script type="text/javascript" src="/js/prsi.js"></script>
+    {include '../Js/chat.latte' lobbyId => $lobby->getId(), $serverIp}
+    {include '../Js/lobby.latte' lobbyId => $lobby->getId(), $serverIp}
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/autobahn.js"></script>
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/ipub.websockets.wamp.js"></script>
 {/block}

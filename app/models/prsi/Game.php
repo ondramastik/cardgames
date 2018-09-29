@@ -228,7 +228,7 @@ class Game {
 	 */
 	public function getPlayer($nickname) {
 		foreach ($this->getPlayers() as $player) {
-			if($player->getNickname() == $nickname) return $player
+			if($player->getNickname() === $nickname) return $player
 				;
 		}
 		return false;

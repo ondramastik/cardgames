@@ -9,13 +9,20 @@ class LobbyPresenter extends BasePresenter {
 	/** @var LobbyGovernance */
 	private $lobbyGovernance;
 	
-	public function __construct(\Nette\Http\Session $session, LobbyGovernance $gameGovernance) {
-		parent::__construct($session);
+	/**
+	 * LobbyPresenter constructor.
+	 * @param LobbyGovernance $gameGovernance
+	 */
+	public function __construct(LobbyGovernance $gameGovernance) {
+		parent::__construct();
 		$this->lobbyGovernance = $gameGovernance;
 	}
 	
+	/**
+	 * @throws \Nette\Application\AbortException
+	 */
 	public function renderDefault() {
-		$lobby = $this->lobbyGovernance->findUsersLobby($this->nickname);
+		$lobby = $this->lobbyGovernance->findUsersLobby();
 		
 		if(!$lobby) {
 			$this->redirect("list");
@@ -33,6 +40,7 @@ class LobbyPresenter extends BasePresenter {
 		}
 	}
 	
+	
 	public function renderList() {
 		$this->getTemplate()->lobbies = $this->lobbyGovernance->getLobbies();
 		
@@ -41,40 +49,59 @@ class LobbyPresenter extends BasePresenter {
 		}
 	}
 	
+	/**
+	 * @param $name
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function actionCreateLobby($name) {
-		if($this->lobbyGovernance->findUsersLobby($this->nickname)) {
+		if($this->lobbyGovernance->findUsersLobby()) {
 			$this->flashMessage("Již jste připojen v jiném Lobby.");
 			$this->redirect("default");
 		} else if($name = $this->getRequest()->getPost("name")) {
-			$this->lobbyGovernance->createLobby($this->nickname, $name);
+			$this->lobbyGovernance->createLobby($name);
 			$this->redirect("default");
 		}
 	}
 	
+	/**
+	 * @param $id
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function actionJoinLobby($id) {
 		$lobby = $this->lobbyGovernance->getLobby($id);
 		
 		if($lobby) {
-			$this->lobbyGovernance->addMember($lobby->getId(), $this->nickname);
+			$this->lobbyGovernance->addMember($lobby->getId(), $this->getUser()->getIdentity()->userEntity);
 			$this->redirect("default");
 		}
 		
 		$this->flashMessage("Toto lobby neexistuje");
 	}
 	
+	/**
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function actionLeaveLobby() {
-		$lobby = $this->lobbyGovernance->findUsersLobby($this->nickname);
+		$lobby = $this->lobbyGovernance->findUsersLobby();
 		if($lobby) {
-			$this->lobbyGovernance->kickMember($lobby->getId(), $this->nickname);
+			$this->lobbyGovernance->kickMember($lobby->getId(), $this->getUser()->getId());
 			$this->redirect("list");
 		}
 		
 		$this->flashMessage("Toto lobby nelze smazat");
 	}
 	
+	/**
+	 * @param $id
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function actionCancelLobby($id) {
 		$lobby = $this->lobbyGovernance->getLobby($id);
-		if($lobby && $lobby->getOwner() === $this->nickname) {
+		if($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
 			$this->lobbyGovernance->removeLobby($id);
 			$this->redirect("list");
 		}
@@ -82,17 +109,25 @@ class LobbyPresenter extends BasePresenter {
 		$this->flashMessage("Toto lobby nelze smazat");
 	}
 	
+	/**
+	 * @param $lobbyId
+	 * @param $nickname
+	 * @throws \Throwable
+	 */
 	public function handleKickMember($lobbyId, $nickname) {
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
-		if($lobby && $lobby->getOwner() === $this->nickname) {
+		if($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
 			$this->lobbyGovernance->kickMember($lobby->getId(), $nickname);
 		} else {
 			$this->flashMessage("Nelze vyhodit člena z tohto lobby");
 		}
 	}
 	
+	/**
+	 * @return \ChatControl
+	 */
 	public function createComponentChat() {
-		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId(),
+		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
 			$this->context->getParameters()['serverIp']);
 		
 		return $chat;

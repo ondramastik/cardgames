@@ -19,17 +19,26 @@ class PrsiPresenter extends BasePresenter {
 	/** @var LobbyGovernance */
 	private $lobbyGovernance;
 	
-	public function __construct(\Nette\Http\Session $session, GameGovernance $gameGovernance, LobbyGovernance $lobbyGovernance) {
-		parent::__construct($session);
+	/** @var string */
+	private $legacyNickname;
+	
+	protected function startup() {
+		parent::startup();
+		
+		$this->legacyNickname = $this->getUser()->getIdentity()->userEntity->getNickname();
+		$this->activeGameId = $this->gameGovernance->findActiveGameId($this->legacyNickname);
+	}
+	
+	
+	public function __construct(GameGovernance $gameGovernance, LobbyGovernance $lobbyGovernance) {
+		parent::__construct();
 		$this->gameGovernance = $gameGovernance;
 		$this->lobbyGovernance = $lobbyGovernance;
-		
-		$this->activeGameId = $this->gameGovernance->findActiveGameId($this->nickname);
 	}
 	
 	public function renderPlay() {
 		$game = $this->gameGovernance->getGame($this->activeGameId);
-		$lobby = $this->lobbyGovernance->findUsersLobby($this->nickname);
+		$lobby = $this->lobbyGovernance->findUsersLobby();
 		
 		if (!$game) {
 			$this->flashMessage("Neexistuja žádná vaše aktivní hra", "danger");
@@ -42,21 +51,22 @@ class PrsiPresenter extends BasePresenter {
 			} else if ($game->getFinishReason() === FinishReasons::PLAYER_WON) {
 				$this->flashMessage("Hra skončila, jelikož někdo z hráčů již vyhrál.", "success");
 			}
-			$this->gameGovernance->removeFromGame($game->getId(), $this->nickname);
+			$this->gameGovernance->removeFromGame($game->getId(), $this->legacyNickname);
 			
 			$this->redirect("Lobby:");
 		}
 		
 		if ($player = $this->gameGovernance->checkPlayerWon($this->activeGameId)) {
 			$this->flashMessage("Konec hry. Hráč $player vyhrál.", "success");
-			$this->gameGovernance->finishGame($this->activeGameId, $this->nickname);
+			$this->gameGovernance->finishGame($this->activeGameId, $this->legacyNickname);
 			$this->lobbyGovernance->setActiveGame($lobby->getId(), null);
 			
 			$this->redirect("Lobby:");
 		}
 		
 		$this->getTemplate()->game = $game;
-		$this->getTemplate()->nickname = $this->nickname;
+		$this->getTemplate()->nickname = $this->legacyNickname;
+		$this->getTemplate()->lobby = $lobby;
 		$this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
 		
 		if ($this->isAjax()) {
@@ -73,7 +83,7 @@ class PrsiPresenter extends BasePresenter {
 		$gameId = $this->gameGovernance->createGame(count($lobby->getMembers()));
 		
 		foreach ($lobby->getMembers() as $member) {
-			$this->gameGovernance->joinGame($gameId, $member);
+			$this->gameGovernance->joinGame($gameId, $member->getNickname());
 		}
 		
 		$this->gameGovernance->startGame($gameId);
@@ -87,7 +97,7 @@ class PrsiPresenter extends BasePresenter {
 		$game = $this->gameGovernance->getGame($this->activeGameId);
 		
 		$this->gameGovernance->finishGame($game->getId(), FinishReasons::PLAYER_LEFT);
-		$lobby = $this->lobbyGovernance->findUsersLobby($this->nickname);
+		$lobby = $this->lobbyGovernance->findUsersLobby();
 		
 		$this->lobbyGovernance->setActiveGame($lobby->getId(), null);
 		
@@ -97,35 +107,35 @@ class PrsiPresenter extends BasePresenter {
 	public function handlePlayCard($cardColor, $cardType, $setColor) {
 		$card = new Card((int)$cardColor, (int)$cardType);
 		
-		if (!$this->gameGovernance->playCard($card, (int)$setColor, $this->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->playCard($card, (int)$setColor, $this->legacyNickname, $this->activeGameId)) {
 			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleSkip() {
-		if (!$this->gameGovernance->skip($this->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->skip($this->legacyNickname, $this->activeGameId)) {
 			$this->flashMessage("Tento tah nelze přeskočit");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleDraw() {
-		if (!$this->gameGovernance->draw($this->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->draw($this->legacyNickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nelíže");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleStand() {
-		if (!$this->gameGovernance->stand($this->nickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->stand($this->legacyNickname, $this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function createComponentChat() {
-		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby($this->nickname)->getId(),
+		$chat = new \ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
 			$this->context->getParameters()['serverIp']);
 		
 		return $chat;

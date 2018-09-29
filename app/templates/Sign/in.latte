@@ -1,0 +1,25 @@
+{block content}
+<div class="row">
+	<div class="col offset-md-3 col-md-6">
+		{form signInForm class=>ajax}
+			<h3>Přihlášení</h3>
+			<ul class="errors list-group" n:if="$form->hasErrors()">
+				<li n:foreach="$form->errors as $error" class="list-group-item list-group-item-danger">{$error}</li>
+			</ul>
+			<div class="form-group">
+				{label nickname}
+				{input nickname}
+			</div>
+			<div class="form-group">
+				{label password}
+				{input password}
+			</div>
+			<div class="form-check">
+				{input remember:part}
+				{label remember:part /}
+			</div>
+
+			{input send}
+		{/form}
+	</div>
+</div>

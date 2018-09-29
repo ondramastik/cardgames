@@ -20,21 +20,22 @@
                 </tr>
             </thead>
             <tbody n:snippet="joined-members">
-                <tr n:foreach="$lobby->getMembers() as $member" >
-                    <td>{$member}</td>
+                <tr n:foreach="$lobby->getMembers() as $member">
+                    <td>{$member->getNickname()}</td>
                     <td>
-                        <a n:href="kickMember! $lobby->getId(), $member" class="kick-player ajax"
-                           n:if="$lobby->getMembers()[0] === $nickname && $member != $nickname">Vyhodit hráče</a>
+                        <a n:href="kickMember! $lobby->getId(), $member->getId()" class="kick-player ajax"
+                           n:if="$lobby->getOwner()->getId() === $presenter->getUser()->getId()
+                           && $member->getId() !== $presenter->getUser()->getId()">Vyhodit hráče</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="controls">
-        <div class="guest-controls" n:if="$lobby->getMembers()[0] !== $nickname">
+        <div class="guest-controls" n:if="$lobby->getOwner()->getId() !== $presenter->getUser()->getId()">
             <a n:href="leaveLobby" class="btn btn-warning leave-lobby" role="button">Opustit lobby</a>
         </div>
-        <div class="admin-controls" n:if="$lobby->getMembers()[0] === $nickname">
+        <div class="admin-controls" n:if="$lobby->getOwner()->getId() === $presenter->getUser()->getId()">
             <a n:href="cancelLobby $lobby->getId()" class="btn btn-danger cancel-lobby" role="button">Rozpustit lobby</a>
             <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right start-prsi" role="button">Spustit prší</a>
         </div>

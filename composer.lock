@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f6d5007b635b9ea7e679ec18bd56253",
+    "content-hash": "2e1467a1f609f00b282651cd34b3fbcc",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -985,77 +985,6 @@
                 "webbsocket-server"
             ],
             "time": "2018-09-14T19:16:03+00:00"
-        },
-        {
-            "name": "ipub/websockets-session",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/iPublikuj/websockets-session.git",
-                "reference": "bc564fc65d7a8349d824c2c9841d4eac576f1c06"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/iPublikuj/websockets-session/zipball/bc564fc65d7a8349d824c2c9841d4eac576f1c06",
-                "reference": "bc564fc65d7a8349d824c2c9841d4eac576f1c06",
-                "shasum": ""
-            },
-            "require": {
-                "ipub/websockets": "~1.0.1",
-                "nette/di": "~2.4",
-                "nette/http": "~2.4",
-                "nette/security": "~2.4",
-                "pds/skeleton": "^1.0",
-                "php": ">=7.0.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "nette/bootstrap": "~2.4",
-                "nette/mail": "~2.4",
-                "nette/robot-loader": "~2.4",
-                "nette/safe-stream": "~2.3",
-                "nette/tester": "@dev",
-                "tracy/tracy": "@dev"
-            },
-            "type": "library",
-            "extra": {
-                "ipub": {
-                    "configuration": {
-                        "extensions": {
-                            "webSocketsSession": "IPub\\WebSocketsSession\\DI\\WebSocketsSessionExtension"
-                        }
-                    }
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "IPub\\WebSocketsSession\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "iPublikuj:cms",
-                    "email": "info@ipublikuj.eu",
-                    "homepage": "http://www.ipublikuj.eu/"
-                }
-            ],
-            "description": "Extension for implementing sessions into ipub/websockets server",
-            "homepage": "https://github.com/iPublikuj/websockets-session",
-            "keywords": [
-                "WebSockets",
-                "framework",
-                "ipub",
-                "ipublikuj",
-                "nette",
-                "session",
-                "tools"
-            ],
-            "time": "2017-03-06T17:52:41+00:00"
         },
         {
             "name": "ipub/websockets-wamp",
@@ -2710,37 +2639,6 @@
             "time": "2018-09-18T10:22:16+00:00"
         },
         {
-            "name": "pds/skeleton",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-pds/skeleton.git",
-                "reference": "95e476e5d629eadacbd721c5a9553e537514a231"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-pds/skeleton/zipball/95e476e5d629eadacbd721c5a9553e537514a231",
-                "reference": "95e476e5d629eadacbd721c5a9553e537514a231",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/pds-skeleton"
-            ],
-            "type": "standard",
-            "autoload": {
-                "psr-4": {
-                    "Pds\\Skeleton\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "CC-BY-SA-4.0"
-            ],
-            "description": "Standard for PHP package skeletons.",
-            "homepage": "https://github.com/php-pds/skeleton",
-            "time": "2017-01-25T23:30:41+00:00"
-        },
-        {
             "name": "psr/log",
             "version": "1.0.2",
             "source": {
@@ -3235,16 +3133,16 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.5.2",
+            "version": "v2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "93f89fbff33db4d583062104c71d6083b717371a"
+                "reference": "7f670b08a7f4ed0243373f9d003d139196273861"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/93f89fbff33db4d583062104c71d6083b717371a",
-                "reference": "93f89fbff33db4d583062104c71d6083b717371a",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/7f670b08a7f4ed0243373f9d003d139196273861",
+                "reference": "7f670b08a7f4ed0243373f9d003d139196273861",
                 "shasum": ""
             },
             "require": {
@@ -3254,7 +3152,8 @@
             },
             "require-dev": {
                 "nette/di": "~2.3",
-                "nette/tester": "~1.7"
+                "nette/tester": "~1.7",
+                "nette/utils": "~2.3"
             },
             "suggest": {
                 "https://nette.org/donate": "Please support Tracy via a donation"
@@ -3296,7 +3195,7 @@
                 "nette",
                 "profiler"
             ],
-            "time": "2018-08-13T16:46:17+00:00"
+            "time": "2018-09-24T22:35:07+00:00"
         }
     ],
     "packages-dev": [

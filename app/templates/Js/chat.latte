@@ -28,7 +28,10 @@
             $('#chat-window .input-field .send-message').on('click', function() {
                 let messageField = $('#chat-window .input-field textarea');
 
-                session.publish('communication/chat/' + {$lobbyId}, messageField.val());
+                session.publish('communication/chat/' + {$lobbyId}, {
+                    text: messageField.val(),
+                    sender: {$presenter->getUser()->getIdentity()->userEntity->getNickname()}
+                });
                 messageField.val('');
 
                 messageField.trigger('focus');
