@@ -1,0 +1,63 @@
+{block lobbyScripts}
+<script type="application/javascript">
+    $(function () {
+        var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8080');
+
+        webSocket.on('socket/connect', function(session) {
+            console.log('Successfully connected to lobby!');
+
+            session.subscribe('communication/lobby/' + {$lobbyId}, function(uri, payload) {
+                console.log(payload);
+                if(payload.action === 'leave' || payload.action === 'join' || payload.action === 'kick') {
+                    $.nette.ajax({
+                        url: {link Lobby:}
+                    });
+                } else if(payload.action === 'cancel') {
+                    $.nette.ajax({
+                        url: {link Lobby:list}
+                    });
+                } else if(payload.action === 'start') {
+                    if(payload.gameType === 0) {
+                        $.nette.ajax({
+                            url: {link Prsi:play}
+                        });
+                    } else if(payload.gameType === 1) {
+                        $.nette.ajax({
+                            url: {link Bang:play}
+                        });
+                    }
+                }
+            });
+
+            $('#lobby .controls .guest-controls .leave-lobby').on('click', function() {
+                session.publish('communication/lobby/' + {$lobbyId}, {
+                    'action': 'leave'
+                });
+            });
+
+            $('#lobby .controls .admin-controls .cancel-lobby').on('click', function() {
+                session.publish('communication/lobby/' + {$lobbyId}, {
+                    'action': 'cancel'
+                });
+            });
+
+            $('#lobby .controls .admin-controls .start-prsi').on('click', function() {
+                session.publish('communication/lobby/' + {$lobbyId}, {
+                    'action': 'leave',
+                    gameType: 0
+                });
+            });
+
+            $('#lobby .kick-player').on('click', function() {
+                console.log('Kicking player');
+                session.publish('communication/lobby/' + {$lobbyId}, {
+                    'action': 'kick'
+                });
+            });
+        });
+
+        webSocket.on('socket/disconnect', function(error){
+            console.log('Disconnected for ' + error.reason + ' with code ' + error.code);
+        });
+    })
+</script>

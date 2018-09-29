@@ -2,12 +2,13 @@
     <link rel="stylesheet" type="text/css" href="/css/lobby.css">
 {/block}
 {block scripts}
-    <script type="text/javascript" src="/js/chat.js"></script>
+    {include '../Js/chat.latte' lobbyId => $lobby->getId(), $serverIp}
+    {include '../Js/lobby.latte' lobbyId => $lobby->getId(), $serverIp}
 {/block}
 
 {block content}
 
-<div class="container">
+<div class="container" id="lobby">
     <h1>Lobby</h1>
     <div>
         <h3>{$lobby->getName()}</h3>
@@ -22,7 +23,7 @@
                 <tr n:foreach="$lobby->getMembers() as $member" >
                     <td>{$member}</td>
                     <td>
-                        <a n:href="kickMember $lobby->getId(), $member"
+                        <a n:href="kickMember! $lobby->getId(), $member" class="kick-player ajax"
                            n:if="$lobby->getMembers()[0] === $nickname && $member != $nickname">Vyhodit hráče</a>
                     </td>
                 </tr>
@@ -31,12 +32,13 @@
     </div>
     <div class="controls">
         <div class="guest-controls" n:if="$lobby->getMembers()[0] !== $nickname">
-            <a n:href="leaveLobby" class="btn btn-warning" role="button">Opustit lobby</a>
+            <a n:href="leaveLobby" class="btn btn-warning leave-lobby" role="button">Opustit lobby</a>
         </div>
         <div class="admin-controls" n:if="$lobby->getMembers()[0] === $nickname">
-            <a n:href="cancelLobby $lobby->getId()" class="btn btn-danger" role="button">Rozpustit lobby</a>
-            <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right" role="button">Spustit prší</a>
+            <a n:href="cancelLobby $lobby->getId()" class="btn btn-danger cancel-lobby" role="button">Rozpustit lobby</a>
+            <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right start-prsi" role="button">Spustit prší</a>
         </div>
     </div>
 </div>
+
 {control chat}

@@ -82,14 +82,13 @@ class LobbyPresenter extends BasePresenter {
 		$this->flashMessage("Toto lobby nelze smazat");
 	}
 	
-	public function actionKickMember($lobbyId, $nickname) {
+	public function handleKickMember($lobbyId, $nickname) {
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
 		if($lobby && $lobby->getOwner() === $this->nickname) {
 			$this->lobbyGovernance->kickMember($lobby->getId(), $nickname);
-			$this->redirect("default");
+		} else {
+			$this->flashMessage("Nelze vyhodit člena z tohto lobby");
 		}
-		
-		$this->flashMessage("Nelze vyhodit člena z tohto lobby");
 	}
 	
 	public function createComponentChat() {
