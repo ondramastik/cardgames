@@ -1,18 +1,22 @@
 {block chatScripts}
 <script type="application/javascript">
     function generateMessageHTML(message) {
-        return '<div class="message' + (message.isOtherSender ? ' other-sender' : '') + '">'
-            + message.sender + ': ' + message.text + '</div>';
+        return '' +
+            '<div class="message row">' +
+                (message.isOtherSender ? '' : '<div class="col-sm-8"></div>') +
+                '<div class="col-sm-4 text' + (message.isOtherSender ? ' other-sender' : '') + '">' +
+                    (message.isOtherSender ? '<div class="sender">' + message.sender + '</div> ' : '')  +
+                    message.text +
+                '</div> ' +
+            '</div>';
     }
 
     function insertMessage(message) {
         let messages = $('#chat-window .messages');
 
-        messages.append(
+        messages.prepend(
             generateMessageHTML(message)
         );
-
-        messages.animate({ scrollTop: messages.height() }, 0);
     }
 
     $(function () {
@@ -27,6 +31,8 @@
 
             $('#chat-window .input-field .send-message').on('click', function() {
                 let messageField = $('#chat-window .input-field textarea');
+
+                if(!messageField.val()) return;
 
                 session.publish('communication/chat/' + {$lobbyId}, {
                     text: messageField.val(),

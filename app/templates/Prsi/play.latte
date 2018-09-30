@@ -23,11 +23,12 @@
                 </div>
             </div>
             <hr>
-            <div n:snippet="played-cards">
-                <div class="played-cards">
-                    <h3>odhazovaci balicek</h3>
-                    <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
-                    <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
+            <div class="row">
+                <div n:snippet="played-cards" class="col-sm-4">
+                    <div class="played-cards">
+                        <h3>odhazovaci balicek</h3>
+                        <img src="/images/prsi/cards/{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getColor()}x{$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType()}.jpeg">
+                        <span n:if="$game->getCardsDeck()->getLastPlayedCard()->getCard()->getType() === App\Models\Prsi\CardTypes::MENIC">
                         {if $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::ZALUDY}
                             <img src="/images/prsi/zaludy.jpg" width="30">
                         {elseif $game->getCardsDeck()->getLastPlayedCard()->getActiveColor() == App\Models\Prsi\CardColors::SRDCE}
@@ -38,6 +39,10 @@
                             <img src="/images/prsi/kule.jpg" width="30">
                         {/if}
                     </span>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    {control chat}
                 </div>
             </div>
             <hr>
@@ -73,12 +78,11 @@
         </div>
         <div class="col-lg-6" n:snippet="hands">
             <div n:foreach="$game->getPlayers() as $player" n:if="$player->getUser()->getId() != $presenter->getUser()->getId()">
-                <h2>{$player->getNickname()}</h2>
-                <span n:foreach="$p->getHand() as $card">
+                <h2>{$player->getUser()->getNickname()}</h2>
+                <span n:foreach="$player->getHand() as $card">
                 <img src="/images/prsi/cards/back.jpeg">
             </span>
             </div>
         </div>
     </div>
 </div>
-{control chat}

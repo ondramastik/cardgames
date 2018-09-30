@@ -24,16 +24,8 @@
     height: 100%;
 }
 
-#chat-window {
-    position: fixed;
-
-    bottom: 0;
-    right: 20px;
-
-    width: 30vh;
-    height: 40vh;
-
-    max-width: 100%;
-
-    border: 1px solid gray;
+#prsi #chat-window .messages {
+    height: 200px;
+    max-height: 200px;
+    overflow: hidden;
 }

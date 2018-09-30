@@ -1,9 +1,18 @@
 {block content}
 
-<div id="chat-window" class="chat-window">
-    <div class="messages"></div>
-    <div class="input-field">
-        <textarea id="input-textarea" placeholder="Vaše zpráva.."></textarea><!--
-     --><a class="send-message"></a>
+<div id="chat-window" class="chat-window border">
+    <div class="input-field row">
+        <div class="col-sm-9">
+            <textarea id="input-textarea" placeholder="Vaše zpráva.."></textarea>
+        </div>
+        <div class="col-sm-3">
+            <a class="send-message">
+                <div class="send-message-button">
+                    Odeslat
+                </div>
+            </a>
+        </div>
     </div>
+    <hr>
+    <div class="messages"></div>
 </div>
