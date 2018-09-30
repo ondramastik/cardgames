@@ -12,7 +12,7 @@ class LobbyGovernance {
 	/** @var \Nette\Caching\Cache */
 	private $cache;
 	
-	/** @var \Nette\Security\User */
+	/** @var \App\Models\Security\UserEntity */
 	private $user;
 	
 	/**
@@ -23,7 +23,7 @@ class LobbyGovernance {
 	public function __construct(\Nette\Security\User $user) {
 		$storage = new \Nette\Caching\Storages\FileStorage('C:\git\cardgames\temp');
 		$this->cache = new Cache($storage);
-		$this->user = $user;
+		$this->user = $user->getIdentity()->userEntity;
 		
 		if (!$this->getLobbies()) {
 			$this->saveLobbies([]);
@@ -52,8 +52,8 @@ class LobbyGovernance {
 		$lobbies = $this->getLobbies();
 		
 		$lobby = new Lobby($this->generateLobbyId(), $name);
-		$lobby->setOwner($this->user->getIdentity()->userEntity);
-		$lobby->addMember($this->user->getIdentity()->userEntity);
+		$lobby->setOwner($this->user);
+		$lobby->addMember($this->user);
 		
 		$lobbies[$lobby->getId()] = $lobby;
 		

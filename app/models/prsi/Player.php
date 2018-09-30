@@ -3,28 +3,29 @@
 namespace App\Models\Prsi;
 
 
+use App\Models\Security\UserEntity;
+
 class Player {
 
 	/** @var Card[] */
 	private $hand;
 	
-	/** @var string */
-	private $nickname;
+	/** @var \App\Models\Security\UserEntity */
+	private $user;
 	
 	/**
 	 * Player constructor.
-	 * @param string $nickname
-	 */
-	public function __construct($nickname) {
-		$this->nickname = $nickname;
+	 * @param $user	 */
+	public function __construct($user) {
+		$this->user = $user;
 		$this->hand = [];
 	}
 	
-	public function giveCard(Card $card) {
+	public function giveCard(Card $card) : void {
 		$this->hand[] = $card;
 	}
 	
-	public function takeCard(Card $card) {
+	public function takeCard(Card $card) : void {
 		foreach ($this->hand as $key => $handCard) {
 			if($handCard->matchColor($card) && $handCard->matchType($card)) {
 				unset($this->hand[$key]);
@@ -35,15 +36,15 @@ class Player {
 	/**
 	 * @return Card[]
 	 */
-	public function getHand() {
+	public function getHand() : array {
 		return $this->hand;
 	}
 	
 	/**
-	 * @return string
+	 * @return UserEntity
 	 */
-	public function getNickname() {
-		return $this->nickname;
+	public function getUser() : UserEntity {
+		return $this->user;
 	}
 	
 }

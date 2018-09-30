@@ -50,11 +50,10 @@ class LobbyPresenter extends BasePresenter {
 	}
 	
 	/**
-	 * @param $name
 	 * @throws \Nette\Application\AbortException
 	 * @throws \Throwable
 	 */
-	public function actionCreateLobby($name) {
+	public function actionCreateLobby() {
 		if($this->lobbyGovernance->findUsersLobby()) {
 			$this->flashMessage("Již jste připojen v jiném Lobby.");
 			$this->redirect("default");

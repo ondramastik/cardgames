@@ -2,6 +2,8 @@
 
 namespace App\Models\Prsi;
 
+use App\Models\Security\UserEntity;
+
 class Game {
 	
 	const INITIAL_CARDS_COUNT = 4;
@@ -18,9 +20,6 @@ class Game {
 	/** @var int */
 	private $activePlayer;
 	
-	/** @var  */
-	private $targetPlayers;
-	
 	/** @var bool */
 	private $gameStarted;
 	
@@ -32,10 +31,8 @@ class Game {
 	
 	/**
 	 * Game constructor.
-	 * @param $targetPlayers
 	 */
-	public function __construct($targetPlayers) {
-		$this->targetPlayers = $targetPlayers;
+	public function __construct() {
 		$this->players = [];
 		$this->gameStarted = false;
 		$this->id = rand();
@@ -55,10 +52,10 @@ class Game {
 	}
 	
 	/**
-	 * @param $nickname
+	 * @param UserEntity $user
 	 */
-	public function joinGame($nickname) {
-		$this->players[] = new Player($nickname);
+	public function joinGame(UserEntity $user) {
+		$this->players[] = new Player($user);
 	}
 	
 	/**
@@ -223,36 +220,29 @@ class Game {
 	}
 	
 	/**
-	 * @param $nickname
+	 * @param $userId
 	 * @return Player|bool
 	 */
-	public function getPlayer($nickname) {
+	public function getPlayer($userId) {
 		foreach ($this->getPlayers() as $player) {
-			if($player->getNickname() === $nickname) return $player
-				;
+			if($player->getUser()->getId() == $userId)
+				return $player;
 		}
 		return false;
 	}
 	
 	/**
-	 * @param $nickname
+	 * @param $userId
 	 * @return bool
 	 */
-	public function leaveGame($nickname) {
+	public function leaveGame($userId) {
 		foreach ($this->getPlayers() as $key => $player) {
-			if($player->getNickname() == $nickname) {
-				unset($this->players[$key]);
+			if($player->getUser()->getId() == $userId) {
+				unset($this->players[$userId]);
 			}
 		}
 		
 		return !$this->gameStarted;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getTargetPlayers() {
-		return $this->targetPlayers;
 	}
 	
 	/**

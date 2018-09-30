@@ -7,6 +7,7 @@ use App\Models\Lobby\LobbyGovernance;
 use App\Models\Prsi\Card;
 use App\Models\Prsi\FinishReasons;
 use App\Models\Prsi\GameGovernance;
+use Tracy\Debugger;
 
 class PrsiPresenter extends BasePresenter {
 	
@@ -19,29 +20,43 @@ class PrsiPresenter extends BasePresenter {
 	/** @var LobbyGovernance */
 	private $lobbyGovernance;
 	
-	/** @var string */
-	private $legacyNickname;
-	
 	protected function startup() {
 		parent::startup();
-		
-		$this->legacyNickname = $this->getUser()->getIdentity()->userEntity->getNickname();
-		$this->activeGameId = $this->gameGovernance->findActiveGameId($this->legacyNickname);
+		$this->activeGameId = $this->gameGovernance->findActiveGameId();
 	}
 	
 	
+	/**
+	 * PrsiPresenter constructor.
+	 * @param GameGovernance $gameGovernance
+	 * @param LobbyGovernance $lobbyGovernance
+	 */
 	public function __construct(GameGovernance $gameGovernance, LobbyGovernance $lobbyGovernance) {
 		parent::__construct();
 		$this->gameGovernance = $gameGovernance;
 		$this->lobbyGovernance = $lobbyGovernance;
 	}
 	
+	/**
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function renderPlay() {
 		$game = $this->gameGovernance->getGame($this->activeGameId);
+		\Tracy\Debugger::barDump($this->activeGameId);
+		\Tracy\Debugger::barDump($game);
+		\Tracy\Debugger::barDump($this->gameGovernance->getGames());
 		$lobby = $this->lobbyGovernance->findUsersLobby();
 		
 		if (!$game) {
 			$this->flashMessage("Neexistuja žádná vaše aktivní hra", "danger");
+			$this->redirect("Lobby:");
+		}
+		
+		if ($user = $this->gameGovernance->checkPlayerWon($this->activeGameId)) {
+			$this->flashMessage("Konec hry. Hráč {$user->getNickname()} vyhrál.", "success");
+			$this->gameGovernance->finishGame($this->activeGameId, FinishReasons::PLAYER_WON);
+			$this->lobbyGovernance->setActiveGame($lobby->getId(), null);
 			$this->redirect("Lobby:");
 		}
 		
@@ -51,21 +66,12 @@ class PrsiPresenter extends BasePresenter {
 			} else if ($game->getFinishReason() === FinishReasons::PLAYER_WON) {
 				$this->flashMessage("Hra skončila, jelikož někdo z hráčů již vyhrál.", "success");
 			}
-			$this->gameGovernance->removeFromGame($game->getId(), $this->legacyNickname);
-			
-			$this->redirect("Lobby:");
-		}
-		
-		if ($player = $this->gameGovernance->checkPlayerWon($this->activeGameId)) {
-			$this->flashMessage("Konec hry. Hráč $player vyhrál.", "success");
-			$this->gameGovernance->finishGame($this->activeGameId, $this->legacyNickname);
-			$this->lobbyGovernance->setActiveGame($lobby->getId(), null);
+			$this->gameGovernance->removeFromGame($game->getId(), $this->getUser()->getId());
 			
 			$this->redirect("Lobby:");
 		}
 		
 		$this->getTemplate()->game = $game;
-		$this->getTemplate()->nickname = $this->legacyNickname;
 		$this->getTemplate()->lobby = $lobby;
 		$this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
 		
@@ -77,14 +83,15 @@ class PrsiPresenter extends BasePresenter {
 		}
 	}
 	
+	/**
+	 * @param $lobbyId
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Throwable
+	 */
 	public function actionStartGame($lobbyId) {
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
 		
-		$gameId = $this->gameGovernance->createGame(count($lobby->getMembers()));
-		
-		foreach ($lobby->getMembers() as $member) {
-			$this->gameGovernance->joinGame($gameId, $member->getNickname());
-		}
+		$gameId = $this->gameGovernance->createGame($lobby->getMembers());
 		
 		$this->gameGovernance->startGame($gameId);
 		
@@ -107,28 +114,28 @@ class PrsiPresenter extends BasePresenter {
 	public function handlePlayCard($cardColor, $cardType, $setColor) {
 		$card = new Card((int)$cardColor, (int)$cardType);
 		
-		if (!$this->gameGovernance->playCard($card, (int)$setColor, $this->legacyNickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->playCard($card, (int)$setColor, $this->activeGameId)) {
 			$this->flashMessage("Tuto kartu nelze momentálně zahrát");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleSkip() {
-		if (!$this->gameGovernance->skip($this->legacyNickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->skip($this->activeGameId)) {
 			$this->flashMessage("Tento tah nelze přeskočit");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleDraw() {
-		if (!$this->gameGovernance->draw($this->legacyNickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->draw($this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nelíže");
 		}
 		$this->redrawControl("flashes");
 	}
 	
 	public function handleStand() {
-		if (!$this->gameGovernance->stand($this->legacyNickname, $this->activeGameId)) {
+		if (!$this->gameGovernance->stand($this->activeGameId)) {
 			$this->flashMessage("Na tuto kartu se nestojí");
 		}
 		$this->redrawControl("flashes");

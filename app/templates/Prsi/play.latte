@@ -13,8 +13,8 @@
     <a n:href="leaveGame" class="btn btn-danger ajax float-right" role="button">Ukončit hru</a>
     <div class="row">
         <div class="col-lg-6">
-            <h1>Hráč na tahu: <span class="badge badge-success" n:snippet="active-player">{$game->getActivePlayer()->getNickname()}</span></h1>
-            <h4>{$nickname}</h4>
+            <h1>Hráč na tahu: <span class="badge badge-success" n:snippet="active-player">{$game->getActivePlayer()->getUser()->getNickname()}</span></h1>
+            <h4>{$presenter->getUser()->getIdentity()->userEntity->getNickname()}</h4>
             <div n:if="!$game->isGameFinished()">
                 <div class="btn-group" role="group" aria-label="akce">
                     <a n:href="skip!" class="btn btn-secondary ajax" role="button">Líznout si kartu</a>
@@ -43,7 +43,7 @@
             <hr>
             <h3>Karty v ruce</h3>
             <div n:snippet="hand" class="row">
-                <div n:foreach="$game->getPlayer($nickname)->getHand() as $card" class="col-3 card">
+                <div n:foreach="$game->getPlayer($presenter->getUser()->getId())->getHand() as $card" class="col-3 card">
                     <div class="image">
                         <a n:href="playCard! $card->getColor(), $card->getType(), $card->getColor()" n:tag-if="!$game->isGameFinished()" class="ajax">
                             <img src="/images/prsi/cards/{$card->getColor()}x{$card->getType()}.jpeg">
@@ -72,8 +72,8 @@
             </div>
         </div>
         <div class="col-lg-6" n:snippet="hands">
-            <div n:foreach="$game->getPlayers() as $p" n:if="$p->getNickname() != $nickname">
-                <h2>{$p->getNickname()}</h2>
+            <div n:foreach="$game->getPlayers() as $player" n:if="$player->getUser()->getId() != $presenter->getUser()->getId()">
+                <h2>{$player->getNickname()}</h2>
                 <span n:foreach="$p->getHand() as $card">
                 <img src="/images/prsi/cards/back.jpeg">
             </span>
