@@ -3,7 +3,6 @@
 {/block}
 {block scripts}
     {include '../Js/chat.latte' lobbyId => $lobby->getId(), $serverIp}
-    {include '../Js/lobby.latte' lobbyId => $lobby->getId(), $serverIp}
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/autobahn.js"></script>
     <script type="text/javascript" src="/node_modules/websockets-wamp/public/js/ipub.websockets.wamp.js"></script>
 {/block}

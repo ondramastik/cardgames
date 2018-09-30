@@ -18,6 +18,12 @@ class LobbyPresenter extends BasePresenter {
 		$this->lobbyGovernance = $gameGovernance;
 	}
 	
+	public function handleDefault() {
+		if($this->isAjax()) {
+			$this->redrawControl("joined-members");
+		}
+	}
+	
 	/**
 	 * @throws \Nette\Application\AbortException
 	 */
@@ -25,6 +31,7 @@ class LobbyPresenter extends BasePresenter {
 		$lobby = $this->lobbyGovernance->findUsersLobby();
 		
 		if(!$lobby) {
+			$this->flashMessage('Lobby bylo zrušeno nebo jsi byl vyhozen', 'danger');
 			$this->redirect("list");
 		}
 		
@@ -34,10 +41,6 @@ class LobbyPresenter extends BasePresenter {
 		
 		$this->getTemplate()->lobby = $lobby;
 		$this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
-		
-		if($this->isAjax()) {
-			$this->redrawControl("joined-members");
-		}
 	}
 	
 	
@@ -83,14 +86,15 @@ class LobbyPresenter extends BasePresenter {
 	 * @throws \Nette\Application\AbortException
 	 * @throws \Throwable
 	 */
-	public function actionLeaveLobby() {
+	public function handleLeaveLobby() {
 		$lobby = $this->lobbyGovernance->findUsersLobby();
 		if($lobby) {
 			$this->lobbyGovernance->kickMember($lobby->getId(), $this->getUser()->getId());
 			$this->redirect("list");
 		}
 		
-		$this->flashMessage("Toto lobby nelze smazat");
+		$this->flashMessage("Lobby neexistuje", 'danger');
+		$this->redrawControl('flashes');
 	}
 	
 	/**
@@ -98,25 +102,26 @@ class LobbyPresenter extends BasePresenter {
 	 * @throws \Nette\Application\AbortException
 	 * @throws \Throwable
 	 */
-	public function actionCancelLobby($id) {
+	public function handleCancelLobby($id) {
 		$lobby = $this->lobbyGovernance->getLobby($id);
 		if($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
 			$this->lobbyGovernance->removeLobby($id);
 			$this->redirect("list");
 		}
 		
-		$this->flashMessage("Toto lobby nelze smazat");
+		$this->flashMessage("Toto lobby nelze zrušit - nejste majitel nebo neexistuje", 'danger');
+		$this->redrawControl('flashes');
 	}
 	
 	/**
 	 * @param $lobbyId
-	 * @param $nickname
+	 * @param $userId
 	 * @throws \Throwable
 	 */
-	public function handleKickMember($lobbyId, $nickname) {
+	public function handleKickMember($lobbyId, $userId) {
 		$lobby = $this->lobbyGovernance->getLobby($lobbyId);
 		if($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
-			$this->lobbyGovernance->kickMember($lobby->getId(), $nickname);
+			$this->lobbyGovernance->kickMember($lobby->getId(), $userId);
 		} else {
 			$this->flashMessage("Nelze vyhodit člena z tohto lobby");
 		}

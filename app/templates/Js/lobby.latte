@@ -4,17 +4,11 @@
         var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8080');
 
         webSocket.on('socket/connect', function(session) {
-            console.log('Successfully connected to lobby!');
-
             session.subscribe('communication/lobby/' + {$lobbyId}, function(uri, payload) {
-                console.log(payload);
-                if(payload.action === 'leave' || payload.action === 'join' || payload.action === 'kick') {
+                console.log('Received lobby action: ' + payload.action);
+                if(payload.action === 'leave' || payload.action === 'join' || payload.action === 'kick' || payload.action === 'cancel') {
                     $.nette.ajax({
-                        url: {link Lobby:}
-                    });
-                } else if(payload.action === 'cancel') {
-                    $.nette.ajax({
-                        url: {link Lobby:list}
+                        url: {link default!}
                     });
                 } else if(payload.action === 'start') {
                     if(payload.gameType === 0) {
@@ -29,29 +23,50 @@
                 }
             });
 
-            $('#lobby .controls .guest-controls .leave-lobby').on('click', function() {
-                session.publish('communication/lobby/' + {$lobbyId}, {
-                    'action': 'leave'
+            $('#lobby .controls .guest-controls .leave-lobby').on('click', function(e) {
+                e.preventDefault();
+                $.nette.ajax({
+                    url: $(this).attr('href'),
+                    success: function () {
+                        console.log('Leaving lobby');
+                        session.publish('communication/lobby/' + {$lobbyId}, {
+                            'action': 'leave'
+                        });
+                    }
                 });
             });
 
-            $('#lobby .controls .admin-controls .cancel-lobby').on('click', function() {
-                session.publish('communication/lobby/' + {$lobbyId}, {
-                    'action': 'cancel'
+            $('#lobby .controls .admin-controls .cancel-lobby').on('click', function(e) {
+                e.preventDefault();
+                $.nette.ajax({
+                    url: $(this).attr('href'),
+                    success: function () {
+                        $(this).bind();
+                        console.log('Cancelling lobby');
+                        session.publish('communication/lobby/' + {$lobbyId}, {
+                            'action': 'cancel'
+                        });
+                    }
                 });
             });
 
-            $('#lobby .controls .admin-controls .start-prsi').on('click', function() {
+            $(document).on('click', '#lobby .kick-player', function(e) {
+                e.preventDefault();
+                $.nette.ajax({
+                    url: $(this).attr('href'),
+                    success: function () {
+                        console.log('Kicking player');
+                        session.publish('communication/lobby/' + {$lobbyId}, {
+                            'action': 'kick'
+                        });
+                    }
+                });
+            });
+
+            $('#lobby .controls .admin-controls .start-prsi').on('click', function(e) {
                 session.publish('communication/lobby/' + {$lobbyId}, {
                     'action': 'leave',
                     gameType: 0
-                });
-            });
-
-            $('#lobby .kick-player').on('click', function() {
-                console.log('Kicking player');
-                session.publish('communication/lobby/' + {$lobbyId}, {
-                    'action': 'kick'
                 });
             });
         });

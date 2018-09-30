@@ -21,7 +21,7 @@ class LobbyGovernance {
 	 * @throws \Throwable
 	 */
 	public function __construct(\Nette\Security\User $user) {
-		$storage = new \Nette\Caching\Storages\FileStorage('C:\git\cardgames\temp');
+		$storage = new \Nette\Caching\Storages\FileStorage(dirname(__DIR__) . '/../../temp');
 		$this->cache = new Cache($storage);
 		$this->user = $user->getIdentity()->userEntity;
 		

@@ -23,7 +23,7 @@ class GameGovernance {
 	 * @throws \Throwable
 	 */
 	public function __construct(\Nette\Security\User $user) {
-		$storage = new FileStorage('C:\git\cardgames\temp');
+		$storage = new FileStorage(dirname(__DIR__) . '/../../temp');
 		$this->cache = new Cache($storage);
 		$this->user = $user->getIdentity()->userEntity;
 		

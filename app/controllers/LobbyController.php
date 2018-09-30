@@ -9,6 +9,23 @@ use Nette\Utils\Json;
 class LobbyController extends IPub\WebSockets\Application\Controller\Controller {
 	
 	/**
+	 * @param IPub\WebSockets\Entities\Clients\IClient $client
+	 * @param IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic
+	 * @param int $roomId
+	 * @throws \Nette\Utils\JsonException
+	 */
+	public function actionSubscribe(IPub\WebSockets\Entities\Clients\IClient $client, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic, $lobbyId) {
+		$message = new LobbyAction(LobbyAction::JOIN);
+		
+		/** @var IPub\WebSocketsWAMP\Entities\Clients\IClient $otherClient */
+		foreach ($topic as $otherClient) {
+			if($otherClient->getId() != $client->getId()) {
+				$otherClient->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
+			}
+		}
+	}
+	
+	/**
 	 * @param $event
 	 * @param IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic
 	 * @param IPub\WebSockets\Entities\Clients\IClient $client
@@ -23,7 +40,7 @@ class LobbyController extends IPub\WebSockets\Application\Controller\Controller 
 		
 		/** @var IPub\WebSocketsWAMP\Entities\Clients\IClient $otherClient */
 		foreach ($topic as $otherClient) {
-			if ($otherClient->getId() !== $client->getId()) {
+			if($otherClient->getId() != $client->getId() || $event['action'] != LobbyAction::LEAVE) {
 				$otherClient->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
 			}
 		}
