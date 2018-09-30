@@ -28,7 +28,7 @@ final class SignFormFactory {
         $this->entityManager = $entityManager;
     }
 
-    public function createSignIn() : Form {
+    public function createSignIn(callable $success) : Form {
         $form = $this->factory->create();
         $form->addText('nickname', 'Přezdívka:')
             ->setRequired('Zadejte přezdívku.');
@@ -45,10 +45,11 @@ final class SignFormFactory {
         $form->addSubmit('send', 'Přihlásit')
             ->setAttribute('class', 'btn-primary float-right');
 
-        $form->onSuccess[] = function (Form $form, \stdClass $values) : void {
+        $form->onSuccess[] = function (Form $form, \stdClass $values) use ($success) : void {
             try {
                 $this->user->setExpiration($values->remember ? '14 days' : '20 minutes');
                 $this->user->login($values->nickname, $values->password);
+                $success();
             } catch (Security\AuthenticationException $e) {
                 $form->addError('Byly zadány neplatné přihlašovací údaje');
                 return;
@@ -58,7 +59,7 @@ final class SignFormFactory {
         return $form;
     }
 
-    public function createSignUp() : Form {
+    public function createSignUp(callable $success) : Form {
         $form = $this->factory->create();
         $form->addText('nickname', 'Přezdívka:')
             ->setRequired('Zadejte prosím pžezdívku.');
@@ -70,10 +71,11 @@ final class SignFormFactory {
         $form->addSubmit('send', 'Registrovat')
             ->setAttribute('class', 'btn-primary float-right');
 
-        $form->onSuccess[] = function (Form $form, \stdClass $values) : void {
+        $form->onSuccess[] = function (Form $form, \stdClass $values) use ($success) : void {
             try {
                 $this->entityManager->persist(new Models\Security\UserEntity($values->nickname, $values->password));
                 $this->entityManager->flush();
+				$success();
             } catch (UniqueConstraintViolationException $e) {
                 $form->addError('Uživatel s tímto jménem již existuje.');
                 return;

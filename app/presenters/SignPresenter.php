@@ -11,11 +11,17 @@ final class SignPresenter extends BasePresenter {
     public $signFormFactory;
 
     protected function createComponentSignInForm() : Form {
-        return $this->signFormFactory->createSignIn();
+        return $this->signFormFactory->createSignIn(function () {
+        	$this->flashMessage('Byli jste úšpěšně přihlášeni', 'info');
+			$this->redirect('Homepage:');
+		});
     }
 
     protected function createComponentSignUpForm() : Form {
-        return $this->signFormFactory->createSignUp();
+        return $this->signFormFactory->createSignUp(function () {
+			$this->flashMessage('Registrace proběhla úspěšně. Nyní se prosím přihlašte', 'success');
+			$this->redirect('in');
+		});
     }
 
     public function actionOut() : void {
