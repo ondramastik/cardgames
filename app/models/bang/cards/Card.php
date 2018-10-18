@@ -10,7 +10,7 @@ abstract class Card {
 	/** @var int */
 	private $value;
 	
-	public abstract function performAction(GameGovernance $gameGovernance, $targetPlayer, $isSourceHand = true);
+	public abstract function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true);
 	
 	public abstract function performResponseAction(GameGovernance $gameGovernance);
 	

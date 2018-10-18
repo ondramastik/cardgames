@@ -26,11 +26,15 @@ class Player {
 	/** @var int */
 	private $hp;
 	
+	/** @var Player */
+	private $nextPlayer;
+	
 	/**
 	 * Player constructor.
-	 * @param string $nickname
+	 * @param $nickname
 	 * @param Role $role
 	 * @param Character[] $characters
+	 * @param Player $nextPlayer
 	 */
 	public function __construct($nickname, Role $role, $characters) {
 		$this->nickname = $nickname;
@@ -128,6 +132,20 @@ class Player {
 		}
 		
 		return $maxHp;
+	}
+	
+	/**
+	 * @return Player
+	 */
+	public function getNextPlayer(): Player {
+		return $this->nextPlayer;
+	}
+	
+	/**
+	 * @param Player $nextPlayer
+	 */
+	public function setNextPlayer(Player $nextPlayer): void {
+		$this->nextPlayer = $nextPlayer;
 	}
 	
 	public function dealDamage() {

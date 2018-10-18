@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class RevCarabine extends BlueCard {
 	
-	public function performAction(GameGovernance $gameGovernance, $targetPlayer, $isSourceHand = true) {
+	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
 		return false;
 	}
 	

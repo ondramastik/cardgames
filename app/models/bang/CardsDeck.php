@@ -39,6 +39,17 @@ class CardsDeck {
 	/**
 	 * @param Card $card
 	 */
+	public function setActiveCard(Card $card) {
+		throw new NotImplementedException();
+	}
+	
+	public function disableActiveCard() {
+		throw new NotImplementedException();
+	}
+	
+	/**
+	 * @param Card $card
+	 */
 	public function discardCard(Card $card) {
 		throw new NotImplementedException();
 	}

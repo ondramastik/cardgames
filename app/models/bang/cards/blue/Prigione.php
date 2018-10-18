@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Prigione extends BlueCard {
 	
-	public function performAction(GameGovernance $gameGovernance, $targetPlayer, $isSourceHand = true) {
+	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
 		if($isSourceHand) {
 			$target = $gameGovernance->getGame()->getPlayer($targetPlayer);
 			
@@ -29,8 +29,6 @@ class Prigione extends BlueCard {
 			
 			return true;
 		}
-		
-		return false;
 	}
 	
 	public function performResponseAction(GameGovernance $gameGovernance) {

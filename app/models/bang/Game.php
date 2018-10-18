@@ -17,8 +17,8 @@ class Game {
 	/** @var int */
 	private $activePlayerIndex;
 	
-	/** @var int */
-	private $playerToRespondIndex;
+	/** @var Player */
+	private $playerToRespond;
 	
 	/** @var bool */
 	private $gameStarted;
@@ -28,6 +28,9 @@ class Game {
 	
 	/** @var int */
 	private $finishReason;
+	
+	/** @var Event */
+	private $event;
 	
 	/**
 	 * Game constructor.
@@ -56,7 +59,7 @@ class Game {
 			$player = new Player(
 				$nickname,
 				array_pop($roles),
-				[$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()]
+				[$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()],
 			);
 			
 			if($player->getCharacter() instanceof Sceriffo) {
@@ -65,7 +68,14 @@ class Game {
 			}
 			
 			$this->players[] = $player;
+			
+			if(isset($this->players[count($this->players) - 2])) {
+				$this->players[count($this->players) - 2]
+					->setNextPlayer($player);
+			}
 		}
+		$this->players[count($this->players) - 1]
+			->setNextPlayer($this->players[0]);
 	}
 	
 	public function preparePlayers() {
@@ -162,14 +172,14 @@ class Game {
 	 * @return Player
 	 */
 	public function getPlayerToRespond() {
-		return $this->players[$this->playerToRespondIndex];
+		return $this->playerToRespond;
 	}
 	
 	/**
-	 * @param int $playerToRespondIndex
+	 * @param Player $player
 	 */
-	public function setPlayerToRespondIndex($playerToRespondIndex) {
-		$this->playerToRespondIndex = $playerToRespondIndex;
+	public function setPlayerToRespond(Player $player) {
+		$this->playerToRespond = $player;
 	}
 	
 	/**
@@ -212,6 +222,20 @@ class Game {
 	 */
 	public function setFinishReason($finishReason) {
 		$this->finishReason = $finishReason;
+	}
+	
+	/**
+	 * @return Event
+	 */
+	public function getEvent(): Event {
+		return $this->event;
+	}
+	
+	/**
+	 * @param Event $event
+	 */
+	public function setEvent(Event $event): void {
+		$this->event = $event;
 	}
 	
 }

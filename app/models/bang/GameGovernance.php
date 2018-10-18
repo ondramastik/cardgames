@@ -31,25 +31,14 @@ class GameGovernance {
 		}
 	}
 	
-	/**
-	 * @param Game $game
-	 */
-	public function setGame(Game $game) {
-		$this->game = $game;
+	public function getGames() {
+		$games = $this->cache->load(self::CACHE_KEY);
+		
+		return $games;
 	}
 	
-	/**
-	 * @return string
-	 */
-	public function getNickname() {
-		return $this->nickname;
-	}
-	
-	/**
-	 * @param string $nickname
-	 */
-	public function setNickname($nickname) {
-		$this->nickname = $nickname;
+	public function getGame() {
+		return $this->game;
 	}
 	
 	public function checkPlayerInGame($nickname) {
@@ -66,36 +55,6 @@ class GameGovernance {
 			}
 		}
 		return false;
-	}
-	
-	private function persistGame(Game $game) {
-		$games = $this->cache->load(self::CACHE_KEY);
-		$games[$game->getId()] = $game;
-		$this->cache->save(self::CACHE_KEY, $games);
-	}
-	
-	public function getGames() {
-		$games = $this->cache->load(self::CACHE_KEY);
-		
-		return $games;
-	}
-	
-	/**
-	 * @param $id
-	 * @return Game|bool
-	 */
-	public function getGame($id = null) {
-		if ($id) {
-			$games = $this->cache->load(self::CACHE_KEY);
-			
-			if (isset($games[$id])) {
-				return $games[$id];
-			}
-			
-			return false;
-		} else {
-			return $this->game;
-		}
 	}
 	
 	public function createGame($nicknames) {
@@ -137,13 +96,9 @@ class GameGovernance {
 		$this->game->getCardsDeck()->fakeCard($card);
 	}
 	
-	/**
-	 * @param BlueCard $card
-	 * @param int $targetPlayer
-	 * @return boolean
-	 */
-	private function playBlueCard(BlueCard $card, $targetPlayer) {
-		return false;
+	public function startEvent(Event $event) {
+		$this->getGame()->setEvent($event);
+		$this->getGame()->getEvent()->start();
 	}
 	
 	/**
@@ -157,6 +112,12 @@ class GameGovernance {
 		}
 		
 		return $gameId;
+	}
+	
+	private function persistGame(Game $game) {
+		$games = $this->cache->load(self::CACHE_KEY);
+		$games[$game->getId()] = $game;
+		$this->cache->save(self::CACHE_KEY, $games);
 	}
 	
 	public function __destruct() {
