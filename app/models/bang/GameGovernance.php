@@ -3,6 +3,7 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\Event;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
@@ -96,9 +97,13 @@ class GameGovernance {
 		$this->game->getCardsDeck()->fakeCard($card);
 	}
 	
-	public function startEvent(Event $event) {
+	public function setEvent(Event $event) {
 		$this->getGame()->setEvent($event);
-		$this->getGame()->getEvent()->start();
+	}
+	
+	public function hasEventFinished() {
+		return $this->getGame()->getEvent() === null
+			|| $this->getGame()->getEvent()->hasEventFinished();
 	}
 	
 	/**

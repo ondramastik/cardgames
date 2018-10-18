@@ -6,15 +6,25 @@ namespace App\Models\Bang;
 class CatBalou extends BeigeCard  {
 	
 	public function getExpectedResponse() {
-		// TODO: Implement getExpectedResponse() method.
+		return false;
 	}
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
-		// TODO: Implement performAction() method.
+		$targetPlayer = $gameGovernance->getGame()->getPlayer($targetPlayer);
+		
+		$targetCards = $targetPlayer->getHand();
+		
+		shuffle($targetCards);
+		$chosenCard = $targetCards[0];
+		
+		$targetPlayer->drawFromHand($chosenCard);
+		
+		$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+		$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 	}
 	
 	public function performResponseAction(GameGovernance $gameGovernance) {
-		// TODO: Implement performResponseAction() method.
+		return false;
 	}
 	
 }

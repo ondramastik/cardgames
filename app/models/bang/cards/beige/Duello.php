@@ -13,6 +13,12 @@ class Duello extends BeigeCard  {
 		$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
 		$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 		
+		$targetPlayer = $gameGovernance->getGame()->getPlayer($targetPlayer);
+		
+		$event = new Events\Duello($gameGovernance, $targetPlayer);
+		
+		$gameGovernance->setEvent($event);
+		
 		return true;
 	}
 	

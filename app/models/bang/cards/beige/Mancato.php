@@ -22,16 +22,16 @@ class Mancato extends BeigeCard {
 			
 			return true;
 		} else if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Catling) {
-			if($gameGovernance->getGame()->getActivePlayer() === $gameGovernance->getGame()->getPlayerToRespond()) {
-				$gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
-				return true;
-			}
 			
 			$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
 			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 			
 			$gameGovernance->getGame()->setPlayerToRespond(
 				$gameGovernance->getGame()->getPlayerToRespond()->getNextPlayer());
+			
+			if($gameGovernance->getGame()->getPlayerToRespond() === $gameGovernance->getGame()->getActivePlayer()) {
+				$gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
+			}
 			
 			return true;
 		}

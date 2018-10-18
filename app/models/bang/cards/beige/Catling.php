@@ -6,7 +6,7 @@ namespace App\Models\Bang;
 class Catling extends BeigeCard  {
 	
 	public function getExpectedResponse() {
-		return false;
+		return new Mancato();
 	}
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {

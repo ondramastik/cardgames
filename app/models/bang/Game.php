@@ -3,6 +3,8 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\Event;
+
 class Game {
 	
 	/** @var int */
