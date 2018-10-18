@@ -180,18 +180,26 @@ class Player {
 	}
 	
 	public function calculateDefaultPositiveDistance() {
-		$distance = 0;
+		$distance = 1;
 		foreach ($this->getTable() as $card) {
-			$card->getPositiveDistanceImpact();
+			$distance += $card->getPositiveDistanceImpact() - 1;
 		}
 		
-		return $distance ?: 1;
+		if($this->getCharacter() instanceof PaulRegret) {
+			$distance++;
+		}
+		
+		return $distance;
 	}
 	
 	public function calculateDefaultNegativeDistance() {
 		$distance = 1;
 		foreach ($this->getTable() as $card) {
 			$card->getNegativeDistanceImpact();
+		}
+		
+		if($this->getCharacter() instanceof RoseDoolan) {
+			$distance++;
 		}
 		
 		return $distance;
