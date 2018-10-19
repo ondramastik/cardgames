@@ -3,7 +3,7 @@
 namespace App\Models\Bang;
 
 
-class Remington extends BlueCard {
+class Remington extends Gun {
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
 		return false;

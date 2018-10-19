@@ -10,10 +10,17 @@ class Bang extends BeigeCard {
 	}
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
+		if($gameGovernance->getGame()->wasBangCardPlayedThisTurn()
+			&& !$gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof WillyTheKid
+			&& !array_filter($gameGovernance->getGame()->getActivePlayer()->getTable(), [self::class, 'volcanicFilter'])) {
+			return false;
+		}
+		
 		$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
 		
 		$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
 		$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+		$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
 	}
 	
 	public function performResponseAction(GameGovernance $gameGovernance) {
@@ -32,6 +39,10 @@ class Bang extends BeigeCard {
 		}
 		
 		return false;
+	}
+	
+	private static function volcanicFilter(BlueCard $blueCard) : bool {
+		return $blueCard instanceof Volcanic;
 	}
 	
 }

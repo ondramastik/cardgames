@@ -12,11 +12,8 @@ abstract class Character {
 	
 	/**
 	 * @param GameGovernance $gameGovernance
-	 * @param BeigeCard $playedCard
-	 * @param BeigeCard $requiredCard
-	 * @param null $targetPlayer
 	 * @return bool
 	 */
-	public abstract function processSpecialSkillCardPlay(GameGovernance $gameGovernance, BeigeCard $playedCard, BeigeCard $requiredCard, $targetPlayer = null) : bool;
+	public abstract function processSpecialSkill(GameGovernance $gameGovernance) : bool;
 	
 }

@@ -61,4 +61,11 @@ class CardsDeck {
 		throw new NotImplementedException();
 	}
 	
+	/**
+	 * @param Card $card
+	 */
+	public function return(Card $card) {
+		throw new NotImplementedException();
+	}
+	
 }

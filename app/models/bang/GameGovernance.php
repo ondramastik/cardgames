@@ -93,6 +93,19 @@ class GameGovernance {
 		}
 	}
 	
+	public function pass() {
+		if($this->getGame()->getPlayer($this->nickname) === $this->getGame()->getPlayerToRespond()) {
+			if($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang) {
+				$this->getGame()->getPlayerToRespond()->dealDamage();
+			}
+		}
+	}
+	
+	public function useCharacterAbility() {
+		return $this->getGame()->getPlayer($this->nickname)
+			->getCharacter()->processSpecialSkill($this);
+	}
+	
 	public function fakeCard(Card $card) {
 		$this->game->getCardsDeck()->fakeCard($card);
 	}
@@ -104,6 +117,13 @@ class GameGovernance {
 	public function hasEventFinished() {
 		return $this->getGame()->getEvent() === null
 			|| $this->getGame()->getEvent()->hasEventFinished();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getNickname(): string {
+		return $this->nickname;
 	}
 	
 	/**

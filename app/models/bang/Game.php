@@ -34,6 +34,9 @@ class Game {
 	/** @var Event */
 	private $event;
 	
+	/** @var  */
+	private $wasBangCardPlayedThisTurn;
+	
 	/**
 	 * Game constructor.
 	 * @param $id int
@@ -45,6 +48,7 @@ class Game {
 		$this->cardsDeck = new CardsDeck();
 		$this->gameStarted = false;
 		$this->gameFinished = false;
+		$this->wasBangCardPlayedThisTurn = false;
 		
 		$this->initPlayers($nicknames);
 	}
@@ -168,6 +172,7 @@ class Game {
 		}
 		
 		$this->setActivePlayerIndex($nextPlayerIndex);
+		$this->setWasBangCardPlayedThisTurn(false);
 	}
 	
 	/**
@@ -239,5 +244,20 @@ class Game {
 	public function setEvent(Event $event): void {
 		$this->event = $event;
 	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function wasBangCardPlayedThisTurn() {
+		return $this->wasBangCardPlayedThisTurn;
+	}
+	
+	/**
+	 * @param mixed $wasBangCardPlayedThisTurn
+	 */
+	public function setWasBangCardPlayedThisTurn($wasBangCardPlayedThisTurn): void {
+		$this->wasBangCardPlayedThisTurn = $wasBangCardPlayedThisTurn;
+	}
+	
 	
 }

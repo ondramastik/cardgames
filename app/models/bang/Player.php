@@ -5,6 +5,10 @@ namespace App\Models\Bang;
 
 class Player {
 	
+	const TURN_STAGE_DRAWING = 0;
+	const TURN_STAGE_PLAYING = 1;
+	const TURN_STAGE_DISCARDING = 2;
+	
 	/** @var string */
 	private $nickname;
 	
@@ -28,6 +32,9 @@ class Player {
 	
 	/** @var Player */
 	private $nextPlayer;
+	
+	/** @var int */
+	private $turnStage;
 	
 	/**
 	 * Player constructor.
@@ -179,14 +186,15 @@ class Player {
 		return false;
 	}
 	
-	public function calculateDefaultPositiveDistance() {
+	public function calculateDefaultPositiveDistance($forBang = true) {
 		$distance = 1;
 		foreach ($this->getTable() as $card) {
-			$distance += $card->getPositiveDistanceImpact() - 1;
-		}
-		
-		if($this->getCharacter() instanceof PaulRegret) {
-			$distance++;
+			if($card instanceof Gun) {
+				if(!$forBang) continue;
+				$distance += $card->getPositiveDistanceImpact() - 1;
+			} else {
+				$distance += $card->getPositiveDistanceImpact();
+			}
 		}
 		
 		return $distance;
@@ -198,11 +206,42 @@ class Player {
 			$card->getNegativeDistanceImpact();
 		}
 		
-		if($this->getCharacter() instanceof RoseDoolan) {
-			$distance++;
+		return $distance;
+	}
+	
+	public function calculateDistanceFromPlayer(Player $player) {
+		$checkPlayer = $player;
+		
+		$firstWay = 0;
+		while ($checkPlayer !== $this) {
+			$firstWay++;
+			$checkPlayer = $checkPlayer->getNextPlayer();
 		}
 		
-		return $distance;
+		$checkPlayer = $this;
+		
+		$secondWay = 0;
+		while ($checkPlayer !== $player) {
+			$secondWay++;
+			$checkPlayer = $checkPlayer->getNextPlayer();
+		}
+		
+		return ($firstWay < $secondWay ? $firstWay : $secondWay);
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getTurnStage(): int {
+		return $this->turnStage;
+	}
+	
+	public function shiftTurnStage(): void {
+		$this->turnStage++;
+		
+		if($this->turnStage > 2) {
+			$this->turnStage = 0;
+		}
 	}
 	
 }

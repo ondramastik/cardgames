@@ -9,8 +9,15 @@ class SuzyLafayette extends Character {
 		return 4;
 	}
 	
-	public function processSpecialSkillCardPlay(GameGovernance $gameGovernance, BeigeCard $playedCard, BeigeCard $requiredCard, $targetPlayer = null): bool {
-		// TODO: Implement processSpecialSkillCardPlay() method.
+	public function processSpecialSkill(GameGovernance $gameGovernance): bool {
+		$player = $gameGovernance->getGame()->getPlayer($gameGovernance->getNickname());
+		
+		if(!count($player->getHand())) {
+			$player->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
+			return true;
+		}
+		
+		return false;
 	}
 	
 }
