@@ -34,7 +34,7 @@ class Game {
 	/** @var Event */
 	private $event;
 	
-	/** @var  */
+	/** @var */
 	private $wasBangCardPlayedThisTurn;
 	
 	/**
@@ -62,31 +62,26 @@ class Game {
 		shuffle($nicknames);
 		
 		foreach ($nicknames as $key => $nickname) {
-			$player = new Player(
-				$nickname,
-				array_pop($roles),
-				[$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()],
+			$player = new Player($nickname, array_pop($roles), [$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()],
 			);
 			
-			if($player->getCharacter() instanceof Sceriffo) {
+			if ($player->getCharacter() instanceof Sceriffo) {
 				$this->setActivePlayerIndex($key);
 				$player->heal();
 			}
 			
 			$this->players[] = $player;
 			
-			if(isset($this->players[count($this->players) - 2])) {
-				$this->players[count($this->players) - 2]
-					->setNextPlayer($player);
+			if (isset($this->players[count($this->players) - 2])) {
+				$this->players[count($this->players) - 2]->setNextPlayer($player);
 			}
 		}
-		$this->players[count($this->players) - 1]
-			->setNextPlayer($this->players[0]);
+		$this->players[count($this->players) - 1]->setNextPlayer($this->players[0]);
 	}
 	
 	public function preparePlayers() {
 		foreach ($this->getPlayers() as $player) {
-			for($i = 0; $i < $player->getCharacter()->getHp(); $i++) {
+			for ($i = 0; $i < $player->getCharacter()->getHp(); $i++) {
 				$player->giveCard($this->cardsDeck->drawCard());
 			}
 		}
@@ -129,7 +124,7 @@ class Game {
 	
 	public function getPlayer($nickname) {
 		foreach ($this->getPlayers() as $player) {
-			if($player->getNickname() === $nickname) {
+			if ($player->getNickname() === $nickname) {
 				return $player;
 			}
 		}
@@ -157,7 +152,7 @@ class Game {
 	public function getNextPlayer() {
 		$nextPlayerIndex = $this->activePlayerIndex + 1;
 		
-		if($nextPlayerIndex === count($this->getPlayers())) {
+		if ($nextPlayerIndex === count($this->getPlayers())) {
 			$nextPlayerIndex = 0;
 		}
 		
@@ -167,7 +162,7 @@ class Game {
 	public function nextPlayer() {
 		$nextPlayerIndex = $this->activePlayerIndex + 1;
 		
-		if($nextPlayerIndex === count($this->getPlayers())) {
+		if ($nextPlayerIndex === count($this->getPlayers())) {
 			$nextPlayerIndex = 0;
 		}
 		
@@ -259,5 +254,20 @@ class Game {
 		$this->wasBangCardPlayedThisTurn = $wasBangCardPlayedThisTurn;
 	}
 	
+	public function playerDied(Player $deadPlayer) {
+		$player = $deadPlayer;
+		while ($deadPlayer !== $player->getNextPlayer()) {
+			if($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
+				$cards = array_merge($deadPlayer->getHand(), $deadPlayer->getTable());
+				foreach ($cards as $card) {
+					$player->giveCard($card);
+				}
+			}
+			
+			$player = $player->getNextPlayer();
+		}
+		
+		$player->setNextPlayer($deadPlayer->getNextPlayer());
+	}
 	
 }

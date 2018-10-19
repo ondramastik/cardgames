@@ -2,6 +2,7 @@
 
 namespace App\Models\Bang;
 
+use App\Models\Bang\Events;
 
 class SidKetchum extends Character {
 	
@@ -10,7 +11,11 @@ class SidKetchum extends Character {
 	}
 	
 	public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-		// TODO: Implement processSpecialSkillCardPlay() method.
+		if($gameGovernance->getGame()->getPlayer($gameGovernance->getNickname()) === $gameGovernance->getGame()->getActivePlayer()) {
+			$gameGovernance->setEvent(new Events\SidKetchum($gameGovernance));
+		}
+		
+		return false;
 	}
 	
 }

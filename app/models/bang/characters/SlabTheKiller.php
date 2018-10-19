@@ -10,9 +10,7 @@ class SlabTheKiller extends Character {
 	}
 	
 	public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-		if($gameGovernance->getGame()) {
-		
-		}
+		$playedCards = $gameGovernance->getGame()->getCardsDeck()->getPlayedCards();
 	}
 	
 }

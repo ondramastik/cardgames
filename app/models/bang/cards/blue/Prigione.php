@@ -2,6 +2,7 @@
 
 namespace App\Models\Bang;
 
+use \App\Models\Bang\Events;
 
 class Prigione extends BlueCard {
 	
@@ -17,7 +18,12 @@ class Prigione extends BlueCard {
 			
 			return true;
 		} else {
-			$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+			$event = $gameGovernance->getGame()->getEvent();
+			if($event instanceof Events\LuckyDuke) {
+				$checkCard = $event->getChosen();
+			} else {
+				$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+			}
 			
 			if($checkCard->getType() !== CardTypes::HEARTS) {
 				$gameGovernance->getGame()->nextPlayer();

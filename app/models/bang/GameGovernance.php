@@ -95,8 +95,17 @@ class GameGovernance {
 	
 	public function pass() {
 		if($this->getGame()->getPlayer($this->nickname) === $this->getGame()->getPlayerToRespond()) {
-			if($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang) {
+			if($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
+				|| $this->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii
+				|| $this->getGame()->getCardsDeck()->getActiveCard() instanceof Catling) {
 				$this->getGame()->getPlayerToRespond()->dealDamage();
+			}
+			
+			if($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
+				$this->getGame()->setPlayerToRespond(
+					$this->getGame()->getPlayerToRespond()->getNextPlayer());
+				$this->getGame()->playerDied(
+					$this->getGame()->getPlayerToRespond());
 			}
 		}
 	}
@@ -148,6 +157,5 @@ class GameGovernance {
 	public function __destruct() {
 		$this->persistGame($this->game);
 	}
-	
 	
 }

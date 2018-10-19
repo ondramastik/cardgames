@@ -39,6 +39,7 @@ class KitCarlson extends Event {
 			}
 		}
 		
+		$this->gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
 		$this->setHasEventFinished(true);
 	}
 	

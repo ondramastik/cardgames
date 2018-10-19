@@ -41,7 +41,6 @@ class Player {
 	 * @param $nickname
 	 * @param Role $role
 	 * @param Character[] $characters
-	 * @param Player $nextPlayer
 	 */
 	public function __construct($nickname, Role $role, $characters) {
 		$this->nickname = $nickname;
@@ -155,8 +154,11 @@ class Player {
 		$this->nextPlayer = $nextPlayer;
 	}
 	
-	public function dealDamage() {
-		$this->hp--;
+	/**
+	 * @param int $amount
+	 */
+	public function dealDamage($amount = 1) {
+		$this->hp -= $amount;
 	}
 	
 	public function heal() {
@@ -197,6 +199,10 @@ class Player {
 			}
 		}
 		
+		if($this->getCharacter() instanceof PaulRegret) {
+			$distance++;
+		}
+		
 		return $distance;
 	}
 	
@@ -204,6 +210,10 @@ class Player {
 		$distance = 1;
 		foreach ($this->getTable() as $card) {
 			$card->getNegativeDistanceImpact();
+		}
+		
+		if($this->getCharacter() instanceof RoseDoolan) {
+			$distance++;
 		}
 		
 		return $distance;

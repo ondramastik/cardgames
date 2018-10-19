@@ -6,17 +6,30 @@ namespace App\Models\Bang;
 class Dinamite extends BlueCard {
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
-		if($isSourceHand) return false;
+		if($isSourceHand) {
+			$gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
+			return true;
+		}
 		
-		$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+		$event = $gameGovernance->getGame()->getEvent();
+		if($event instanceof Events\LuckyDuke) {
+			$checkCard = $event->getChosen();
+		} else {
+			$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+		}
+		
 		$gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
 		
 		if($checkCard->getType() === CardTypes::PIKES && $checkCard->getValue() > 2 && $checkCard->getValue() < 9) { // TODO: use constants, correct value range
-			$gameGovernance->getGame()->getActivePlayer()->dealDamage();
-			$gameGovernance->getGame()->getActivePlayer()->dealDamage();
-			$gameGovernance->getGame()->getActivePlayer()->dealDamage();
+			$gameGovernance->getGame()->getActivePlayer()->dealDamage(3);
 			
 			$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+			
+			if($gameGovernance->getGame()->getActivePlayer()->getHp() <= 0) {
+				$gameGovernance->getGame()->playerDied(
+					$gameGovernance->getGame()->getActivePlayer());
+				$gameGovernance->getGame()->nextPlayer();
+			}
 		} else {
 			$gameGovernance->getGame()->getNextPlayer()->putOnTable($this);
 		}

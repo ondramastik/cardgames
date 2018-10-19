@@ -10,7 +10,14 @@ class CardsDeck {
 	/**
 	 * return Card
 	 */
-	public function drawCard() : Card {
+	public function drawCard(): Card {
+		throw new NotImplementedException();
+	}
+	
+	/**
+	 * @return Card
+	 */
+	public function drawFromDiscarded(): Card {
 		throw new NotImplementedException();
 	}
 	
@@ -65,6 +72,13 @@ class CardsDeck {
 	 * @param Card $card
 	 */
 	public function return(Card $card) {
+		throw new NotImplementedException();
+	}
+	
+	/**
+	 * @return PlayedCard[]
+	 */
+	public function getPlayedCards() : array {
 		throw new NotImplementedException();
 	}
 	

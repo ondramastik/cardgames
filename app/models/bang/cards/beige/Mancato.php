@@ -10,6 +10,16 @@ class Mancato extends BeigeCard {
 	}
 	
 	public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true) {
+		if($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet) {
+			$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
+			
+			$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+			$gameGovernance->getGame()->getCardsDeck()->setActiveCard(new Bang());
+			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+			$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
+			
+			return true;
+		}
 		return false;
 	}
 	

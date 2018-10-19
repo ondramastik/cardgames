@@ -10,7 +10,7 @@ class CalamityJanet extends Character {
 	}
 	
 	public function processSpecialSkill(GameGovernance $gameGovernance) : bool {
-	
+		return false;
 	}
 	
 }
