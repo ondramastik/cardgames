@@ -28,7 +28,7 @@ final class SignFormFactory {
         $this->entityManager = $entityManager;
     }
 
-    public function createSignIn(callable $success) : Form {
+    public function createSignIn(callable $success): Form {
         $form = $this->factory->create();
         $form->addText('nickname', 'Přezdívka:')
             ->setRequired('Zadejte přezdívku.');
@@ -59,7 +59,7 @@ final class SignFormFactory {
         return $form;
     }
 
-    public function createSignUp(callable $success) : Form {
+    public function createSignUp(callable $success): Form {
         $form = $this->factory->create();
         $form->addText('nickname', 'Přezdívka:')
             ->setRequired('Zadejte prosím pžezdívku.');
@@ -75,7 +75,7 @@ final class SignFormFactory {
             try {
                 $this->entityManager->persist(new Models\Security\UserEntity($values->nickname, $values->password));
                 $this->entityManager->flush();
-				$success();
+                $success();
             } catch (UniqueConstraintViolationException $e) {
                 $form->addError('Uživatel s tímto jménem již existuje.');
                 return;

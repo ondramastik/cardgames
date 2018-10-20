@@ -10,5 +10,5 @@ namespace App\Models\Bang;
 
 
 abstract class Gun extends BlueCard {
-	
+
 }

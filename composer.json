@@ -1,11 +1,11 @@
 {
-	"name": "nette/web-project",
-	"description": "Nette: Standard Web Project",
-	"keywords": ["nette"],
+	"name": "cardgames",
+	"description": "Card games",
+	"keywords": ["nette", "card", "games", "cardgames"],
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"require": {
-		"php": ">= 7.1",
+		"php": ">= 7.2",
 		"nette/application": "^2.4",
 		"nette/bootstrap": "^2.4.2",
 		"nette/caching": "^2.5",
@@ -30,7 +30,7 @@
 	"minimum-stability": "stable",
 	"config": {
 		"platform": {
-			"php": "7.1.9"
+			"php": "7.2.10"
 		}
 	}
 }

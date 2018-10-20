@@ -4,10 +4,13 @@ namespace App\Models\Bang;
 
 
 abstract class BeigeCard extends Card {
-	
-	/**
-	 * @return BeigeCard
-	 */
-	public abstract function getExpectedResponse();
-	
+
+    protected function playCard(GameGovernance $gameGovernance) {
+        $gameGovernance->getGame()->getCardsDeck()->playCard(
+            new PlayedCard($this,
+                $gameGovernance->getGame()->getActivePlayer(),
+                $gameGovernance->getGame()->getRound(),
+                $gameGovernance->getGame()->getPlayerToRespond()));
+    }
+
 }

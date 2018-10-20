@@ -10,6 +10,6 @@ namespace App\Models\Prsi;
 
 
 class FinishReasons {
-	const PLAYER_WON = 0;
-	const PLAYER_LEFT = 0;
+    const PLAYER_WON = 0;
+    const PLAYER_LEFT = 0;
 }
