@@ -11,7 +11,7 @@ class Barile extends BlueCard {
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {
         if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Catling) {
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
             $checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
             if ($checkCard->getType() === CardTypes::HEARTS || $checkCard->getType() === CardTypes::TILES) {
@@ -20,6 +20,7 @@ class Barile extends BlueCard {
                         new Mancato(),
                         $gameGovernance->getGame()->getPlayerToRespond(),
                         $gameGovernance->getGame()->getRound(),
+                        false,
                         null));
                 return true;
             }

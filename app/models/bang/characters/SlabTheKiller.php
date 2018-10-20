@@ -19,7 +19,7 @@ class SlabTheKiller extends Character {
             && $underTopCard instanceof Bang
             && $underTopCard->getPlayer() === $gameGovernance->getGame()->getActivePlayer()
             && $underTopCard->getTargetPlayer() === $topCard->getPlayer()) {
-            $gameGovernance->getGame()->getCardsDeck()->setActiveCard($underTopCard);
+            $underTopCard->setActive(true);
             $gameGovernance->getGame()->setPlayerToRespond($underTopCard->getTargetPlayer());
             return true;
         } else {

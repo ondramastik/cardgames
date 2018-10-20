@@ -3,7 +3,7 @@
 namespace App\Models\Bang;
 
 
-class Catling extends BeigeCard {
+class Gatling extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
         $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getNextPlayer());

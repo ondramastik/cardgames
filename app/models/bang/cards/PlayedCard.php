@@ -17,17 +17,22 @@ class PlayedCard {
     /** @var Player */
     private $targetPlayer;
 
+    /** @var boolean */
+    private $isActive;
+
     /**
      * PlayedCard constructor.
      * @param Card $card
      * @param Player $player
      * @param int $round
+     * @param bool $isActive
      * @param Player $targetPlayer
      */
-    public function __construct(Card $card, Player $player, int $round, Player $targetPlayer) {
+    public function __construct(Card $card, Player $player, int $round, bool $isActive, Player $targetPlayer) {
         $this->card = $card;
         $this->player = $player;
         $this->round = $round;
+        $this->isActive = $isActive;
         $this->targetPlayer = $targetPlayer;
     }
 
@@ -39,24 +44,10 @@ class PlayedCard {
     }
 
     /**
-     * @param Card $card
-     */
-    public function setCard(Card $card): void {
-        $this->card = $card;
-    }
-
-    /**
      * @return Player
      */
     public function getPlayer(): Player {
         return $this->player;
-    }
-
-    /**
-     * @param Player $player
-     */
-    public function setPlayer(Player $player): void {
-        $this->player = $player;
     }
 
     /**
@@ -67,10 +58,17 @@ class PlayedCard {
     }
 
     /**
-     * @param int $round
+     * @return bool
      */
-    public function setRound(int $round): void {
-        $this->round = $round;
+    public function isActive(): bool {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setActive(bool $isActive): void {
+        $this->isActive = $isActive;
     }
 
     /**
@@ -78,13 +76,6 @@ class PlayedCard {
      */
     public function getTargetPlayer(): Player {
         return $this->targetPlayer;
-    }
-
-    /**
-     * @param Player $targetPlayer
-     */
-    public function setTargetPlayer(Player $targetPlayer): void {
-        $this->targetPlayer = $targetPlayer;
     }
 
 }

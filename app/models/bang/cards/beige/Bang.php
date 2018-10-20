@@ -25,6 +25,7 @@ class Bang extends BeigeCard {
             new PlayedCard($this,
                 $gameGovernance->getGame()->getActivePlayer(),
                 $gameGovernance->getGame()->getRound(),
+                true,
                 $gameGovernance->getGame()->getPlayerToRespond()));
     }
 
@@ -43,7 +44,7 @@ class Bang extends BeigeCard {
             return true;
         } else if ($gameGovernance->getGame()->getPlayerToRespond()->getCharacter() instanceof CalamityJanet
             && ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-                || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Catling)) {
+                || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling)) {
             (new Mancato())->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);

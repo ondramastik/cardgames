@@ -16,7 +16,7 @@ class BartCassidy extends Character {
         }
 
         if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Catling
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling
             || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii) {
             $gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
             $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();

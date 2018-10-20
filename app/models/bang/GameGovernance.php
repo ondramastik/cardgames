@@ -126,7 +126,7 @@ class GameGovernance {
         if ($this->getGame()->getPlayer($this->nickname) === $this->getGame()->getPlayerToRespond()) {
             if ($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
                 || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii
-                || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Catling) {
+                || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
                 $this->getGame()->getPlayerToRespond()->dealDamage();
             }
 
