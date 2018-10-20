@@ -268,20 +268,4 @@ class Game {
         return $this->wasBangCardPlayedThisTurn;
     }
 
-    public function playerDied(Player $deadPlayer) {
-        $player = $deadPlayer;
-        while ($deadPlayer !== $player->getNextPlayer()) {
-            if ($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
-                $cards = array_merge($deadPlayer->getHand(), $deadPlayer->getTable());
-                foreach ($cards as $card) {
-                    $player->giveCard($card);
-                }
-            }
-
-            $player = $player->getNextPlayer();
-        }
-
-        $player->setNextPlayer($deadPlayer->getNextPlayer());
-    }
-
 }

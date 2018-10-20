@@ -139,6 +139,25 @@ class GameGovernance {
         }
     }
 
+    public function playerDied(Player $deadPlayer, Player $killer = null) {
+        $player = $deadPlayer;
+        while ($deadPlayer !== $player->getNextPlayer()) {
+            if ($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
+                $cards = array_merge($deadPlayer->getHand(), $deadPlayer->getTable());
+                foreach ($cards as $card) {
+                    $player->giveCard($card);
+                }
+            }
+
+            $player = $player->getNextPlayer();
+        }
+
+        $player->setNextPlayer($deadPlayer->getNextPlayer());
+
+        $player->getRole()->playerDied($this, $killer);
+        $this->winnerCheck();
+    }
+
     public function useCharacterAbility() {
         return $this->getGame()->getPlayer($this->nickname)
             ->getCharacter()->processSpecialSkill($this);
@@ -153,6 +172,48 @@ class GameGovernance {
 
     public function __destruct() {
         $this->persistGame($this->game);
+    }
+
+    private function winnerCheck() {
+        $sceriffos = array_filter($this->getGame()->getPlayers(),
+            function (Player $player) {return $player->getRole() instanceof Sceriffo;}
+        );
+        $fuorileggos = array_filter($this->getGame()->getPlayers(),
+            function (Player $player) {return $player->getRole() instanceof Fuorilegge;}
+        );
+        $rinnegatos = array_filter($this->getGame()->getPlayers(),
+            function (Player $player) {return $player->getRole() instanceof Rinnegato;}
+        );
+        $vices = array_filter($this->getGame()->getPlayers(),
+            function (Player $player) {return $player->getRole() instanceof Vice;}
+        );
+
+        if(count($sceriffos) === 0) {
+            $this->getGame()->setGameFinished(true);
+
+            if(count($rinnegatos) > 0 && count($vices) === 0 && count($fuorileggos) === 0) {
+                /** @var Player $rinnegato */
+                foreach ($rinnegatos as $rinnegato) {
+                    $rinnegato->setWinner(true);
+                }
+            } else {
+                /** @var Player $fuorileggo */
+                foreach ($fuorileggos as $fuorileggo) {
+                    $fuorileggo->setWinner(true);
+                }
+            }
+        } else if (count($fuorileggos) === 0 && count($rinnegatos) === 0) {
+            $this->getGame()->setGameFinished(true);
+            
+            /** @var Player $sceriffo */
+            foreach ($sceriffos as $sceriffo) {
+                $sceriffo->setWinner(true);
+            }
+            /** @var Player $vice */
+            foreach ($vices as $vice) {
+                $vice->setWinner(true);
+            }
+        }
     }
 
 }

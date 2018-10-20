@@ -36,6 +36,9 @@ class Player {
     /** @var int */
     private $turnStage;
 
+    /** @var boolean */
+    private $winner;
+
     /**
      * Player constructor.
      * @param $nickname
@@ -48,6 +51,7 @@ class Player {
         $this->characters = $characters;
         $this->hand = [];
         $this->table = [];
+        $this->winner = false;
     }
 
     /**
@@ -190,6 +194,20 @@ class Player {
      */
     public function getTable() {
         return $this->table;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWinner(): bool {
+        return $this->winner;
+    }
+
+    /**
+     * @param bool $winner
+     */
+    public function setWinner(bool $winner): void {
+        $this->winner = $winner;
     }
 
     public function calculateDefaultNegativeDistance() {

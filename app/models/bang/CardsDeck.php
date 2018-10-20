@@ -175,7 +175,8 @@ class CardsDeck {
         $cards = [];
 
         for($i = 0; $i < 25; $i++) {
-            array_push();
+            //TODO: Prepare cards deck here..
+            continue;
         }
 
         shuffle($cards);
