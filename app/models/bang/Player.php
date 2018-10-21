@@ -45,7 +45,7 @@ class Player {
      * @param Role $role
      * @param Character[] $characters
      */
-    public function __construct($nickname, Role $role, $characters) {
+    public function __construct($nickname, Role $role, array $characters) {
         $this->nickname = $nickname;
         $this->role = $role;
         $this->characters = $characters;

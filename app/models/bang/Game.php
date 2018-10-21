@@ -60,13 +60,10 @@ class Game {
      * @param $nicknames string[]
      */
     private function initPlayers($nicknames) {
-        $roles = $this->cardsDeck->getRoles(count($nicknames));
-        shuffle($roles);
         shuffle($nicknames);
 
         foreach ($nicknames as $key => $nickname) {
-            $player = new Player($nickname, array_pop($roles), [$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()],
-			);
+            $player = new Player($nickname, $this->cardsDeck->drawRole(), [$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()]);
 
             if ($player->getCharacter() instanceof Sceriffo) {
                 $this->setActivePlayerIndex($key);
