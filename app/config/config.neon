@@ -16,7 +16,6 @@ services:
 	authenticator: App\Models\Security\Authenticator
 	prsiGovernance: App\Models\Prsi\GameGovernance
 	lobbyGovernance: App\Models\Lobby\LobbyGovernance
-	bangGovernance: App\Models\Bang\GameGovernance
 	- {class: App\WebSocketsRouterFactory, tags: [ipub.websockets.routes]}
 	formFactory: App\Forms\FormFactory
 	signInFormFactory: App\Forms\SignFormFactory

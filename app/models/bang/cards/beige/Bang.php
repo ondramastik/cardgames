@@ -9,7 +9,7 @@ class Bang extends BeigeCard {
         return $blueCard instanceof Volcanic;
     }
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($gameGovernance->getGame()->wasBangCardPlayedThisTurn()
             && !$gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof WillyTheKid
             && !array_filter($gameGovernance->getGame()->getActivePlayer()->getTable(), [self::class, 'volcanicFilter'])) {

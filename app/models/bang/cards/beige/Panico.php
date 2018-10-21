@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Panico extends BeigeCard {
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         $targetPlayer = $gameGovernance->getGame()->getPlayer($targetPlayer);
 
         $targetCards = $targetPlayer->getHand();

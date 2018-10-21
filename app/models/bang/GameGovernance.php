@@ -3,6 +3,8 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Lobby\Lobby;
+use App\Models\Lobby\Log\Log;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
@@ -16,35 +18,35 @@ class GameGovernance {
     /** @var Game */
     private $game;
 
-    /** @var string */
-    private $nickname;
+    /** @var \App\Models\Security\UserEntity */
+    private $user;
+
+    /** @var Log */
+    private $log;
 
     /**
      * GameGovernance constructor.
+     * @param \Nette\Security\User $user
+     * @param Lobby $lobby
+     * @throws \Throwable
      */
-    public function __construct() {
-        $storage = new FileStorage('C:\git\cardgames\temp');
+    public function __construct(\Nette\Security\User $user, Lobby $lobby) {
+        $storage = new FileStorage(dirname(__DIR__) . '/../../temp');
         $this->cache = new Cache($storage);
+        $this->user = $user->getIdentity()->userEntity;
+        $this->log = new Log($lobby);
 
         if (!$this->cache->load(self::CACHE_KEY)) {
             $this->cache->save(self::CACHE_KEY, []);
         }
     }
 
-    public function checkPlayerInGame($nickname) {
-        /** @var Game[] $games */
-        $games = $this->cache->load(self::CACHE_KEY);
+    public function getActingPlayer() {
+        return $this->getGame()->getPlayer($this->user->getNickname());
+    }
 
-        if (count($games)) {
-            foreach ($games as $game) {
-                foreach ($game->getPlayers() as $player) {
-                    if ($player->getNickname() === $nickname) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    public function checkPlayerOnTurn() {
+        return $this->getActingPlayer() === $this->getGame()->getActivePlayer();
     }
 
     public function createGame($nicknames) {
@@ -55,36 +57,19 @@ class GameGovernance {
         return $game->getId();
     }
 
-    /**
-     * @return int
-     */
-    private function generateGameId() {
-        $gameId = rand();
-
-        while ($this->getGame($gameId)) {
-            $gameId = rand();
-        }
-
-        return $gameId;
-    }
-
     public function getGame() {
         return $this->game;
     }
 
-    private function persistGame(Game $game) {
-        $games = $this->cache->load(self::CACHE_KEY);
-        $games[$game->getId()] = $game;
-        $this->cache->save(self::CACHE_KEY, $games);
-    }
-
-    public function findActiveGameId($nickname) {
+    public function findActiveGameId($nickname): ?int {
         /** @var Game $game */
         foreach ($this->getGames() as $game) {
             if ($game->getPlayer($nickname)) {
                 return $game->getId();
             }
         }
+
+        return null;
     }
 
     public function getGames() {
@@ -99,7 +84,7 @@ class GameGovernance {
      * @param bool $isSourceHand
      * @return boolean
      */
-    public function play(Card $card, $targetPlayer, $isSourceHand = true) {
+    public function play(Card $card, Player $targetPlayer, $isSourceHand = true) {
         if (!$this->hasEventFinished()) return false;
 
         return $card->performAction($this, $targetPlayer, $isSourceHand);
@@ -111,31 +96,21 @@ class GameGovernance {
     }
 
     public function respond(Card $card) {
-        if (!$this->hasEventFinished()) return false;
-
-        if ($this->game->getPlayerToRespond()->getNickname() === $this->nickname) {
-            return $card->performResponseAction($this);
-        } else {
-            return false;
-        }
+        return $card->performResponseAction($this);
     }
 
     public function pass() {
-        if (!$this->hasEventFinished()) return false;
+        if ($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
+            || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii
+            || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
+            $this->getGame()->getPlayerToRespond()->dealDamage();
+        }
 
-        if ($this->getGame()->getPlayer($this->nickname) === $this->getGame()->getPlayerToRespond()) {
-            if ($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-                || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii
-                || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
-                $this->getGame()->getPlayerToRespond()->dealDamage();
-            }
-
-            if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
-                $this->getGame()->setPlayerToRespond(
-                    $this->getGame()->getPlayerToRespond()->getNextPlayer());
-                $this->getGame()->playerDied(
-                    $this->getGame()->getPlayerToRespond());
-            }
+        if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
+            $this->getGame()->setPlayerToRespond(
+                $this->getGame()->getPlayerToRespond()->getNextPlayer());
+            $this->playerDied(
+                $this->getGame()->getPlayerToRespond());
         }
     }
 
@@ -159,19 +134,7 @@ class GameGovernance {
     }
 
     public function useCharacterAbility() {
-        return $this->getGame()->getPlayer($this->nickname)
-            ->getCharacter()->processSpecialSkill($this);
-    }
-
-    /**
-     * @return string
-     */
-    public function getNickname(): string {
-        return $this->nickname;
-    }
-
-    public function __destruct() {
-        $this->persistGame($this->game);
+        return $this->getActingPlayer()->getCharacter()->processSpecialSkill($this);
     }
 
     private function winnerCheck() {
@@ -204,7 +167,7 @@ class GameGovernance {
             }
         } else if (count($fuorileggos) === 0 && count($rinnegatos) === 0) {
             $this->getGame()->setGameFinished(true);
-            
+
             /** @var Player $sceriffo */
             foreach ($sceriffos as $sceriffo) {
                 $sceriffo->setWinner(true);
@@ -214,6 +177,46 @@ class GameGovernance {
                 $vice->setWinner(true);
             }
         }
+    }
+
+    public function getPlayersCard(Player $player, string $cardIdentifier) : ?Card {
+        $cards = array_filter(array_merge($player->getHand(), $player->getTable()),
+            function (Card $card) use ($cardIdentifier) {
+                return $card->getIdentifier() === $cardIdentifier;
+            }
+        );
+
+        return array_pop($cards);
+    }
+
+    /**
+     * @return Log
+     */
+    public function getLog(): Log {
+        return $this->log;
+    }
+
+    private function persistGame(Game $game) {
+        $games = $this->cache->load(self::CACHE_KEY);
+        $games[$game->getId()] = $game;
+        $this->cache->save(self::CACHE_KEY, $games);
+    }
+
+    /**
+     * @return int
+     */
+    private function generateGameId() {
+        $gameId = rand();
+
+        while ($this->getGame($gameId)) {
+            $gameId = rand();
+        }
+
+        return $gameId;
+    }
+
+    public function __destruct() {
+        $this->persistGame($this->game);
     }
 
 }

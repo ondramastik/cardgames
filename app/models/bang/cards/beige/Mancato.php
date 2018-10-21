@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Mancato extends BeigeCard {
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet) {
             $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
 

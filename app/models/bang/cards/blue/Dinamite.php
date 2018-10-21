@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Dinamite extends BlueCard {
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
             $gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
             return true;

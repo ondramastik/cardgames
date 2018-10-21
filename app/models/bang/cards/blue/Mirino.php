@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Mirino extends BlueCard {
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         return false;
     }
 

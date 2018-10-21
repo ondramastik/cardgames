@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class Saloon extends BeigeCard {
 
-    public function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool {
+    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         foreach ($gameGovernance->getGame()->getPlayers() as $player) {
             if ($player->getMaxHp() < $player->getHp()) {
                 $player->heal();

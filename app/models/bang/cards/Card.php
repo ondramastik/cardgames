@@ -20,7 +20,7 @@ abstract class Card {
         $this->value = $value;
     }
 
-    public abstract function performAction(GameGovernance $gameGovernance, $targetPlayer = null, $isSourceHand = true): bool;
+    public abstract function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool;
 
     public abstract function performResponseAction(GameGovernance $gameGovernance): bool;
 
@@ -30,6 +30,10 @@ abstract class Card {
 
     public function getValue() {
         return $this->value;
+    }
+
+    public function getIdentifier() {
+        return get_class($this) . $this->getType() . $this->getValue();
     }
 
 }
