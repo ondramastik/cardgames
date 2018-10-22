@@ -10,10 +10,13 @@ class SuzyLafayette extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        $player = $gameGovernance->getGame()->getPlayer($gameGovernance->getNickname());
+        $player = $gameGovernance->getActingPlayer();
 
         if (!count($player->getHand())) {
             $player->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
+            
+			$this->log($gameGovernance);
+			
             return true;
         }
 

@@ -14,14 +14,12 @@ class CardPlayerInteractionEvent extends PlayerInteractionEvent {
 
     /**
      * CardPlayerInteractionEvent constructor.
-     * @param Lobby $lobby
-     * @param UserEntity $userEntity
-     * @param $player
+     * @param Player $player
      * @param Player $targetPlayer
      * @param Card $card
      */
-    public function __construct(Lobby $lobby, UserEntity $userEntity, $player, Player $targetPlayer, Card $card) {
-        parent::__construct($lobby, $userEntity, $player, $targetPlayer);
+    public function __construct(Player $player, Player $targetPlayer, Card $card) {
+        parent::__construct($player, $targetPlayer);
         $this->card = $card;
     }
 

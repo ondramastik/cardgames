@@ -13,6 +13,7 @@ class Emporio extends BeigeCard {
             new Handlers\Emporio($gameGovernance));
 
         $this->playCard($gameGovernance);
+		$this->log($gameGovernance);
 
         return true;
     }

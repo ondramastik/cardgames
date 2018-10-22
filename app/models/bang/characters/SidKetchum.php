@@ -11,8 +11,12 @@ class SidKetchum extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        if ($gameGovernance->getGame()->getPlayer($gameGovernance->getNickname()) === $gameGovernance->getGame()->getActivePlayer()) {
+        if ($gameGovernance->getActingPlayer() === $gameGovernance->getGame()->getActivePlayer()) {
             $gameGovernance->getGame()->setHandler(new Handlers\SidKetchum($gameGovernance));
+            
+			$this->log($gameGovernance);
+            
+            return true;
         }
 
         return false;

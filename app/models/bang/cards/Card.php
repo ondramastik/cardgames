@@ -2,6 +2,8 @@
 
 namespace App\Models\Bang;
 
+use App\Models\Bang\Events\CardPlayerInteractionEvent;
+
 abstract class Card {
 
     /** @var int */
@@ -35,6 +37,19 @@ abstract class Card {
     public abstract function performResponseAction(GameGovernance $gameGovernance): bool;
 	
 	/**
+	 * @param GameGovernance $gameGovernance
+	 */
+	protected function log(GameGovernance $gameGovernance) {
+		$log = $gameGovernance->getLog();
+		
+		$activePlayer = $gameGovernance->getGame()->getActivePlayer();
+		$targetPlayer = $gameGovernance->getGame()->getPlayerToRespond()
+			?: $gameGovernance->getGame()->getActivePlayer();
+		
+		$log->log(new CardPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
+	}
+ 
+	/**
 	 * @return int
 	 */
 	public function getType(): int {
@@ -49,7 +64,8 @@ abstract class Card {
 	}
 
     public function getIdentifier() {
-        return get_class($this) . $this->getType() . $this->getValue();
+		$reflect = new \ReflectionClass($this);
+        return $reflect->getShortName() . $this->getType() . $this->getValue();
     }
 
 }

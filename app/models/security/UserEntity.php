@@ -3,6 +3,7 @@
 namespace App\Models\Security;
 
 use Nette\Security\Passwords;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

@@ -16,7 +16,7 @@ class Bang extends BeigeCard {
             return false;
         }
 
-        $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
+        $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
@@ -27,6 +27,9 @@ class Bang extends BeigeCard {
                 $gameGovernance->getGame()->getRound(),
                 true,
                 $gameGovernance->getGame()->getPlayerToRespond()));
+		$this->log($gameGovernance);
+		
+		return true;
     }
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {
@@ -40,6 +43,8 @@ class Bang extends BeigeCard {
             if ($gameGovernance->getGame()->getPlayerToRespond() === $gameGovernance->getGame()->getActivePlayer()) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
             }
+            
+			$this->log($gameGovernance);
 
             return true;
         } else if ($gameGovernance->getGame()->getPlayerToRespond()->getCharacter() instanceof CalamityJanet
@@ -48,6 +53,10 @@ class Bang extends BeigeCard {
             (new Mancato())->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            
+			$this->log($gameGovernance);
+			
+			return true;
         }
 
         return false;

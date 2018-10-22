@@ -10,7 +10,7 @@ class LuckyDuke extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        // TODO: Implement processSpecialSkillCardPlay() method.
+        return false;
     }
 
 }

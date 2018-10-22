@@ -15,6 +15,7 @@ class Duello extends BeigeCard {
             new Handlers\Duello($gameGovernance, $targetPlayer));
 
         $this->playCard($gameGovernance);
+		$this->log($gameGovernance);
 
         return true;
     }

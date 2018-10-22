@@ -16,6 +16,8 @@ class PedroRamirez extends Character {
             $activePlayer->giveCard($gameGovernance->getGame()->getCardsDeck()->drawFromDiscarded());
             $activePlayer->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
             $activePlayer->shiftTurnStage();
+            
+			$this->log($gameGovernance);
 
             return true;
         }

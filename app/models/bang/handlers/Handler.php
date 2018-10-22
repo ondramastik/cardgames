@@ -24,7 +24,7 @@ abstract class Handler {
     /**
      * @return bool
      */
-    public function hasEventFinished(): bool {
+    public function hasHandlerFinished(): bool {
         return $this->hasEventFinished;
     }
 

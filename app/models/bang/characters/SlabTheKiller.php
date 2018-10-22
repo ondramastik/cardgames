@@ -21,6 +21,9 @@ class SlabTheKiller extends Character {
             && $underTopCard->getTargetPlayer() === $topCard->getPlayer()) {
             $underTopCard->setActive(true);
             $gameGovernance->getGame()->setPlayerToRespond($underTopCard->getTargetPlayer());
+            
+			$this->log($gameGovernance);
+			
             return true;
         } else {
             return false;

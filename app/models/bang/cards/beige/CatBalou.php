@@ -19,6 +19,7 @@ class CatBalou extends BeigeCard {
         $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
         $this->playCard($gameGovernance);
+		$this->log($gameGovernance);
 
         return true;
     }

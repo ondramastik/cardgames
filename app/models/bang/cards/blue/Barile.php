@@ -6,7 +6,19 @@ namespace App\Models\Bang;
 class Barile extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        return false;
+		if ($isSourceHand) {
+			foreach ($gameGovernance->getGame()->getActivePlayer()->getTable() as $blueCard) {
+				if($blueCard instanceof Barile) {
+					$gameGovernance->getGame()->getCardsDeck()->discardCard($blueCard);
+					$gameGovernance->getGame()->getActivePlayer()->drawFromTable($blueCard);
+				}
+			}
+		
+			$gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
+			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+		
+			return true;
+		}
     }
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {
@@ -22,6 +34,8 @@ class Barile extends BlueCard {
                         $gameGovernance->getGame()->getRound(),
                         false,
                         null));
+				$this->log($gameGovernance);
+				
                 return true;
             }
         }

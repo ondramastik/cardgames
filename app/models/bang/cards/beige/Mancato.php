@@ -18,6 +18,7 @@ class Mancato extends BeigeCard {
                     $gameGovernance->getGame()->getRound(),
                     true,
                     $gameGovernance->getGame()->getPlayerToRespond()));
+			$this->log($gameGovernance);
 
             return true;
         }
@@ -26,13 +27,15 @@ class Mancato extends BeigeCard {
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {
         $valid = false;
-
-        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang) {
+        
+        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang) {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            $gameGovernance->getGame()->getPlayerToRespond()->drawFromHand($this);
 
             $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
-
+            
+            $gameGovernance->getGame()->setPlayerToRespond(null);
+            
             $valid = true;
         } else if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
 
@@ -51,6 +54,7 @@ class Mancato extends BeigeCard {
 
         if ($valid) {
             $this->playCard($gameGovernance);
+			$this->log($gameGovernance);
         }
 
         return $valid;

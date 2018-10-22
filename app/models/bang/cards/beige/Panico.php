@@ -6,8 +6,6 @@ namespace App\Models\Bang;
 class Panico extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        $targetPlayer = $gameGovernance->getGame()->getPlayer($targetPlayer);
-
         $targetCards = $targetPlayer->getHand();
 
         shuffle($targetCards);
@@ -20,6 +18,7 @@ class Panico extends BeigeCard {
         $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
         $this->playCard($gameGovernance);
+		$this->log($gameGovernance);
 
         return true;
     }

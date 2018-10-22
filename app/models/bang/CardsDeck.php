@@ -31,6 +31,8 @@ class CardsDeck {
      */
     public function __construct(int $playersCount) {
         $this->playersCount = $playersCount;
+        $this->discardedCards = [];
+        $this->playedCards = [];
 
         $this->roles = $this->initRoles();
         $this->cards = $this->initCards();
@@ -77,7 +79,7 @@ class CardsDeck {
      * @return PlayedCard
      */
     public function getActiveCard() {
-        for($i = count($this->getPlayedCards()); $i > 0; $i++) {
+        for($i = count($this->getPlayedCards()) - 1; $i >= 0; $i++) {
             if(($this->getPlayedCards()[$i])->isActive()) {
                 return $this->getPlayedCards()[$i];
             }

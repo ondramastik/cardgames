@@ -5,10 +5,6 @@ namespace App\Models\Bang;
 
 class RevCarabine extends Gun {
 
-    public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        return false;
-    }
-
     public function performResponseAction(GameGovernance $gameGovernance): bool {
         return false;
     }

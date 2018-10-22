@@ -16,12 +16,10 @@ class GameEvent extends Event {
 
     /**
      * GameEvent constructor.
-     * @param Lobby $lobby
-     * @param UserEntity $triggeredBy
      * @param int $type
      */
-    public function __construct(Lobby $lobby, UserEntity $triggeredBy, int $type) {
-        parent::__construct($lobby, $triggeredBy);
+    public function __construct(int $type) {
+        parent::__construct();
 
         $this->type = $type;
     }

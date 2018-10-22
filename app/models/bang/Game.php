@@ -16,14 +16,11 @@ class Game {
     /** @var Player[] */
     private $players;
 
-    /** @var int */
-    private $activePlayerIndex;
+    /** @var Player */
+    private $activePlayer;
 
     /** @var Player */
     private $playerToRespond;
-
-    /** @var bool */
-    private $gameStarted;
 
     /** @var bool */
     private $gameFinished;
@@ -48,10 +45,10 @@ class Game {
     public function __construct($id, $nicknames) {
         $this->id = $id;
         $this->players = [];
-        $this->cardsDeck = new CardsDeck();
-        $this->gameStarted = false;
+        $this->cardsDeck = new CardsDeck(count($nicknames));
         $this->gameFinished = false;
         $this->wasBangCardPlayedThisTurn = false;
+        $this->round = 0;
 
         $this->initPlayers($nicknames);
     }
@@ -65,10 +62,14 @@ class Game {
         foreach ($nicknames as $key => $nickname) {
             $player = new Player($nickname, $this->cardsDeck->drawRole(), [$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()]);
 
-            if ($player->getCharacter() instanceof Sceriffo) {
-                $this->setActivePlayerIndex($key);
+            if ($player->getRole() instanceof Sceriffo) {
+                $this->setActivePlayer($player);
                 $player->heal();
             }
+            
+            for($i = 0; $i < $player->getCharacter()->getHp(); $i++) {
+            	$player->giveCard($this->getCardsDeck()->drawCard());
+			}
 
             $this->players[] = $player;
 
@@ -78,12 +79,12 @@ class Game {
         }
         $this->players[count($this->players) - 1]->setNextPlayer($this->players[0]);
     }
-
-    /**
-     * @param int $activePlayerIndex
-     */
-    public function setActivePlayerIndex($activePlayerIndex) {
-        $this->activePlayerIndex = $activePlayerIndex;
+	
+	/**
+	 * @param $player
+	 */
+    public function setActivePlayer($player) {
+        $this->activePlayer = $player;
     }
 
     public function preparePlayers() {
@@ -139,28 +140,8 @@ class Game {
         return false;
     }
 
-    /**
-     * @return Player
-     */
-    public function getNextPlayer() {
-        $nextPlayerIndex = $this->activePlayerIndex + 1;
-
-        if ($nextPlayerIndex === count($this->getPlayers())) {
-            $nextPlayerIndex = 0;
-        }
-
-        return $this->getPlayers()[$nextPlayerIndex];
-    }
-
     public function nextPlayer() {
-        $nextPlayerIndex = $this->activePlayerIndex + 1;
-
-        if ($nextPlayerIndex === count($this->getPlayers())) {
-            $nextPlayerIndex = 0;
-        }
-
-        $this->setActivePlayerIndex($nextPlayerIndex);
-        $this->setWasBangCardPlayedThisTurn(false);
+        $this->setActivePlayer($this->getActivePlayer()->getNextPlayer());
 
         if ($this->getActivePlayer()->getRole() instanceof Sceriffo) {
             $this->round++;
@@ -178,7 +159,7 @@ class Game {
      * @return Player
      */
     public function getActivePlayer() {
-        return $this->players[$this->activePlayerIndex];
+        return $this->activePlayer;
     }
 
     /**
@@ -191,22 +172,8 @@ class Game {
     /**
      * @param Player $player
      */
-    public function setPlayerToRespond(Player $player) {
+    public function setPlayerToRespond(?Player $player) {
         $this->playerToRespond = $player;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isGameStarted() {
-        return $this->gameStarted;
-    }
-
-    /**
-     * @param bool $gameStarted
-     */
-    public function setGameStarted($gameStarted) {
-        $this->gameStarted = $gameStarted;
     }
 
     /**
@@ -240,7 +207,7 @@ class Game {
     /**
      * @return Handler
      */
-    public function getHandler(): Handler {
+    public function getHandler(): ?Handler {
         return $this->handler;
     }
 

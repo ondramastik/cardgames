@@ -8,6 +8,7 @@ class Dinamite extends BlueCard {
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
             $gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
+            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
             return true;
         }
 
@@ -20,18 +21,20 @@ class Dinamite extends BlueCard {
 
         $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
 
-        if ($checkCard->getType() === CardTypes::PIKES && $checkCard->getValue() > 2 && $checkCard->getValue() < 9) { // TODO: use constants, correct value range
+        if ($checkCard->getType() === CardTypes::PIKES
+			&& in_array($checkCard->getValue(), ["2", "3", "4", "5", "6", "7", "8", "9"])) {
             $gameGovernance->getGame()->getActivePlayer()->dealDamage(3);
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
 
             if ($gameGovernance->getGame()->getActivePlayer()->getHp() <= 0) {
-                $gameGovernance->getGame()->playerDied(
+                $gameGovernance->playerDied(
                     $gameGovernance->getGame()->getActivePlayer());
                 $gameGovernance->getGame()->nextPlayer();
             }
         } else {
-            $gameGovernance->getGame()->getNextPlayer()->putOnTable($this);
+			$gameGovernance->getGame()->getActivePlayer()->getNextPlayer()->putOnTable($this);
+			$this->log($gameGovernance);
         }
 
         return true;

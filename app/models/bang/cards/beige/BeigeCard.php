@@ -2,7 +2,6 @@
 
 namespace App\Models\Bang;
 
-
 abstract class BeigeCard extends Card {
 
     protected function playCard(GameGovernance $gameGovernance, bool $isActive = false) {
@@ -11,7 +10,8 @@ abstract class BeigeCard extends Card {
                 $gameGovernance->getGame()->getActivePlayer(),
                 $gameGovernance->getGame()->getRound(),
                 $isActive,
-                $gameGovernance->getGame()->getPlayerToRespond()));
+                $gameGovernance->getGame()->getPlayerToRespond()
+					?: $gameGovernance->getGame()->getActivePlayer()));
     }
 
 }

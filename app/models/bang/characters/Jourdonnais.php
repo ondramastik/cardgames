@@ -13,6 +13,9 @@ class Jourdonnais extends Character {
         if ($gameGovernance->getGame()->getPlayer($gameGovernance->getNickname())
             === $gameGovernance->getGame()->getPlayerToRespond()
             && (new Barile())->performResponseAction($gameGovernance)) {
+        	
+			$this->log($gameGovernance);
+			
             return true;
         }
 

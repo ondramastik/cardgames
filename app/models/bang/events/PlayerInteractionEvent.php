@@ -18,13 +18,11 @@ class PlayerInteractionEvent extends Event {
 
     /**
      * PlayerInteractionEvent constructor.
-     * @param Lobby $lobby
-     * @param UserEntity $userEntity
      * @param Player $player
      * @param Player $targetPlayer
      */
-    public function __construct(Lobby $lobby, UserEntity $userEntity, Player $player, Player $targetPlayer) {
-        parent::__construct($lobby, $userEntity);
+    public function __construct(Player $player, Player $targetPlayer) {
+        parent::__construct();
 
         $this->player = $player;
         $this->targetPlayer = $targetPlayer;

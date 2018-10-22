@@ -13,7 +13,9 @@ class BlackJack extends Character {
         if ($gameGovernance->getGame()->getActivePlayer() === $gameGovernance->getGame()->getPlayer($gameGovernance->getNickname())
             && $gameGovernance->getGame()->getActivePlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
             $gameGovernance->getGame()->setHandler(new Handlers\BlackJack($gameGovernance));
-
+            
+			$this->log($gameGovernance);
+            
             return true;
         }
 

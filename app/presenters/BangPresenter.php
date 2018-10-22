@@ -3,21 +3,33 @@
 namespace App\Presenters;
 
 
+use App\Models\Bang\Game;
 use App\Models\Bang\GameGovernance;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
 
-    /** @var int */
-    public $activeGameId;
+    /** @var Game */
+    public $activeGame;
 
     /** @var GameGovernance */
     private $gameGovernance;
 
     /** @var LobbyGovernance */
     private $lobbyGovernance;
-
-    /**
+	
+	/**
+	 * @throws \Throwable
+	 */
+	protected function startup() {
+		parent::startup();
+		$this->gameGovernance = new GameGovernance($this->getUser(), $this->lobbyGovernance->findUsersLobby());
+		
+		$this->activeGame = $this->gameGovernance->findActiveGame($this->getUser()->getIdentity()->userEntity->getNickname());
+	}
+	
+	
+	/**
      * BangPresenter constructor.
      * @param LobbyGovernance $lobbyGovernance
      * @throws \Throwable
@@ -25,11 +37,23 @@ class BangPresenter extends BasePresenter {
     public function __construct(LobbyGovernance $lobbyGovernance) {
         parent::__construct();
         $this->lobbyGovernance = $lobbyGovernance;
-        $this->gameGovernance = new GameGovernance($this->getUser(), $lobbyGovernance->findUsersLobby());
-
-        $this->activeGameId = $this->gameGovernance->findActiveGameId($this->nickname);
     }
 
+    public function renderTest() {
+    	$nicknames = ['Naxmars', 'Baxmars', 'zbysek', 'karel',];
+    	
+    	if(!$this->activeGame) {
+			$this->activeGame = $this->gameGovernance->createGame($nicknames);
+		}
+		$this->getTemplate()->game = $this->activeGame;
+	
+		$this->gameGovernance->getGame()->setActivePlayer($this->gameGovernance->getGame()->getPlayer("Naxmars"));
+    	
+    	$this->gameGovernance->getGame()->getActivePlayer()->getNextPlayer();;
+    	
+    	\Tracy\Debugger::barDump($this->activeGame);
+	}
+    
     public function renderPlay() {
         $this->getTemplate()->game = $this->gameGovernance->getGame();
 
@@ -38,16 +62,19 @@ class BangPresenter extends BasePresenter {
         }
     }
 
-    public function handlePlayCard(string $cardIdentifier, int $targetPlayer) {
+    public function actionPlayCard(string $cardIdentifier, string $targetPlayer) {
         $card = $this->gameGovernance->getPlayersCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);
+        \Tracy\Debugger::barDump($card, "Karta");
 
         $targetPlayer = $this->gameGovernance->getGame()->getPlayer($targetPlayer)
             ?: $this->gameGovernance->getActingPlayer();
 
         if($card && $this->gameGovernance->play($card, $targetPlayer)) {
+        	$this->flashMessage("OK");
         } else {
-            //TODO: nOK
+			$this->flashMessage("nOK");
         }
+        $this->redirect("test");
     }
 
     public function handleRespond(string $cardIdentifier) {

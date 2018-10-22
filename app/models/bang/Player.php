@@ -49,6 +49,8 @@ class Player {
         $this->nickname = $nickname;
         $this->role = $role;
         $this->characters = $characters;
+        $this->character = $characters[0];//TODO: Vybírání
+		$this->hp = $this->getMaxHp();
         $this->hand = [];
         $this->table = [];
         $this->winner = false;
@@ -151,7 +153,7 @@ class Player {
     public function drawFromTable(BlueCard $card) {
         /** @var BlueCard $tableCard */
         foreach ($this->table as $key => $tableCard) {
-            if ($tableCard instanceof $card && $tableCard->getValue() === $card->getValue() && $tableCard->getType() === $card->getType()) {
+            if ($tableCard->getIdentifier() === $card->getIdentifier()) {
                 unset($this->table[$key]);
                 return $tableCard;
             }
@@ -162,7 +164,7 @@ class Player {
 
     public function drawFromHand(Card $card) {
         foreach ($this->hand as $key => $handCard) {
-            if ($handCard instanceof $card && $handCard->getValue() === $card->getValue() && $handCard->getType() === $card->getType()) {
+			if ($handCard->getIdentifier() === $card->getIdentifier()) {
                 unset($this->hand[$key]);
                 return $handCard;
             }

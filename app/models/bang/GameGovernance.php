@@ -35,6 +35,7 @@ class GameGovernance {
         $this->cache = new Cache($storage);
         $this->user = $user->getIdentity()->userEntity;
         $this->log = new Log($lobby);
+        $this->game = $this->findActiveGame($this->user->getNickname());
 
         if (!$this->cache->load(self::CACHE_KEY)) {
             $this->cache->save(self::CACHE_KEY, []);
@@ -48,24 +49,28 @@ class GameGovernance {
     public function checkPlayerOnTurn() {
         return $this->getActingPlayer() === $this->getGame()->getActivePlayer();
     }
+	
+	/**
+	 * @param $nicknames
+	 * @return Game
+	 */
+    public function createGame($nicknames): Game {
+        $this->game = new Game($this->generateGameId(), $nicknames);
 
-    public function createGame($nicknames) {
-        $game = new Game($this->generateGameId(), $nicknames);
+        $this->persistGame($this->game);
 
-        $this->persistGame($game);
-
-        return $game->getId();
+        return $this->game;
     }
 
     public function getGame() {
         return $this->game;
     }
 
-    public function findActiveGameId($nickname): ?int {
+    public function findActiveGame($nickname): ?Game {
         /** @var Game $game */
         foreach ($this->getGames() as $game) {
             if ($game->getPlayer($nickname)) {
-                return $game->getId();
+                return $game;
             }
         }
 
@@ -73,7 +78,7 @@ class GameGovernance {
     }
 
     public function getGames() {
-        $games = $this->cache->load(self::CACHE_KEY);
+        $games = $this->cache->load(self::CACHE_KEY) ?: [];
 
         return $games;
     }
@@ -84,37 +89,38 @@ class GameGovernance {
      * @param bool $isSourceHand
      * @return boolean
      */
-    public function play(Card $card, Player $targetPlayer, $isSourceHand = true) {
-        if (!$this->hasEventFinished()) return false;
+    public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true) {
+        if (!$this->hasHandlerFinished()) return false;
+        
+        if($this->getGame()->getPlayerToRespond() === $this->getActingPlayer()) {
+			return $card->performResponseAction($this);
+		} else {
+			return $card->performAction($this, $targetPlayer, $isSourceHand);
+		}
 
-        return $card->performAction($this, $targetPlayer, $isSourceHand);
     }
 
-    public function hasEventFinished() {
+    public function hasHandlerFinished() {
         return $this->getGame()->getHandler() === null
-            || $this->getGame()->getHandler()->hasEventFinished();
-    }
-
-    public function respond(Card $card) {
-        return $card->performResponseAction($this);
+            || $this->getGame()->getHandler()->hasHandlerFinished();
     }
 
     public function pass() {
-        if ($this->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-            || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii
-            || $this->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
+        if ($this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
+            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indianii
+            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling) {
             $this->getGame()->getPlayerToRespond()->dealDamage();
-        }
-
-        if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
-            $this->getGame()->setPlayerToRespond(
-                $this->getGame()->getPlayerToRespond()->getNextPlayer());
-            $this->playerDied(
-                $this->getGame()->getPlayerToRespond());
+	
+			if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
+				$this->playerDied($this->getGame()->getPlayerToRespond(), $this->getGame()->getActivePlayer());
+			}
+			
+            $this->getGame()->setPlayerToRespond(null);
         }
     }
 
-    public function playerDied(Player $deadPlayer, Player $killer = null) {
+    public function playerDied(Player $deadPlayer, Player $killer) {
+    	$iter = 0;
         $player = $deadPlayer;
         while ($deadPlayer !== $player->getNextPlayer()) {
             if ($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
@@ -123,7 +129,11 @@ class GameGovernance {
                     $player->giveCard($card);
                 }
             }
-
+			if($iter > 50) { //TODO: Odebrat
+				\Tracy\Debugger::barDump("kruci");
+				break;
+			}
+			$iter++;
             $player = $player->getNextPlayer();
         }
 
@@ -216,7 +226,9 @@ class GameGovernance {
     }
 
     public function __destruct() {
-        $this->persistGame($this->game);
+    	if($this->getGame()) {
+			$this->persistGame($this->game);
+		}
     }
 
 }

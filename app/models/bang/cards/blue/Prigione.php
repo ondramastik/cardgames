@@ -10,17 +10,21 @@ class Prigione extends BlueCard {
         if ($isSourceHand) {
             $target = $gameGovernance->getGame()->getPlayer($targetPlayer);
 
-            if (!$target->getRole() instanceof Sceriffo && $target->getNickname() !== $gameGovernance->getNickname()) {
+            if (!$target->getRole() instanceof Sceriffo && $target !== $gameGovernance->getGame()->getActivePlayer()) {
                 $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
                 $target->putOnTable($this);
+				$this->log($gameGovernance);
+				
+				return true;
             }
 
-            return true;
+            return false;
         } else {
-            $event = $gameGovernance->getGame()->getHandler();
-            if ($event instanceof Handlers\LuckyDuke) {
-                $checkCard = $event->getChosen();
+            $handler = $gameGovernance->getGame()->getHandler();
+            
+            if ($handler instanceof Handlers\LuckyDuke) {
+                $checkCard = $handler->getChosen();
             } else {
                 $checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
             }

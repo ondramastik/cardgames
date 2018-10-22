@@ -1,0 +1,22 @@
+{block content}
+<a n:href="pass!">Pass</a>
+
+<div n:foreach="$game->getPlayers() as $player">
+    <div>
+        <h5>{$player->getNickname()} ({$player->getHp()})</h5>
+        Role: {(new \ReflectionClass($player->getRole()))->getShortName()}
+        Character: {(new \ReflectionClass($player->getCharacter()))->getShortName()}
+    </div>
+    <div>Hand</div>
+    <ul>
+        <li n:foreach="$player->getHand() as $card">
+            <a n:href="Bang:playCard $card->getIdentifier(), Baxmars">{$card->getIdentifier()}</a>
+        </li>
+    </ul>
+    <div>Table</div>
+    <ul>
+        <li n:foreach="$player->getTable() as $card">
+            <a n:href="Bang:playCard $card->getIdentifier(), Baxmars">{$card->getIdentifier()}</a>
+        </li>
+    </ul>
+</div>
