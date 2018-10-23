@@ -1,0 +1,100 @@
+#bang .col-1, #bang .col-2 {
+    padding: 2px;
+}
+
+#bang.player-count-4 .player-1 {
+    position: fixed;
+    top: 35vh;
+    left: 20px;
+}
+
+#bang.player-count-4 .player-2 {
+    position: fixed;
+    top: 5px;
+    left: 40vw;
+}
+
+#bang.player-count-4 .player-3 {
+    position: fixed;
+    top: 35vh;
+    right: 0;
+}
+
+#bang .player img {
+    max-height: 15vh;
+    max-width: 100%;
+}
+
+#bang .acting-player {
+    position: fixed;
+    width: 100%;
+    bottom: 5px;
+    left: 0;
+}
+
+#bang .acting-player img {
+    max-height: 20vh;
+    max-width: 100%;
+}
+
+#bang .acting-player .health-points .character,
+#bang .player .health-points .character {
+    position: absolute;
+    left: 0;
+}
+
+#bang .acting-player .health-points .hp-1,
+#bang .player .health-points .hp-1 {
+    top: 25%;
+}
+
+#bang .acting-player .health-points .hp-2,
+#bang .player .health-points .hp-2 {
+    top: 40%;
+}
+
+#bang .acting-player .health-points .hp-3,
+#bang .player .health-points .hp-3 {
+    top: 57%;
+}
+
+#bang .acting-player .health-points .hp-4,
+#bang .player .health-points .hp-4 {
+    top: 75%;
+}
+
+#bang .acting-player .health-points .hp-5,
+#bang .player .health-points .hp-5 {
+    top: 90%;
+}
+
+
+#bang .cards-deck {
+    position: fixed;
+    top: 35vh;
+    left: 40vw;
+
+}
+
+#bang .cards-deck img {
+    max-height: 20vh;
+}
+
+#bang .cards-deck > div {
+    display: inline-block;
+}
+
+#bang .active-player .character {
+    border: 1px solid dodgerblue;
+    border-radius: 7px;
+    outline: none;
+    box-shadow: 0 0 10px dodgerblue;
+}
+
+#bang .player-to-respond .character {
+    border: 1px solid orangered;
+    border-radius: 7px;
+    outline: none;
+    box-shadow: 0 0 10px orangered;
+}
+

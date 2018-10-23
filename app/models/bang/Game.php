@@ -60,7 +60,7 @@ class Game {
         shuffle($nicknames);
 
         foreach ($nicknames as $key => $nickname) {
-            $player = new Player($nickname, $this->cardsDeck->drawRole(), [$this->cardsDeck->drawCharacter(), $this->cardsDeck->drawCharacter()]);
+            $player = new Player($nickname, $this->cardsDeck->drawRole(), $this->cardsDeck->drawCharacter());
 
             if ($player->getRole() instanceof Sceriffo) {
                 $this->setActivePlayer($player);

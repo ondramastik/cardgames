@@ -62,10 +62,32 @@ abstract class Card {
 	public function getValue(): string {
 		return $this->value;
 	}
-
+	
+	/**
+	 * @return string
+	 * @throws \ReflectionException
+	 */
+	public function getName() {
+		$className = (new \ReflectionClass($this))->getShortName();
+		
+		$result = '';
+		
+		for($i = 0; $i < strlen($className); $i++) {
+			if(ctype_upper($className[$i]) && $i != 0) {
+				$result .= ' ';
+			}
+			$result .= $className[$i];
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * @return string
+	 * @throws \ReflectionException
+	 */
     public function getIdentifier() {
-		$reflect = new \ReflectionClass($this);
-        return $reflect->getShortName() . $this->getType() . $this->getValue();
+        return $this->getName() . $this->getType() . $this->getValue();
     }
 
 }

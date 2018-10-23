@@ -17,12 +17,11 @@ class GameGovernance {
 
     /** @var Game */
     private $game;
+    
+    /** @var Lobby */
+    private $lobby;
 
     /** @var \App\Models\Security\UserEntity */
-    private $user;
-
-    /** @var Log */
-    private $log;
 
     /**
      * GameGovernance constructor.
@@ -34,8 +33,8 @@ class GameGovernance {
         $storage = new FileStorage(dirname(__DIR__) . '/../../temp');
         $this->cache = new Cache($storage);
         $this->user = $user->getIdentity()->userEntity;
-        $this->log = new Log($lobby);
         $this->game = $this->findActiveGame($this->user->getNickname());
+        $this->lobby = $lobby;
 
         if (!$this->cache->load(self::CACHE_KEY)) {
             $this->cache->save(self::CACHE_KEY, []);
@@ -107,7 +106,7 @@ class GameGovernance {
 
     public function pass() {
         if ($this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
-            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indianii
+            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani
             || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling) {
             $this->getGame()->getPlayerToRespond()->dealDamage();
 	
@@ -189,8 +188,8 @@ class GameGovernance {
         }
     }
 
-    public function getPlayersCard(Player $player, string $cardIdentifier) : ?Card {
-        $cards = array_filter(array_merge($player->getHand(), $player->getTable()),
+    public function getPlayersTableCard(Player $player, string $cardIdentifier) : ?Card {
+        $cards = array_filter($player->getTable(),
             function (Card $card) use ($cardIdentifier) {
                 return $card->getIdentifier() === $cardIdentifier;
             }
@@ -198,12 +197,22 @@ class GameGovernance {
 
         return array_pop($cards);
     }
+	
+	public function getPlayersCard(Player $player, string $cardIdentifier) : ?Card {
+		$cards = array_filter($player->getHand(),
+			function (Card $card) use ($cardIdentifier) {
+				return $card->getIdentifier() === $cardIdentifier;
+			}
+		);
+		
+		return array_pop($cards);
+	}
 
     /**
      * @return Log
      */
     public function getLog(): Log {
-        return $this->log;
+        return $this->lobby->getLog();
     }
 
     private function persistGame(Game $game) {

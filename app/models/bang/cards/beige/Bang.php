@@ -33,7 +33,7 @@ class Bang extends BeigeCard {
     }
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {
-        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indianii) {
+        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indiani) {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 

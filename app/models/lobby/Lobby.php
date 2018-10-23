@@ -2,6 +2,7 @@
 
 namespace App\Models\Lobby;
 
+use App\Models\Lobby\Log\Log;
 use App\Models\Security\UserEntity;
 
 class Lobby {
@@ -20,6 +21,9 @@ class Lobby {
 
     /** @var int */
     private $activeGame;
+    
+    /** @var Log */
+    private $log;
 
     /**
      * Lobby constructor.
@@ -30,6 +34,7 @@ class Lobby {
         $this->id = $id;
         $this->name = $name;
         $this->members = [];
+        $this->log = new Log($this);
     }
 
     /**
@@ -101,6 +106,12 @@ class Lobby {
     public function setActiveGame($activeGame) {
         $this->activeGame = $activeGame;
     }
-
+	
+	/**
+	 * @return Log
+	 */
+	public function getLog(): Log {
+		return $this->log;
+	}
 
 }

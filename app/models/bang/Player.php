@@ -21,9 +21,6 @@ class Player {
     /** @var Character */
     private $character;
 
-    /** @var Character[] */
-    private $characters;
-
     /** @var Role */
     private $role;
 
@@ -38,18 +35,17 @@ class Player {
 
     /** @var boolean */
     private $winner;
-
-    /**
-     * Player constructor.
-     * @param $nickname
-     * @param Role $role
-     * @param Character[] $characters
-     */
-    public function __construct($nickname, Role $role, array $characters) {
+	
+	/**
+	 * Player constructor.
+	 * @param $nickname
+	 * @param Role $role
+	 * @param Character $character
+	 */
+    public function __construct($nickname, Role $role, Character $character) {
         $this->nickname = $nickname;
         $this->role = $role;
-        $this->characters = $characters;
-        $this->character = $characters[0];//TODO: Vybírání
+        $this->character = $character;
 		$this->hp = $this->getMaxHp();
         $this->hand = [];
         $this->table = [];
@@ -89,13 +85,6 @@ class Player {
      */
     public function chooseCharacter($character) {
         $this->setCharacter($character);
-    }
-
-    /**
-     * @return Character[]
-     */
-    public function getCharacters() {
-        return $this->characters;
     }
 
     /**

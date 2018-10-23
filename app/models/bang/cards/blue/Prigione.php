@@ -8,12 +8,10 @@ class Prigione extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
-            $target = $gameGovernance->getGame()->getPlayer($targetPlayer);
-
-            if (!$target->getRole() instanceof Sceriffo && $target !== $gameGovernance->getGame()->getActivePlayer()) {
+            if (!$targetPlayer->getRole() instanceof Sceriffo && $targetPlayer !== $gameGovernance->getGame()->getActivePlayer()) {
                 $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
-                $target->putOnTable($this);
+                $targetPlayer->putOnTable($this);
 				$this->log($gameGovernance);
 				
 				return true;

@@ -158,5 +158,14 @@ class LobbyGovernance {
         $lobby->setActiveGame($gameId);
         $this->saveLobby($lobby);
     }
+	
+	/**
+	 * @throws \Throwable
+	 */
+	public function __destruct() {
+		if($this->findUsersLobby()) {
+			$this->saveLobby($this->findUsersLobby());
+		}
+	}
 
 }

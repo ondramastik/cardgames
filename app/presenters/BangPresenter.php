@@ -38,48 +38,59 @@ class BangPresenter extends BasePresenter {
         parent::__construct();
         $this->lobbyGovernance = $lobbyGovernance;
     }
-
-    public function renderTest() {
-    	$nicknames = ['Naxmars', 'Baxmars', 'zbysek', 'karel',];
-    	
-    	if(!$this->activeGame) {
-			$this->activeGame = $this->gameGovernance->createGame($nicknames);
-		}
-		$this->getTemplate()->game = $this->activeGame;
-	
-		$this->gameGovernance->getGame()->setActivePlayer($this->gameGovernance->getGame()->getPlayer("Naxmars"));
-    	
-    	$this->gameGovernance->getGame()->getActivePlayer()->getNextPlayer();;
-    	
-    	\Tracy\Debugger::barDump($this->activeGame);
-	}
     
     public function renderPlay() {
-        $this->getTemplate()->game = $this->gameGovernance->getGame();
+		$nicknames = ['Naxmars', 'Baxmars', 'zbysek', 'karel',];
+		
+		if(!$this->activeGame) {
+			$this->activeGame = $this->gameGovernance->createGame($nicknames);
+		}
+		
+		$this->getTemplate()->game = $this->activeGame;
+		$this->getTemplate()->log = $this->gameGovernance->getLog();
+		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
+		
+		$this->gameGovernance->getGame()->setActivePlayer($this->gameGovernance->getGame()->getPlayer("Naxmars"));
 
         if($this->gameGovernance->getGame()->getHandler()) {
             $this->getTemplate()->handler = $this->gameGovernance->getGame()->getHandler();
         }
+	
+		\Tracy\Debugger::barDump($this->activeGame);
     }
 
-    public function actionPlayCard(string $cardIdentifier, string $targetPlayer) {
-        $card = $this->gameGovernance->getPlayersCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);
-        \Tracy\Debugger::barDump($card, "Karta");
+    public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
+        $tableCard = $this->gameGovernance->getPlayersTableCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);
+		$handCard = $this->gameGovernance->getPlayersCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);;
 
         $targetPlayer = $this->gameGovernance->getGame()->getPlayer($targetPlayer)
             ?: $this->gameGovernance->getActingPlayer();
+        
+		$card = $tableCard ?: $handCard;
+		$isSourceHand = $handCard ? true : false;
+        
 
-        if($card && $this->gameGovernance->play($card, $targetPlayer)) {
+        if($card && $this->gameGovernance->play($card, $targetPlayer, $isSourceHand)) {
+			$this->getTemplate()->game = $this->gameGovernance->getGame();
+			\Tracy\Debugger::barDump($this->gameGovernance->getGame());
+			
         	$this->flashMessage("OK");
+        	
+        	$this->redrawControl('acting-player');
+			$this->redrawControl('cards-deck');
+        	
+        	if($targetPlayer->getNickname() !== $this->gameGovernance->getActingPlayer()->getNickname()) {
+				$this->redrawControl('player-'.$targetPlayer->getNickname());
+			}
         } else {
 			$this->flashMessage("nOK");
+			$this->redrawControl('flashes');
         }
-        $this->redirect("test");
     }
 
     public function handleRespond(string $cardIdentifier) {
         $actingPlayer = $this->gameGovernance->getActingPlayer();
-        $card = $this->gameGovernance->getPlayersCard($actingPlayer, $cardIdentifier);
+        $card = $this->gameGovernance->getPlayersTableCard($actingPlayer, $cardIdentifier);
 
         if($card && $this->gameGovernance->respond($card)) {
         } else {

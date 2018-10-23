@@ -85,6 +85,13 @@ class CardsDeck {
             }
         }
     }
+	
+	/**
+	 * @return Card|null
+	 */
+	public function getTopPlayedCard(): ?PlayedCard  {
+		return (end($this->playedCards) !== false ? end($this->playedCards) : null);
+	}
 
     public function disableActiveCard() {
         $this->getActiveCard()->setActive(false);
@@ -223,8 +230,8 @@ class CardsDeck {
 			new Panico(CardTypes::HEARTS, 'J'),
 			new Panico(CardTypes::HEARTS, 'Q'),
 			new Panico(CardTypes::TILES, '8'),
-			new Indianii(CardTypes::TILES, 'A'),
-			new Indianii(CardTypes::TILES, 'K'),
+			new Indiani(CardTypes::TILES, 'A'),
+			new Indiani(CardTypes::TILES, 'K'),
 			new Duello(CardTypes::TILES, 'Q'),
 			new Duello(CardTypes::CLOVERS, '8'),
 			new Duello(CardTypes::PIKES, 'J'),
@@ -247,7 +254,7 @@ class CardsDeck {
 			new Barile(CardTypes::PIKES, 'Q'),
 			new Barile(CardTypes::PIKES, 'K'),
 			new Dinamite(CardTypes::HEARTS, '2'),
-			new Mirino(CardTypes::PIKES, 'A'),
+			new Appaloosa(CardTypes::PIKES, 'A'),
 			new Volcanic(CardTypes::CLOVERS, '10'),
 			new Volcanic(CardTypes::PIKES, '10'),
 			new Schofield(CardTypes::CLOVERS, 'J'),

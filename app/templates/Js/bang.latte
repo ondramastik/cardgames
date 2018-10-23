@@ -1,0 +1,11 @@
+{block bangScripts}
+<script type="application/javascript">
+    $(function () {
+        $('#bang .acting-player .card').on('click', function(e) {
+            e.preventDefault();
+            $.nette.ajax({
+                url: $(this).attr("href") + '&targetPlayer=' + $('input[name=select-player]:checked').val()
+            });
+        });
+    });
+</script>
