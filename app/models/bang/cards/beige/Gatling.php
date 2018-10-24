@@ -11,7 +11,7 @@ class Gatling extends BeigeCard {
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
-        $this->playCard($gameGovernance);
+        $this->playCard($gameGovernance, true);
 		$this->log($gameGovernance);
 
         return true;

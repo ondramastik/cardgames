@@ -3,9 +3,9 @@
 namespace App\Models\Bang;
 
 
-use App\Models\Bang\Handlers\JesseJones;
+use App\Models\Bang\Handlers;
 
-class JeseeJones extends Character {
+class JesseJones extends Character {
 
     public function getHp(): int {
         return 4;
@@ -15,7 +15,7 @@ class JeseeJones extends Character {
         if ($gameGovernance->getGame()->getPlayer($gameGovernance->getNickname())
             === $gameGovernance->getGame()->getActivePlayer()
             && $gameGovernance->getGame()->getActivePlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
-            $gameGovernance->getGame()->setHandler(new JesseJones($gameGovernance));
+            $gameGovernance->getGame()->setHandler(new Handlers\JesseJones($gameGovernance));
             
 			$this->log($gameGovernance);
 			

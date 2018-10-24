@@ -79,7 +79,7 @@ class CardsDeck {
      * @return PlayedCard
      */
     public function getActiveCard() {
-        for($i = count($this->getPlayedCards()) - 1; $i >= 0; $i++) {
+        for($i = count($this->getPlayedCards()) - 1; $i >= 0; $i--) {
             if(($this->getPlayedCards()[$i])->isActive()) {
                 return $this->getPlayedCards()[$i];
             }
@@ -141,6 +141,11 @@ class CardsDeck {
      * @return Role[]
      */
     private function initRoles(): array {
+		return [
+			new Sceriffo(),
+			new Rinnegato(),
+		];
+    	
         if($this->playersCount === 4) {
             return [
                 new Sceriffo(),
@@ -279,7 +284,7 @@ class CardsDeck {
 			new BlackJack(),
 			new CalamityJanet(),
 			new ElGringo(),
-			new JeseeJones(),
+			new JesseJones(),
 			new Jourdonnais(),
 			new KitCarlson(),
 			new LuckyDuke(),

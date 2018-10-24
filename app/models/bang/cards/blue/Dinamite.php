@@ -30,7 +30,7 @@ class Dinamite extends BlueCard {
             if ($gameGovernance->getGame()->getActivePlayer()->getHp() <= 0) {
                 $gameGovernance->playerDied(
                     $gameGovernance->getGame()->getActivePlayer());
-                $gameGovernance->getGame()->nextPlayer();
+                $gameGovernance->nextPlayer();
             }
         } else {
 			$gameGovernance->getGame()->getActivePlayer()->getNextPlayer()->putOnTable($this);

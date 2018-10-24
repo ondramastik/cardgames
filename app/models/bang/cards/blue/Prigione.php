@@ -28,7 +28,7 @@ class Prigione extends BlueCard {
             }
 
             if ($checkCard->getType() !== CardTypes::HEARTS) {
-                $gameGovernance->getGame()->nextPlayer();
+                $gameGovernance->nextPlayer();
             }
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($checkCard);

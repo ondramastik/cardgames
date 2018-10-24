@@ -3,15 +3,11 @@
 namespace App\Presenters;
 
 
-use App\Models\Bang\Game;
 use App\Models\Bang\GameGovernance;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
-
-    /** @var Game */
-    public $activeGame;
-
+	
     /** @var GameGovernance */
     private $gameGovernance;
 
@@ -24,8 +20,6 @@ class BangPresenter extends BasePresenter {
 	protected function startup() {
 		parent::startup();
 		$this->gameGovernance = new GameGovernance($this->getUser(), $this->lobbyGovernance->findUsersLobby());
-		
-		$this->activeGame = $this->gameGovernance->findActiveGame($this->getUser()->getIdentity()->userEntity->getNickname());
 	}
 	
 	
@@ -40,25 +34,21 @@ class BangPresenter extends BasePresenter {
     }
     
     public function renderPlay() {
-		$nicknames = ['Naxmars', 'Baxmars', 'zbysek', 'karel',];
+		$nicknames = ['Naxmars', 'Baxmars'];
 		
-		if(!$this->activeGame) {
-			$this->activeGame = $this->gameGovernance->createGame($nicknames);
+		if(!$this->gameGovernance->getGame()) {
+			$this->gameGovernance->createGame($nicknames);
 		}
 		
-		$this->getTemplate()->game = $this->activeGame;
+		$this->getTemplate()->game = $this->gameGovernance->getGame();
 		$this->getTemplate()->log = $this->gameGovernance->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
-		
-		$this->gameGovernance->getGame()->setActivePlayer($this->gameGovernance->getGame()->getPlayer("Naxmars"));
 
         if($this->gameGovernance->getGame()->getHandler()) {
             $this->getTemplate()->handler = $this->gameGovernance->getGame()->getHandler();
         }
-	
-		\Tracy\Debugger::barDump($this->activeGame);
     }
-
+    
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
         $tableCard = $this->gameGovernance->getPlayersTableCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);
 		$handCard = $this->gameGovernance->getPlayersCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);;
@@ -71,9 +61,6 @@ class BangPresenter extends BasePresenter {
         
 
         if($card && $this->gameGovernance->play($card, $targetPlayer, $isSourceHand)) {
-			$this->getTemplate()->game = $this->gameGovernance->getGame();
-			\Tracy\Debugger::barDump($this->gameGovernance->getGame());
-			
         	$this->flashMessage("OK");
         	
         	$this->redrawControl('acting-player');
@@ -88,22 +75,8 @@ class BangPresenter extends BasePresenter {
         }
     }
 
-    public function handleRespond(string $cardIdentifier) {
-        $actingPlayer = $this->gameGovernance->getActingPlayer();
-        $card = $this->gameGovernance->getPlayersTableCard($actingPlayer, $cardIdentifier);
-
-        if($card && $this->gameGovernance->respond($card)) {
-        } else {
-            //TODO: nOK
-        }
-    }
-
     public function handlePass() {
-        if($this->gameGovernance->pass()) {
-            //TODO: passed
-        } else {
-            //TODO: err can't pass
-        }
+        $this->gameGovernance->pass();
     }
 
     public function handleUseCharacterAbility() {
@@ -114,5 +87,16 @@ class BangPresenter extends BasePresenter {
            //TODO: nOK
        }
     }
+    
+    public function handleEndTurn() {
+    	$this->gameGovernance->nextPlayer();
+	}
+	
+	public function handleDraw() {
+		\Tracy\Debugger::barDump($this->gameGovernance->getActingPlayer());
+		if($this->gameGovernance->draw()) {
+		
+		}
+	}
 
 }

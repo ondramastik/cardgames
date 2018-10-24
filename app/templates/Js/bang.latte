@@ -1,6 +1,11 @@
 {block bangScripts}
+<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/node_modules/nette.ajax.js/nette.ajax.js"></script>
+
 <script type="application/javascript">
     $(function () {
+        $.nette.init();
+        $.nette.ext('history', null);
         $('#bang .acting-player .card').on('click', function(e) {
             e.preventDefault();
             $.nette.ajax({

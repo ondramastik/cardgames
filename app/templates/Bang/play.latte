@@ -1,14 +1,14 @@
+{layout false}
 {block head}
     <link rel="stylesheet" type="text/css" href="/css/bang.css">
 {/block}
-{block scripts}
-    {include '../Js/bang.latte'}
-{/block}
-{block content}
-<div id="bang" class="player-count-{count($game->getPlayers())}">
+
+<div id="bang" class="player-count-4"><!---{count($game->getPlayers())}">-->
     <div class="cards-deck" n:snippet="cards-deck">
         <div class="cards">
-            <img src="/images/bang/cards/back.png">
+            <a n:href="draw!" class="ajax">
+                <img src="/images/bang/cards/back.png">
+            </a>
         </div>
         <div n:if="$game->getCardsDeck()->getTopPlayedCard()" class="played-cards">
             <img src="/images/bang/cards/{$game->getCardsDeck()->getTopPlayedCard()->getCard()->getName()|webalize}.png">
@@ -16,14 +16,14 @@
     </div>
 
     {snippet players}
+        {var $player = $actingPlayer->getNextPlayer()}
         {var $playerCounter = 1;}
         <div n:class="$player->getNickname() === $game->getActivePlayer()->getNickname() ? active-player,
                     $game->getPlayerToRespond() && $player->getNickname() === $game->getPlayerToRespond()->getNickname()
                         ? player-to-respond,
                     'player', 'player-'.$playerCounter"
-             n:foreach="$game->getPlayers() as $player"
+             n:while="$player->getNickname() !== $actingPlayer->getNickname()"
              n:snippet="'player-'.$player->getNickname()">
-            {continueIf $player->getNickname() === $actingPlayer->getNickname()}
             {php $playerCounter++}
             <div class="control">
                 <label for="select-player-{$playerCounter}">Cíl</label>
@@ -31,27 +31,27 @@
                 <span>Hráč: <b>{$player->getNickname()}</b></span>
             </div>
             <div class="row">
-                <div class="col-2 health-points">
+                <div class="health-points">
                     <img src="/images/bang/characters/back-character.png">
-                    <div class="character hp-{$player->getCharacter()->getHp()}">
+                    <div class="character hp-{$player->getHp()}">
                         <img src="/images/bang/characters/{$player->getCharacter()->getName()|webalize}.png">
                     </div>
                 </div>
-                <div class="col-2 role">
+                <div class="role">
                     <img n:if="!($player->getRole() instanceof \App\Models\Bang\Sceriffo)" src="/images/bang/roles/back-role.png">
                     <img n:if="$player->getRole() instanceof \App\Models\Bang\Sceriffo"
                             src="/images/bang/roles/{$player->getRole()->getName()|lower}.png">
                 </div>
-                <div class="col-2" n:foreach="$player->getTable() as $card">
+                <div n:foreach="$player->getTable() as $card">
                     <img src="/images/bang/cards/{$card->getName()|webalize}.png">
                 </div>
             </div>
             <div class="row">
-                <div class="offset-2"></div>
-                <div class="col-2" n:foreach="$player->getHand() as $card">
+                <div n:foreach="$player->getHand() as $card">
                     <img src="/images/bang/cards/back.png">
                 </div>
             </div>
+            {php $player = $player->getNextPlayer()}
         </div>
     {/snippet}
     <div n:class="$actingPlayer->getNickname() === $game->getActivePlayer()->getNickname() ? active-player,
@@ -59,26 +59,26 @@
                     ? player-to-respond,
                 'acting-player'"
         n:snippet="acting-player">
+        <a class="ajax" n:href="endTurn!">End turn</a> |
+        <a class="ajax" n:href="pass!">Pass</a>
         <div class="row">
-            <div class="offset-3"></div>
-            <div class="col-1 health-points">
+            <div class="health-points">
                 <img src="/images/bang/characters/back-character.png">
-                <div class="character hp-{$actingPlayer->getCharacter()->getHp()}">
+                <div class="character hp-{$actingPlayer->getHp()}">
                     <img src="/images/bang/characters/{$actingPlayer->getCharacter()->getName()|webalize}.png">
                 </div>
             </div>
-            <div class="col-1 role">
+            <div class="role">
                 <img src="/images/bang/roles/{$actingPlayer->getRole()->getName()|lower}.png">
             </div>
-            <div class="col-1" n:foreach="$actingPlayer->getTable() as $card">
+            <div n:foreach="$actingPlayer->getTable() as $card">
                 <a n:href="playCard! $card->getIdentifier()" class="card">
                     <img src="/images/bang/cards/{$card->getName()|webalize}.png">
                 </a>
             </div>
         </div>
         <div class="row">
-            <div class="offset-4"></div>
-            <div class="col-1" n:foreach="$actingPlayer->getHand() as $card">
+            <div n:foreach="$actingPlayer->getHand() as $card">
                 <a n:href="playCard! $card->getIdentifier()" class="card"  >
                     <img src="/images/bang/cards/{$card->getName()|webalize}.png">
                 </a>
@@ -86,4 +86,5 @@
         </div>
     </div>
 </div>
-{dump $log}
+
+{include '../Js/bang.latte'}

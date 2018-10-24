@@ -140,14 +140,6 @@ class Game {
         return false;
     }
 
-    public function nextPlayer() {
-        $this->setActivePlayer($this->getActivePlayer()->getNextPlayer());
-
-        if ($this->getActivePlayer()->getRole() instanceof Sceriffo) {
-            $this->round++;
-        }
-    }
-
     /**
      * @param mixed $wasBangCardPlayedThisTurn
      */
@@ -224,6 +216,13 @@ class Game {
     public function getRound(): int {
         return $this->round;
     }
+	
+	/**
+	 * @param int $round
+	 */
+	public function setRound(int $round): void {
+		$this->round = $round;
+	}
 
     /**
      * @return mixed

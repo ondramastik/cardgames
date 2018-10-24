@@ -91,11 +91,12 @@ class GameGovernance {
     public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true) {
         if (!$this->hasHandlerFinished()) return false;
         
-        if($this->getGame()->getPlayerToRespond() === $this->getActingPlayer()) {
+        if($this->getGame()->getPlayerToRespond()
+			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()) {
 			return $card->performResponseAction($this);
-		} else {
+		} else if($this->getGame()->getPlayerToRespond() === null) {
 			return $card->performAction($this, $targetPlayer, $isSourceHand);
-		}
+		} else return false;
 
     }
 
@@ -105,9 +106,13 @@ class GameGovernance {
     }
 
     public function pass() {
-        if ($this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
+        if ($this->getGame()->getPlayerToRespond()
+        	&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
+			&& $this->getGame()->getCardsDeck()->getActiveCard()
+			&& ($this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
             || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani
-            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling) {
+            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
+        	
             $this->getGame()->getPlayerToRespond()->dealDamage();
 	
 			if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
@@ -115,9 +120,37 @@ class GameGovernance {
 			}
 			
             $this->getGame()->setPlayerToRespond(null);
+			
+			return true;
         }
+        
+        return false;
     }
-
+    
+    public function draw() {
+    	if($this->getActingPlayer()->getNickname() === $this->getGame()->getActivePlayer()->getNickname() &&
+    		$this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
+    		$this->getActingPlayer()->giveCard($this->getGame()->getCardsDeck()->drawCard());
+			$this->getActingPlayer()->giveCard($this->getGame()->getCardsDeck()->drawCard());
+		
+			$this->getActingPlayer()->shiftTurnStage();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function nextPlayer() {
+		$this->getGame()->setActivePlayer($this->getGame()->getActivePlayer()->getNextPlayer());
+		$this->getGame()->setWasBangCardPlayedThisTurn(false);
+		$this->getGame()->getActivePlayer()->setTurnStage(Player::TURN_STAGE_DRAWING);
+		
+		if ($this->getGame()->getActivePlayer()->getRole() instanceof Sceriffo) {
+			$this->getGame()->setRound($this->getGame()->getRound() + 1);
+		}
+	}
+	
     public function playerDied(Player $deadPlayer, Player $killer) {
     	$iter = 0;
         $player = $deadPlayer;

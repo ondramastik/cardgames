@@ -49,6 +49,7 @@ class Player {
 		$this->hp = $this->getMaxHp();
         $this->hand = [];
         $this->table = [];
+        $this->turnStage = Player::TURN_STAGE_DRAWING;
         $this->winner = false;
     }
 
@@ -254,6 +255,13 @@ class Player {
     public function getTurnStage(): int {
         return $this->turnStage;
     }
+	
+	/**
+	 * @param int $turnStage
+	 */
+	public function setTurnStage(int $turnStage): void {
+		$this->turnStage = $turnStage;
+	}
 
     public function shiftTurnStage(): void {
         $this->turnStage++;

@@ -4,37 +4,96 @@
 
 #bang.player-count-4 .player-1 {
     position: fixed;
-    top: 35vh;
-    left: 20px;
+    top: 20vh;
+    left: 5px;
 }
 
 #bang.player-count-4 .player-2 {
     position: fixed;
     top: 5px;
-    left: 40vw;
+    left: 35vw;
 }
 
 #bang.player-count-4 .player-3 {
     position: fixed;
-    top: 35vh;
+    top: 20vh;
     right: 0;
 }
 
+#bang .player {
+    width: 25vw;
+}
+
 #bang .player img {
-    max-height: 15vh;
     max-width: 100%;
+}
+
+#bang .player .row > div {
+    width: 16%;
+}
+#bang .player .row:last-child > div {
+    width: 16%;
+    margin-left: -10%;
+}
+
+#bang .player .row:last-child > div:first-child {
+    margin-left: 16%;
 }
 
 #bang .acting-player {
     position: fixed;
-    width: 100%;
+    width: 60%;
     bottom: 5px;
     left: 0;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 #bang .acting-player img {
-    max-height: 20vh;
     max-width: 100%;
+}
+
+
+#bang .acting-player .row > div {
+    width: 10%;
+}
+
+#bang .acting-player .row:last-child > div:first-child {
+    margin-left: 10%;
+}
+
+#bang .cards-deck {
+    position: fixed;
+    top: 35vh;
+    left: 40vw;
+
+}
+
+#bang .cards-deck img {
+    max-height: 20vh;
+}
+
+#bang .cards-deck > div {
+    display: inline-block;
+}
+
+#bang .active-player .character {
+    border: 1px solid dodgerblue;
+    border-radius: 7px;
+    outline: none;
+    box-shadow: 0 0 10px dodgerblue;
+}
+
+#bang .player-to-respond .character {
+    border: 1px solid orangered;
+    border-radius: 7px;
+    outline: none;
+    box-shadow: 0 0 10px orangered;
+}
+
+#bang .row > div {
+    display: inline-block;
+    position: relative;
 }
 
 #bang .acting-player .health-points .character,
@@ -67,34 +126,3 @@
 #bang .player .health-points .hp-5 {
     top: 90%;
 }
-
-
-#bang .cards-deck {
-    position: fixed;
-    top: 35vh;
-    left: 40vw;
-
-}
-
-#bang .cards-deck img {
-    max-height: 20vh;
-}
-
-#bang .cards-deck > div {
-    display: inline-block;
-}
-
-#bang .active-player .character {
-    border: 1px solid dodgerblue;
-    border-radius: 7px;
-    outline: none;
-    box-shadow: 0 0 10px dodgerblue;
-}
-
-#bang .player-to-respond .character {
-    border: 1px solid orangered;
-    border-radius: 7px;
-    outline: none;
-    box-shadow: 0 0 10px orangered;
-}
-
