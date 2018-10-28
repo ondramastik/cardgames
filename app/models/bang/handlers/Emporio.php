@@ -14,31 +14,33 @@ class Emporio extends Handler {
 
     /** @var Player */
     private $playerOnTurn;
-
-    /**
-     * Emporio constructor.
-     * @param GameGovernance $gameGovernance
-     */
+	
+	/**
+	 * Emporio constructor.
+	 * @param GameGovernance $gameGovernance
+	 */
     public function __construct(GameGovernance $gameGovernance) {
-        parent::__construct($gameGovernance);
-
-        $this->initCards();
-        $this->playerOnTurn = $this->gameGovernance->getGame()->getActivePlayer();
+        $this->playerOnTurn = $gameGovernance->getGame()->getActivePlayer();
+		$this->initCards($gameGovernance);
     }
-
-    private function initCards(): void {
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 */
+    private function initCards(GameGovernance $gameGovernance): void {
         $this->cards = [];
-        foreach ($this->gameGovernance->getGame()->getPlayers() as $player) {
-            $this->cards[] = $this->gameGovernance->getGame()->getCardsDeck()->drawCard();
+        foreach ($gameGovernance->getGame()->getPlayers() as $player) {
+            $this->cards[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
         }
     }
 	
 	/**
+	 * @param GameGovernance $gameGovernance
 	 * @param Card $chosenCard
 	 * @return bool
 	 */
-    public function choseCard(Card $chosenCard): bool {
-    	if($this->gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
+    public function choseCard(GameGovernance $gameGovernance, Card $chosenCard): bool {
+    	if($gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
 			foreach ($this->cards as $key => $card) {
 				if ($card instanceof $chosenCard) {
 					$this->playerOnTurn->giveCard($card);
@@ -50,6 +52,7 @@ class Emporio extends Handler {
 	
 			if (!count($this->cards)) {
 				$this->hasEventFinished = true;
+				$gameGovernance->getGame()->setHandler(null);
 			}
 			
 			return true;
@@ -59,10 +62,17 @@ class Emporio extends Handler {
     }
 	
 	/**
+	 * @return Player
+	 */
+	public function getPlayerOnTurn(): Player {
+		return $this->playerOnTurn;
+	}
+ 
+	/**
 	 * @return Card[]
 	 */
 	public function getCards(): array {
 		return $this->cards;
 	}
-
+	
 }

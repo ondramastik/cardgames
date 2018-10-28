@@ -3,8 +3,9 @@
 namespace App\Presenters;
 
 
+use App\Components\Bang\EmporioControl;
+use App\Models\Bang\Emporio;
 use App\Models\Bang\GameGovernance;
-use App\Models\Bang\Handlers\Emporio;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -22,7 +23,6 @@ class BangPresenter extends BasePresenter {
 		parent::startup();
 		$this->gameGovernance = new GameGovernance($this->getUser(), $this->lobbyGovernance->findUsersLobby());
 	}
-	
 	
 	/**
      * BangPresenter constructor.
@@ -44,6 +44,8 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->game = $this->gameGovernance->getGame();
 		$this->getTemplate()->log = $this->gameGovernance->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
+		
+		//$this->gameGovernance->getActingPlayer()->giveCard(new Emporio(0, "1"));
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
@@ -65,6 +67,10 @@ class BangPresenter extends BasePresenter {
         	
         	if($targetPlayer->getNickname() !== $this->gameGovernance->getActingPlayer()->getNickname()) {
 				$this->redrawControl('player-'.$targetPlayer->getNickname());
+			}
+			
+			if($this->gameGovernance->getGame()->getHandler() !== null) {
+				$this->redrawControl('handlers');
 			}
         } else {
 			$this->flashMessage("nOK");
@@ -94,11 +100,11 @@ class BangPresenter extends BasePresenter {
 		
 		}
 	}
-	/*
+	
 	public function createComponentEmporio() {
-		$chat = new EmporioControl($this->gameGovernance->getGame()->getHandler());
+		$chat = new EmporioControl($this->gameGovernance, $this->gameGovernance->getGame()->getHandler());
 		
 		return $chat;
-	}*/
+	}
 
 }

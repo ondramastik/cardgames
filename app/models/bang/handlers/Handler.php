@@ -3,23 +3,10 @@
 namespace App\Models\Bang\Handlers;
 
 
-use App\Models\Bang\GameGovernance;
-
 abstract class Handler {
-
-    /** @var GameGovernance */
-    protected $gameGovernance;
-
+	
     /** @var bool */
     protected $hasEventFinished = false;
-
-    /**
-     * Event constructor.
-     * @param GameGovernance $gameGovernance
-     */
-    public function __construct(GameGovernance $gameGovernance) {
-        $this->gameGovernance = $gameGovernance;
-    }
 
     /**
      * @return bool

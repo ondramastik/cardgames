@@ -20,23 +20,26 @@ class Duello extends Handler {
 
     /** @var int */
     private $turn = self::TARGET_PLAYER;
-
-    /**
-     * Duello constructor.
-     * @param GameGovernance $gameGovernance
-     * @param Player $targetPlayer
-     */
-    public function __construct(GameGovernance $gameGovernance, Player $targetPlayer) {
-        parent::__construct($gameGovernance);
-        $this->initialPlayer = $gameGovernance->getGame()->getActivePlayer();
+	
+	/**
+	 * Duello constructor.
+	 * @param Player $initialPlayer
+	 * @param Player $targetPlayer
+	 */
+    public function __construct(Player $initialPlayer, Player $targetPlayer) {
+        $this->initialPlayer = $initialPlayer;
         $this->targetPlayer = $targetPlayer;
     }
-
-    public function shoot() {
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 * @return bool
+	 */
+    public function shoot(GameGovernance $gameGovernance) {
         $playerOnTurn = ($this->turn === self::INITIAL_PLAYER ? $this->initialPlayer : $this->targetPlayer);
 
         if ($playerOnTurn->drawFromHand(new Bang())) {
-            $this->gameGovernance->getGame()->getCardsDeck()->discardCard(new Bang());
+            $gameGovernance->getGame()->getCardsDeck()->discardCard(new Bang());
             $this->turn = ($this->turn === self::INITIAL_PLAYER ? self::TARGET_PLAYER : self::INITIAL_PLAYER);
 
             return true;
@@ -45,8 +48,8 @@ class Duello extends Handler {
         return false;
     }
 
-    public function pass() {
-        $this->gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
+    public function pass(GameGovernance $gameGovernance) {
+        $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
 
         if ($this->turn === self::INITIAL_PLAYER) {
             $this->initialPlayer->dealDamage();
