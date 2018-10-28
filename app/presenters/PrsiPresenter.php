@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 
+use App\Components\Chat\ChatControl;
 use App\Models\Lobby\LobbyGovernance;
 use App\Models\Prsi\Card;
 use App\Models\Prsi\FinishReasons;
@@ -37,9 +38,6 @@ class PrsiPresenter extends BasePresenter {
      */
     public function renderPlay() {
         $game = $this->gameGovernance->getGame($this->activeGameId);
-        \Tracy\Debugger::barDump($this->activeGameId);
-        \Tracy\Debugger::barDump($game);
-        \Tracy\Debugger::barDump($this->gameGovernance->getGames());
         $lobby = $this->lobbyGovernance->findUsersLobby();
 
         if (!$game) {
@@ -136,7 +134,7 @@ class PrsiPresenter extends BasePresenter {
     }
 
     public function createComponentChat() {
-        $chat = new \ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
+        $chat = new ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
             $this->context->getParameters()['serverIp']);
 
         return $chat;

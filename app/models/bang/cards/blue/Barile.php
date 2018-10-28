@@ -19,6 +19,8 @@ class Barile extends BlueCard {
 		
 			return true;
 		}
+		
+		return false;
     }
 
     public function performResponseAction(GameGovernance $gameGovernance): bool {

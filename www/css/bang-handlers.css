@@ -1,0 +1,34 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 20vh 25vw;
+}
+
+.modal .header {
+    height: 20%;
+    text-align: center;
+}
+
+.modal .body {
+    height: 80%;
+}
+
+.modal .body .cards {
+    padding: 10px;
+    text-align: center;
+}
+
+.modal .body .cards .card {
+    width: 25%;
+}
+
+.modal .body .cards .card a {
+    width: 100%;
+}
+
+.modal .body .cards .card a img {
+    width: 100%;
+}

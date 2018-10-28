@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Components\Chat\ChatControl;
 use App\Models\Lobby\LobbyGovernance;
 
 class LobbyPresenter extends BasePresenter {
@@ -128,10 +129,10 @@ class LobbyPresenter extends BasePresenter {
     }
 
     /**
-     * @return \ChatControl
+     * @return ChatControl
      */
     public function createComponentChat() {
-        $chat = new \ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
+        $chat = new ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
             $this->context->getParameters()['serverIp']);
 
         return $chat;

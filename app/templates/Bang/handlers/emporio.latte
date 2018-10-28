@@ -1,0 +1,16 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+<div class="modal">
+    <div class="header">
+        Hokynářství
+    </div>
+    <hr>
+    <div class="body">
+        <div class="cards">
+            <div class="card" n:foreach="$cards as $card">
+                <a n:href="chooseCard! $card->getIdentifier()">
+                    <img src="/images/bang/cards/{$card->getName()|webalize}.png">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

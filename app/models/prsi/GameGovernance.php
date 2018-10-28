@@ -104,13 +104,15 @@ class GameGovernance {
         return $game;
     }
 
-    public function findActiveGameId() {
+    public function findActiveGameId(): ?string {
         /** @var Game $game */
         foreach ($this->getGames() as $game) {
             if ($game->getPlayer($this->user->getId()) && !$game->hasGameFinished()) {
                 return $game->getId();
             }
         }
+        
+        return null;
     }
 
     public function getGames() {

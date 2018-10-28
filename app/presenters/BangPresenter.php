@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 
 use App\Models\Bang\GameGovernance;
+use App\Models\Bang\Handlers\Emporio;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -43,10 +44,6 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->game = $this->gameGovernance->getGame();
 		$this->getTemplate()->log = $this->gameGovernance->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
-
-        if($this->gameGovernance->getGame()->getHandler()) {
-            $this->getTemplate()->handler = $this->gameGovernance->getGame()->getHandler();
-        }
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
@@ -93,10 +90,15 @@ class BangPresenter extends BasePresenter {
 	}
 	
 	public function handleDraw() {
-		\Tracy\Debugger::barDump($this->gameGovernance->getActingPlayer());
 		if($this->gameGovernance->draw()) {
 		
 		}
 	}
+	/*
+	public function createComponentEmporio() {
+		$chat = new EmporioControl($this->gameGovernance->getGame()->getHandler());
+		
+		return $chat;
+	}*/
 
 }

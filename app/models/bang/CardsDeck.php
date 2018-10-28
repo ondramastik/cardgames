@@ -78,12 +78,14 @@ class CardsDeck {
     /**
      * @return PlayedCard
      */
-    public function getActiveCard() {
+    public function getActiveCard(): ?PlayedCard {
         for($i = count($this->getPlayedCards()) - 1; $i >= 0; $i--) {
             if(($this->getPlayedCards()[$i])->isActive()) {
                 return $this->getPlayedCards()[$i];
             }
         }
+        
+        return null;
     }
 	
 	/**

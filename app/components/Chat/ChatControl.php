@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Components\Chat;
+
+
 use Nette\Application\UI\Control;
 
 class ChatControl extends Control {

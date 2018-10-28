@@ -206,7 +206,7 @@ class Game {
     /**
      * @param Handler $handler
      */
-    public function setHandler(Handler $handler): void {
+    public function setHandler(?Handler $handler): void {
         $this->handler = $handler;
     }
 

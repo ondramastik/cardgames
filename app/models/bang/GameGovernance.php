@@ -152,7 +152,6 @@ class GameGovernance {
 	}
 	
     public function playerDied(Player $deadPlayer, Player $killer) {
-    	$iter = 0;
         $player = $deadPlayer;
         while ($deadPlayer !== $player->getNextPlayer()) {
             if ($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
@@ -161,11 +160,7 @@ class GameGovernance {
                     $player->giveCard($card);
                 }
             }
-			if($iter > 50) { //TODO: Odebrat
-				\Tracy\Debugger::barDump("kruci");
-				break;
-			}
-			$iter++;
+            
             $player = $player->getNextPlayer();
         }
 

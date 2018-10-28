@@ -26,26 +26,43 @@ class Emporio extends Handler {
         $this->playerOnTurn = $this->gameGovernance->getGame()->getActivePlayer();
     }
 
-    private function initCards() {
+    private function initCards(): void {
         $this->cards = [];
         foreach ($this->gameGovernance->getGame()->getPlayers() as $player) {
             $this->cards[] = $this->gameGovernance->getGame()->getCardsDeck()->drawCard();
         }
     }
-
-    public function choseCard(Card $chosenCard) {
-        foreach ($this->cards as $key => $card) {
-            if ($card instanceof $chosenCard) {
-                $this->playerOnTurn->giveCard($card);
-                $this->playerOnTurn = $this->playerOnTurn->getNextPlayer();
-                unset($this->cards[$key]);
-                break;
-            }
-        }
-
-        if (!count($this->cards)) {
-            $this->hasEventFinished = true;
-        }
+	
+	/**
+	 * @param Card $chosenCard
+	 * @return bool
+	 */
+    public function choseCard(Card $chosenCard): bool {
+    	if($this->gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
+			foreach ($this->cards as $key => $card) {
+				if ($card instanceof $chosenCard) {
+					$this->playerOnTurn->giveCard($card);
+					$this->playerOnTurn = $this->playerOnTurn->getNextPlayer();
+					unset($this->cards[$key]);
+					break;
+				}
+			}
+	
+			if (!count($this->cards)) {
+				$this->hasEventFinished = true;
+			}
+			
+			return true;
+		}
+		
+		return false;
     }
+	
+	/**
+	 * @return Card[]
+	 */
+	public function getCards(): array {
+		return $this->cards;
+	}
 
 }
