@@ -30,21 +30,49 @@
 }
 
 .modal .body .cards .card {
-    width: 25%;
+    height: 100%;
     display: inline-block;
+}
+
+.modal .body .cards .card img {
+    max-height:100%;
+    width: auto;
 }
 
 .modal .body .cards .card:hover {
     border: 1px solid #f5b95c;
-    border-radius: 25px;
+    border-radius: 15px;
     outline: none;
     box-shadow: 0 0 10px #f5b95c;
 }
 
-.modal .body .cards .card a {
-    width: 100%;
+#sid-ketchum.modal .body .cards {
+    height: calc(40% - 20px);
 }
 
-.modal .body .cards .card a img {
-    width: 100%;
+#sid-ketchum.modal .body .choosen-cards {
+    height: calc(40% - 20px);
+    padding: 10px;
+    text-align: center;
+}
+
+#sid-ketchum.modal .body .choosen-cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#sid-ketchum.modal .body .choosen-cards .card:hover {
+    border: 1px solid #f50010;
+    border-radius: 15px;
+    outline: none;
+    box-shadow: 0 0 10px #f50010;
+}
+
+#sid-ketchum.modal .body .choosen-cards .card img {
+    height: 100%;
+}
+
+#sid-ketchum.modal .body .controls {
+    height: 20%;
+    text-align: center;
 }

@@ -1,0 +1,40 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+<div class="modal" id="sid-ketchum">
+    <div class="header">
+        <div class="text">
+            <h2>Speciální schopnost Sida Ketchuma</h2>
+            <br>
+            <h4>Pro vrácení životu vyber dvě karty, které budou zníčeny.</h4>
+        </div>
+    </div>
+    <hr>
+    <div class="body" n:snippet="sid-ketchum">
+        <div class="cards">
+            <div class="card" n:foreach="$cards as $card">
+                <a n:href="chooseCard! $card->getIdentifier()" class="ajax">
+                    <img src="/images/bang/cards/{$card->getName()|webalize}.png">
+                </a>
+            </div>
+        </div>
+        <div class="choosen-cards">
+            <div>
+                Vybrané karty
+            </div>
+            <div n:if="$handler->getFirstCard()" class="card">
+                <a n:href="cancelFirstCard!" class="ajax">
+                    <img src="/images/bang/cards/{$handler->getFirstCard()->getName()|webalize}.png">
+                </a>
+            </div>
+            <div n:if="$handler->getSecondCard()" class="card">
+                <a n:href="cancelSecondCard!" class="ajax">
+                    <img src="/images/bang/cards/{$handler->getSecondCard()->getName()|webalize}.png">
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="controls">
+            <a n:href="cancel!" class="ajax">Zrušit</a>
+            <a n:href="finish!" class="ajax">Dokončit</a>
+        </div>
+    </div>
+</div>

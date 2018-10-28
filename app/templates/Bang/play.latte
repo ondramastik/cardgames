@@ -65,7 +65,9 @@
             <div class="health-points">
                 <img src="/images/bang/characters/back-character.png">
                 <div class="character hp-{$actingPlayer->getHp()}">
-                    <img src="/images/bang/characters/{$actingPlayer->getCharacter()->getName()|webalize}.png">
+                    <a n:href="useCharacterAbility!" class="ajax">
+                        <img src="/images/bang/characters/{$actingPlayer->getCharacter()->getName()|webalize}.png">
+                    </a>
                 </div>
             </div>
             <div class="role">
@@ -88,9 +90,11 @@
 </div>
 <div n:snippet="handlers">
     {if $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\Emporio}
-        {snippet emporio}
-            {control emporio}
-        {/snippet}
+        {control emporio}
+    {/if}
+    {if $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\SidKetchum
+            && $actingPlayer->getNickname() === $game->getActivePlayer()->getNickname()}
+        {control sidKetchum}
     {/if}
 </div>
 
