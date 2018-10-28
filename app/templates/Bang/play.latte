@@ -96,6 +96,9 @@
             && $actingPlayer->getNickname() === $game->getActivePlayer()->getNickname()}
         {control sidKetchum}
     {/if}
+    {if $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\BlackJack}
+        {control blackJack}
+    {/if}
 </div>
 
 {include '../Js/bang.latte'}

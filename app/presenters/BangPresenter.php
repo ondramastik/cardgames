@@ -3,11 +3,10 @@
 namespace App\Presenters;
 
 
+use App\Components\Bang\BlackJackControl;
 use App\Components\Bang\EmporioControl;
 use App\Components\Bang\SidKetchumControl;
-use App\Models\Bang\Emporio;
 use App\Models\Bang\GameGovernance;
-use App\Models\Bang\SidKetchum;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -48,7 +47,7 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
 		
 		//$this->gameGovernance->getActingPlayer()->giveCard(new Emporio(0, "1"));
-		//$this->gameGovernance->getActingPlayer()->setCharacter(new SidKetchum());
+		//$this->gameGovernance->getActingPlayer()->setCharacter(new BlackJack());
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
@@ -104,13 +103,19 @@ class BangPresenter extends BasePresenter {
 	}
 	
 	public function createComponentEmporio() {
-		$component = new EmporioControl($this->gameGovernance, $this->gameGovernance->getGame()->getHandler());
+		$component = new EmporioControl($this->gameGovernance);
 		
 		return $component;
 	}
 	
 	public function createComponentSidKetchum() {
 		$component = new SidKetchumControl($this->gameGovernance);
+		
+		return $component;
+	}
+	
+	public function createComponentBlackJack() {
+		$component = new BlackJackControl($this->gameGovernance);
 		
 		return $component;
 	}

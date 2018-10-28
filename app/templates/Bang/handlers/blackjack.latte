@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+<div class="modal" id="black-jack">
+    <div class="header">
+        <div class="text">
+            <h2>Speciální schopnost Black Jacka</h2>
+            <br>
+            <h4>Pokud je karta níže srdcová či kárová, má hráč nárok na další kartu..</h4>
+        </div>
+    </div>
+    <hr>
+    <div class="body" n:snippet="sid-ketchum">
+        <div class="cards">
+            <div class="card">
+                <img src="/images/bang/cards/{$secondCard->getName()|webalize}.png">
+            </div>
+        </div>
+        <hr n:if="$actingPlayer->getNickname() === $game->getActivePlayer()->getNickname()">
+        <div class="controls" n:if="$actingPlayer->getNickname() === $game->getActivePlayer()->getNickname()">
+            <a n:href="confirm!" class="ajax">Líznout třetí kartu</a>
+            <a n:href="decline!" class="ajax">Konec</a>
+        </div>
+    </div>
+</div>

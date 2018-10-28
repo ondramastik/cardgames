@@ -18,11 +18,10 @@ class EmporioControl extends Control {
 	/**
 	 * EmporioControl constructor.
 	 * @param GameGovernance $gameGovernance
-	 * @param Handlers\Emporio $handler
 	 */
-	public function __construct(GameGovernance $gameGovernance, Handlers\Emporio $handler) {
+	public function __construct(GameGovernance $gameGovernance) {
 		parent::__construct();
-		$this->handler = $handler;
+		$this->handler = $gameGovernance->getGame()->getHandler();
 		$this->gameGovernance = $gameGovernance;
 	}
 	

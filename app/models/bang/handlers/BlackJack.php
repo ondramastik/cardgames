@@ -17,36 +17,43 @@ class BlackJack extends Handler {
      * @param GameGovernance $gameGovernance
      */
     public function __construct(GameGovernance $gameGovernance) {
-        parent::__construct($gameGovernance);
-        $this->gameGovernance->getGame()->getActivePlayer()->giveCard(
-            $this->gameGovernance->getGame()->getCardsDeck()->drawCard());
+        $gameGovernance->getGame()->getActivePlayer()->giveCard(
+            $gameGovernance->getGame()->getCardsDeck()->drawCard());
 
-        $this->secondCard = $this->gameGovernance->getGame()->getCardsDeck()->drawCard();
-        $this->gameGovernance->getGame()->getActivePlayer()->giveCard($this->secondCard);
+        $this->secondCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+        $gameGovernance->getGame()->getActivePlayer()->giveCard($this->secondCard);
     }
-
-    public function confirmSecondCard() {
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 * @return bool
+	 */
+    public function confirmSecondCard(GameGovernance $gameGovernance): bool {
         if ($this->secondCard->getType() === CardTypes::HEARTS
             || $this->secondCard->getType() === CardTypes::PIKES) {
-            $this->gameGovernance->getGame()->getActivePlayer()->giveCard(
-                $this->gameGovernance->getGame()->getCardsDeck()->drawCard());
+            $gameGovernance->getGame()->getActivePlayer()->giveCard(
+                $gameGovernance->getGame()->getCardsDeck()->drawCard());
+			$gameGovernance->getGame()->setHandler(null);
         } else return false;
 
-        $this->gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
-        $this->setHasEventFinished(true);
+        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
         return true;
     }
-
-    public function declineSecondCard() {
-        $this->gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
-        $this->setHasEventFinished(true);
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 * @return bool
+	 */
+    public function declineSecondCard(GameGovernance $gameGovernance): bool {
+        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
+		$gameGovernance->getGame()->setHandler(null);
         return true;
     }
-
-    /**
-     * @return Card
-     */
-    public function getSecondCard(): Card {
+	
+	/**
+	 * @return Card
+	 */
+    public function getSecondCard(): ?Card {
         return $this->secondCard;
     }
 

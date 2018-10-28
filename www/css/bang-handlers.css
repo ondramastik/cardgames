@@ -39,7 +39,8 @@
     width: auto;
 }
 
-.modal .body .cards .card:hover {
+#emporio.modal .body .cards .card:hover,
+#sid-ketchum.modal .body .cards .card{
     border: 1px solid #f5b95c;
     border-radius: 15px;
     outline: none;
@@ -73,6 +74,25 @@
 }
 
 #sid-ketchum.modal .body .controls {
+    height: 20%;
+    text-align: center;
+}
+
+#black-jack.modal .body .cards {
+    height: calc(80% - 20px);
+    padding: 10px;
+}
+
+#black-jack.modal .body .cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#black-jack.modal .body .cards .card img {
+    height: 100%;
+}
+
+#black-jack.modal .body .controls {
     height: 20%;
     text-align: center;
 }
