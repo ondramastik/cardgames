@@ -4,6 +4,7 @@ namespace App\Models\Bang;
 
 
 use App\Models\Lobby\Lobby;
+use App\Models\Lobby\LobbyGovernance;
 use App\Models\Lobby\Log\Log;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
@@ -18,24 +19,21 @@ class GameGovernance {
     /** @var Game */
     private $game;
     
-    /** @var Lobby */
-    private $lobby;
+    /** @var LobbyGovernance */
+    private $lobbyGovernance;
 
-    /** @var \App\Models\Security\UserEntity */
-
-    /**
-     * GameGovernance constructor.
-     * @param \Nette\Security\User $user
-     * @param Lobby $lobby
-     * @throws \Throwable
-     */
-    public function __construct(\Nette\Security\User $user, Lobby $lobby) {
+	/**
+	 * GameGovernance constructor.
+	 * @param \Nette\Security\User $user
+	 * @param LobbyGovernance $lobbyGovernance
+	 * @throws \Throwable
+	 */
+    public function __construct(\Nette\Security\User $user, LobbyGovernance $lobbyGovernance) {
         $storage = new FileStorage(dirname(__DIR__) . '/../../temp');
         $this->cache = new Cache($storage);
         $this->user = $user->getIdentity()->userEntity;
         $this->game = $this->findActiveGame($this->user->getNickname());
-        $this->lobby = $lobby;
-
+        $this->lobbyGovernance = $lobbyGovernance;
         if (!$this->cache->load(self::CACHE_KEY)) {
             $this->cache->save(self::CACHE_KEY, []);
         }
@@ -81,6 +79,13 @@ class GameGovernance {
 
         return $games;
     }
+	
+	/**
+	 * @return LobbyGovernance
+	 */
+	public function getLobbyGovernance(): LobbyGovernance {
+		return $this->lobbyGovernance;
+	}
 
     /**
      * @param Card $card
@@ -235,13 +240,6 @@ class GameGovernance {
 		
 		return array_pop($cards);
 	}
-
-    /**
-     * @return Log
-     */
-    public function getLog(): Log {
-        return $this->lobby->getLog();
-    }
 
     private function persistGame(Game $game) {
         $games = $this->cache->load(self::CACHE_KEY);

@@ -126,3 +126,43 @@
 #bang .player .health-points .hp-5 {
     top: 90%;
 }
+
+#log {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 15px;
+    border: 1px solid black;
+    height: 40vh;
+}
+
+#log .header {
+    margin: 5px;
+    height: calc(5% - 10px);
+}
+
+#log .body {
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid black;
+    height: calc(95% - 50px);
+    max-height: calc(95% - 50px);
+    overflow: scroll;
+}
+
+#log .body .message .player {
+    color: green;
+    font-weight: bold;
+}
+
+#log .body .message .card {
+    font-weight: bold;
+}
+
+#log .body .message .card.beige {
+    color: #c79351;
+}
+
+#log .body .message .card.blue {
+    color: dodgerblue;
+}

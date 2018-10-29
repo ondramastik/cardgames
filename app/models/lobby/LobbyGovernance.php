@@ -2,6 +2,7 @@
 
 namespace App\Models\Lobby;
 
+use App\Models\Lobby\Log\Event;
 use App\Models\Security\UserEntity;
 use Nette\Caching\Cache;
 
@@ -160,12 +161,13 @@ class LobbyGovernance {
     }
 	
 	/**
+	 * @param Event $event
 	 * @throws \Throwable
 	 */
-	public function __destruct() {
-		if($this->findUsersLobby()) {
-			$this->saveLobby($this->findUsersLobby());
-		}
+    public function log(Event $event) {
+    	$lobby = $this->findUsersLobby();
+    	$lobby->getLog()->log($event);
+		$this->saveLobby($lobby);
 	}
 
 }

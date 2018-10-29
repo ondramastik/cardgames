@@ -15,6 +15,7 @@ services:
 	router: App\RouterFactory::createRouter
 	authenticator: App\Models\Security\Authenticator
 	prsiGovernance: App\Models\Prsi\GameGovernance
+	bangGovernance: App\Models\Bang\GameGovernance
 	lobbyGovernance: App\Models\Lobby\LobbyGovernance
 	- {class: App\WebSocketsRouterFactory, tags: [ipub.websockets.routes]}
 	formFactory: App\Forms\FormFactory

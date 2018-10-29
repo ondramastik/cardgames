@@ -1,8 +1,9 @@
 {layout false}
+
 {block head}
     <link rel="stylesheet" type="text/css" href="/css/bang.css">
 {/block}
-{dump $game}
+
 <div id="bang" class="player-count-4"><!---{count($game->getPlayers())}">-->
     <div class="cards-deck" n:snippet="cards-deck">
         <div class="cards">
@@ -88,6 +89,9 @@
         </div>
     </div>
 </div>
+
+{control log}
+
 <div n:snippet="handlers">
     {if $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\Emporio}
         {control emporio}

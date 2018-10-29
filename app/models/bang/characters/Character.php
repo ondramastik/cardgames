@@ -17,18 +17,18 @@ abstract class Character {
      * @return bool
      */
     public abstract function processSpecialSkill(GameGovernance $gameGovernance): bool;
-    
+	
 	/**
 	 * @param GameGovernance $gameGovernance
+	 * @throws \Throwable
 	 */
 	protected function log(GameGovernance $gameGovernance) {
-		$log = $gameGovernance->getLog();
-		
 		$activePlayer = $gameGovernance->getGame()->getActivePlayer();
 		$targetPlayer = $gameGovernance->getGame()->getPlayerToRespond()
 			?: $gameGovernance->getGame()->getActivePlayer();
 		
-		$log->log(new CharacterPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
+		$gameGovernance->getLobbyGovernance()
+			->log(new CharacterPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
 	}
 	
 	/**

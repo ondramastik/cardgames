@@ -1,0 +1,26 @@
+<div id="log">
+    <div class="header">
+        Event log
+    </div>
+    <div class="body">
+        <div n:foreach="$events as $event" class="message">
+            <b>{$event->getTime()|date:'%H:%M:%S'}:</b>
+            <span n:if="$event instanceof \App\Models\Bang\Events\CardPlayerInteractionEvent">
+                Hráč
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                zahrál kartu
+                <span n:class="card, $event->getCard() instanceof App\Models\Bang\BeigeCard ? beige : blue">
+                    {$event->getCard()->getName()}
+                </span>
+                <span n:if="$event->getPlayer()->getNickname() !== $event->getTargetPlayer()->getNickname()">
+                    na hráče
+                    <span class="player">
+                        {$event->getTargetPlayer()->getNickname()}
+                    </span>
+                </span>
+            </span>
+        </div>
+    </div>
+</div>

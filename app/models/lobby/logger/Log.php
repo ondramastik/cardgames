@@ -5,18 +5,13 @@ namespace App\Models\Lobby\Log;
 
 class Log {
 
-    /** @var \App\Models\Lobby\Lobby */
-    private $lobby;
-
     /** @var Event[] */
     private $events;
 
     /**
      * Log constructor.
-     * @param \App\Models\Lobby\Lobby $lobby
      */
-    public function __construct(\App\Models\Lobby\Lobby $lobby) {
-        $this->lobby = $lobby;
+    public function __construct() {
         $this->events = [];
     }
 

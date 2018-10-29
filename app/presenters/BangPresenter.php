@@ -6,6 +6,7 @@ namespace App\Presenters;
 use App\Components\Bang\BlackJackControl;
 use App\Components\Bang\EmporioControl;
 use App\Components\Bang\SidKetchumControl;
+use App\Components\Chat\LogControl;
 use App\Models\Bang\GameGovernance;
 use App\Models\Lobby\LobbyGovernance;
 
@@ -18,21 +19,14 @@ class BangPresenter extends BasePresenter {
     private $lobbyGovernance;
 	
 	/**
-	 * @throws \Throwable
+	 * BangPresenter constructor.
+	 * @param LobbyGovernance $lobbyGovernance
+	 * @param GameGovernance $gameGovernance
 	 */
-	protected function startup() {
-		parent::startup();
-		$this->gameGovernance = new GameGovernance($this->getUser(), $this->lobbyGovernance->findUsersLobby());
-	}
-	
-	/**
-     * BangPresenter constructor.
-     * @param LobbyGovernance $lobbyGovernance
-     * @throws \Throwable
-     */
-    public function __construct(LobbyGovernance $lobbyGovernance) {
+    public function __construct(LobbyGovernance $lobbyGovernance, GameGovernance $gameGovernance) {
         parent::__construct();
         $this->lobbyGovernance = $lobbyGovernance;
+        $this->gameGovernance = $gameGovernance;
     }
     
     public function renderPlay() {
@@ -43,11 +37,13 @@ class BangPresenter extends BasePresenter {
 		}
 		
 		$this->getTemplate()->game = $this->gameGovernance->getGame();
-		$this->getTemplate()->log = $this->gameGovernance->getLog();
+		$this->getTemplate()->log = $this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
 		
 		//$this->gameGovernance->getActingPlayer()->giveCard(new Emporio(0, "1"));
 		//$this->gameGovernance->getActingPlayer()->setCharacter(new BlackJack());
+		
+		\Tracy\Debugger::barDump($this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog());
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
@@ -119,5 +115,10 @@ class BangPresenter extends BasePresenter {
 		
 		return $component;
 	}
-
+	
+	public function createComponentLog() {
+    	$component = new LogControl($this->lobbyGovernance->findUsersLobby()->getLog());
+    	
+    	return $component;
+	}
 }

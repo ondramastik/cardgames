@@ -34,7 +34,7 @@ class Lobby {
         $this->id = $id;
         $this->name = $name;
         $this->members = [];
-        $this->log = new Log($this);
+        $this->log = new Log();
     }
 
     /**

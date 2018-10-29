@@ -38,15 +38,14 @@ abstract class Card {
 	
 	/**
 	 * @param GameGovernance $gameGovernance
+	 * @throws \Throwable
 	 */
 	protected function log(GameGovernance $gameGovernance) {
-		$log = $gameGovernance->getLog();
-		
 		$activePlayer = $gameGovernance->getGame()->getActivePlayer();
 		$targetPlayer = $gameGovernance->getGame()->getPlayerToRespond()
 			?: $gameGovernance->getGame()->getActivePlayer();
 		
-		$log->log(new CardPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
+		$gameGovernance->getLobbyGovernance()->log(new CardPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
 	}
  
 	/**
