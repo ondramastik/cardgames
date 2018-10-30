@@ -94,7 +94,7 @@ class GameGovernance {
      * @return boolean
      */
     public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true) {
-        if (!$this->hasHandlerFinished()) return false;
+        if ($this->getGame()->getHandler()) return false;
         
         if($this->getGame()->getPlayerToRespond()
 			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()) {
@@ -105,31 +105,15 @@ class GameGovernance {
 
     }
 
-    public function hasHandlerFinished() {
-        return $this->getGame()->getHandler() === null
-            || $this->getGame()->getHandler()->hasHandlerFinished();
-    }
-
     public function pass() {
         if ($this->getGame()->getPlayerToRespond()
-        	&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
-			&& $this->getGame()->getCardsDeck()->getActiveCard()
-			&& ($this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
-            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani
-            || $this->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
-        	
-            $this->getGame()->getPlayerToRespond()->dealDamage();
-	
-			if ($this->getGame()->getPlayerToRespond()->getHp() <= 0) {
-				$this->playerDied($this->getGame()->getPlayerToRespond(), $this->getGame()->getActivePlayer());
-			}
-			
-            $this->getGame()->setPlayerToRespond(null);
-			
-			return true;
-        }
-        
-        return false;
+			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
+			&& $this->getGame()->getCardsDeck()->getActiveCard()) {
+			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
+				->performPassAction($this);
+		}
+		
+		return false;
     }
     
     public function draw() {

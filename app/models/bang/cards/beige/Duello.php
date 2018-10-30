@@ -8,11 +8,10 @@ class Duello extends BeigeCard {
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        
+        $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
-        $gameGovernance->getGame()->setHandler(
-            new Handlers\Duello($gameGovernance->getGame()->getActivePlayer(), $targetPlayer));
-
-        $this->playCard($gameGovernance);
+        $this->playCard($gameGovernance, true);
 		$this->log($gameGovernance);
 
         return true;
@@ -21,5 +20,17 @@ class Duello extends BeigeCard {
     public function performResponseAction(GameGovernance $gameGovernance): bool {
         return false;
     }
-
+	
+	function performPassAction(GameGovernance $gameGovernance): bool {
+		$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
+		$activeCard->setActive(false);
+		
+		$gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
+		$gameGovernance->getGame()->setPlayerToRespond(null);
+		
+		//TODO: HP check nekde, LOG
+		
+		return true;
+	}
+	
 }

@@ -78,9 +78,30 @@ class Bang extends BeigeCard {
 			$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
 			
 			return true;
-        }
+        } else if($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Duello) {
+			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        	if($gameGovernance->getGame()->getActivePlayer()->getNickname() === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
+        		$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer());
+			} else {
+				$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
+			}
+			$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+        	//TODO: Log
+		}
 
         return false;
     }
-
+	
+	function performPassAction(GameGovernance $gameGovernance): bool {
+    	$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
+		$activeCard->getTargetPlayer()->dealDamage();
+		$activeCard->setActive(false);
+		
+		$gameGovernance->getGame()->setPlayerToRespond(null);
+		
+		//TODO: HP check nekde, LOG
+		
+		return true;
+	}
+	
 }

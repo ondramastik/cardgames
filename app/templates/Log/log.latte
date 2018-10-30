@@ -3,7 +3,7 @@
         Event log
     </div>
     <div class="body">
-        <div n:foreach="$events as $event" class="message">
+        <div n:foreach="array_reverse($events) as $event" class="message">
             <b>{$event->getTime()|date:'%H:%M:%S'}:</b>
             <span n:if="$event instanceof \App\Models\Bang\Events\CardPlayerInteractionEvent">
                 Hráč

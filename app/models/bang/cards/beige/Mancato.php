@@ -59,5 +59,9 @@ class Mancato extends BeigeCard {
 
         return $valid;
     }
+	
+	function performPassAction(GameGovernance $gameGovernance): bool {
+		return false;
+	}
 
 }

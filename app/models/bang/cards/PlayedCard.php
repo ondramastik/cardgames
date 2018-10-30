@@ -5,7 +5,7 @@ namespace App\Models\Bang;
 
 class PlayedCard {
 
-    /** @var Card */
+    /** @var BeigeCard */
     private $card;
 
     /** @var Player */
@@ -22,13 +22,13 @@ class PlayedCard {
 
     /**
      * PlayedCard constructor.
-     * @param Card $card
+     * @param BeigeCard $card
      * @param Player $player
      * @param int $round
      * @param bool $isActive
      * @param Player $targetPlayer
      */
-    public function __construct(Card $card, Player $player, int $round, bool $isActive, Player $targetPlayer) {
+    public function __construct(BeigeCard $card, Player $player, int $round, bool $isActive, Player $targetPlayer) {
         $this->card = $card;
         $this->player = $player;
         $this->round = $round;
@@ -37,9 +37,9 @@ class PlayedCard {
     }
 
     /**
-     * @return Card
+     * @return BeigeCard
      */
-    public function getCard(): Card {
+    public function getCard(): BeigeCard {
         return $this->card;
     }
 

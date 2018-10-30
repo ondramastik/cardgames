@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+<div class="modal" id="jesse-jones">
+    <div class="header">
+        <div class="text">
+            <h2>Speciální schopnost Jesseho Jonese</h2>
+            <br>
+            <h4>Vyber hráče, kterému chceš vzít kartu. Druhá karta bude dobrána automaticky</h4>
+        </div>
+    </div>
+    <hr>
+    <div class="body">
+        <div class="players">
+            <div class="player">
+                <div class="name"><b>Jméno</b></div>
+                <div class="hand-count"><b>Počet karet v ruce</b></div>
+                <div class="table-count"><b>Počet karet na stole</b></div>
+                <div class="action"><b>Akce</b></div>
+            </div>
+            <div class="player" n:foreach="$game->getPlayers() as $player" n:if="$player->getNickname() != $game->getActivePlayer()->getNickname()">
+                <div class="name">{$player->getNickname()}</div>
+                <div class="hand-count">{count($player->getHand())}</div>
+                <div class="table-count">{count($player->getTable())}</div>
+                <div class="action">
+                    <a n:href="steal! $player->getNickname()">Vzít kartu</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="controls">
+            <a n:href="cancel!" class="ajax">Zrušit</a>
+        </div>
+    </div>
+</div>

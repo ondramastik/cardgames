@@ -24,5 +24,9 @@ class Saloon extends BeigeCard {
     public function performResponseAction(GameGovernance $gameGovernance): bool {
         return false;
     }
+	
+	function performPassAction(GameGovernance $gameGovernance): bool {
+		return false;
+	}
 
 }

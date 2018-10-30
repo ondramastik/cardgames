@@ -24,23 +24,7 @@
     height: 80%;
 }
 
-.modal .body .cards {
-    padding: 10px;
-    text-align: center;
-}
-
-.modal .body .cards .card {
-    height: 100%;
-    display: inline-block;
-}
-
-.modal .body .cards .card img {
-    max-height:100%;
-    width: auto;
-}
-
-#emporio.modal .body .cards .card:hover,
-#sid-ketchum.modal .body .cards .card{
+#sid-ketchum.modal .body .cards .card:hover {
     border: 1px solid #f5b95c;
     border-radius: 15px;
     outline: none;
@@ -93,6 +77,44 @@
 }
 
 #black-jack.modal .body .controls {
+    height: 20%;
+    text-align: center;
+}
+
+#jesse-jones.modal .body {
+    margin: 15px;
+}
+
+#jesse-jones.modal .body .players {
+    width: 100%;
+    height: 80%;
+}
+
+#jesse-jones.modal .body .players .player {
+    height: 10%;
+}
+
+#jesse-jones.modal .body .players .player .name {
+    display: inline-block;
+    width: 30%;
+}
+
+#jesse-jones.modal .body .players .player .hand-count {
+    display: inline-block;
+    width: 15%;
+}
+
+#jesse-jones.modal .body .players .player .table-count {
+    display: inline-block;
+    width: 15%;
+}
+
+#jesse-jones.modal .body .players .player .action {
+    display: inline-block;
+    width: 30%;
+}
+
+#jesse-jones.modal .body .controls {
     height: 20%;
     text-align: center;
 }
