@@ -1,0 +1,29 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+<div class="modal" id="card-steal">
+    <div class="header">
+        <div class="text">
+            {$game->getCardsDeck()->getTopPlayedCard()->getCard()->getName()}
+            <br>
+            Vyberte kartu kterou chcete hráči
+            <b>{$game->getCardsDeck()->getTopPlayedCard()->getTargetPlayer()->getNickname()}</b>
+            vzít.
+        </div>
+    </div>
+    <hr>
+    <div class="body">
+        <div class="cards">
+            <div class="card" n:foreach="$game->getCardsDeck()->getTopPlayedCard()->getTargetPlayer()->getTable() as $card">
+                <a n:href="steal! $card->getIdentifier()" class="ajax">
+                    <img src="/images/bang/cards/{$card->getName()|webalize}.png">
+                </a>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card" n:foreach="$game->getCardsDeck()->getTopPlayedCard()->getTargetPlayer()->getHand() as $card">
+                <a n:href="steal!" class="ajax">
+                    <img src="/images/bang/cards/back.png">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

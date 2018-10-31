@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 
 use App\Components\Bang\BlackJackControl;
+use App\Components\Bang\CardStealControl;
 use App\Components\Bang\EmporioControl;
 use App\Components\Bang\JesseJonesControl;
 use App\Components\Bang\KitCarlsonControl;
@@ -140,6 +141,12 @@ class BangPresenter extends BasePresenter {
 	
 	public function createComponentLuckyDuke() {
 		$component = new LuckyDukeControl($this->gameGovernance);
+		
+		return $component;
+	}
+	
+	public function createComponentCardSteal() {
+		$component = new CardStealControl($this->gameGovernance);
 		
 		return $component;
 	}

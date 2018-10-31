@@ -161,3 +161,16 @@
 #lucky-duke .body .cards .card img {
     height: 100%;
 }
+
+#card-steal .body .cards {
+    height: 50%;
+}
+
+#card-steal .body .cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#card-steal .body .cards .card img {
+    height: 100%;
+}
