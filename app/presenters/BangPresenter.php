@@ -7,9 +7,14 @@ use App\Components\Bang\BlackJackControl;
 use App\Components\Bang\EmporioControl;
 use App\Components\Bang\JesseJonesControl;
 use App\Components\Bang\KitCarlsonControl;
+use App\Components\Bang\LuckyDukeControl;
 use App\Components\Bang\SidKetchumControl;
 use App\Components\Chat\LogControl;
+use App\Models\Bang\Barile;
+use App\Models\Bang\Dinamite;
 use App\Models\Bang\GameGovernance;
+use App\Models\Bang\LuckyDuke;
+use App\Models\Bang\Prigione;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -42,8 +47,11 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->log = $this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
 		
-		//$this->gameGovernance->getActingPlayer()->giveCard(new Emporio(0, "1"));
-		//$this->gameGovernance->getActingPlayer()->setCharacter(new KitCarlson());
+		//$this->gameGovernance->getActingPlayer()->putOnTable(new Barile(0, "1"));
+		//$this->gameGovernance->getActingPlayer()->putOnTable(new Prigione(0, "1"));
+		//$this->gameGovernance->getActingPlayer()->putOnTable(new Dinamite(0, "1"));
+		
+		//$this->gameGovernance->getActingPlayer()->setCharacter(new LuckyDuke());
 		
 		\Tracy\Debugger::barDump($this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog());
     }
@@ -126,6 +134,12 @@ class BangPresenter extends BasePresenter {
 	
 	public function createComponentKitCarlson() {
 		$component = new KitCarlsonControl($this->gameGovernance);
+		
+		return $component;
+	}
+	
+	public function createComponentLuckyDuke() {
+		$component = new LuckyDukeControl($this->gameGovernance);
 		
 		return $component;
 	}

@@ -11,13 +11,7 @@ class Dinamite extends BlueCard {
             $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
             return true;
         }
-
-        $event = $gameGovernance->getGame()->getHandler();
-        if ($event instanceof Handlers\LuckyDuke) {
-            $checkCard = $event->getChosen();
-        } else {
-            $checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
-        }
+		$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
         $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
 
@@ -26,12 +20,6 @@ class Dinamite extends BlueCard {
             $gameGovernance->getGame()->getActivePlayer()->dealDamage(3);
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-
-            if ($gameGovernance->getGame()->getActivePlayer()->getHp() <= 0) {
-                $gameGovernance->playerDied(
-                    $gameGovernance->getGame()->getActivePlayer());
-                $gameGovernance->nextPlayer();
-            }
         } else {
 			$gameGovernance->getGame()->getActivePlayer()->getNextPlayer()->putOnTable($this);
 			$this->log($gameGovernance);

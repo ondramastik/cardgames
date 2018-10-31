@@ -135,3 +135,29 @@
 #kit-carlson.modal .body .cards .card img {
     height: 100%;
 }
+
+#lucky-duke .body .cards {
+    height: 100%;
+    text-align: center;
+}
+
+#lucky-duke-eligible .body .cards {
+    height: 80%;
+    text-align: center;
+}
+
+#lucky-duke-eligible .body .controls {
+    height: 20%;
+    text-align: center;
+}
+
+#lucky-duke-eligible .body .cards .card,
+#lucky-duke .body .cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#lucky-duke-eligible .body .cards .card img,
+#lucky-duke .body .cards .card img {
+    height: 100%;
+}

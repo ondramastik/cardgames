@@ -2,8 +2,6 @@
 
 namespace App\Models\Bang;
 
-use App\Models\Bang\Handlers;
-
 class Prigione extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
@@ -19,13 +17,7 @@ class Prigione extends BlueCard {
 
             return false;
         } else {
-            $handler = $gameGovernance->getGame()->getHandler();
-            
-            if ($handler instanceof Handlers\LuckyDuke) {
-                $checkCard = $handler->getChosen();
-            } else {
-                $checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
-            }
+			$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
             if ($checkCard->getType() !== CardTypes::HEARTS) {
                 $gameGovernance->nextPlayer();

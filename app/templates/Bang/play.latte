@@ -106,6 +106,9 @@
     {elseif $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\KitCarlson
             && $actingPlayer->getNickname() === $game->getActivePlayer()->getNickname()}
         {control kitCarlson}
+    {elseif $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\LuckyDuke
+            && $actingPlayer->getCharacter() instanceof \App\Models\Bang\LuckyDuke}
+        {control luckyDuke}
     {/if}
 </div>
 
