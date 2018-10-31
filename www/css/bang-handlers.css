@@ -13,15 +13,11 @@
 .modal .header {
     height: 20%;
     text-align: center;
-    vertical-align: middle;
-}
-
-.modal .header .text {
-    vertical-align: middle;
 }
 
 .modal .body {
-    height: 80%;
+    height: calc(80% - 38px);
+    padding: 10px;
 }
 
 #sid-ketchum.modal .body .cards .card:hover {
@@ -117,4 +113,25 @@
 #jesse-jones.modal .body .controls {
     height: 20%;
     text-align: center;
+}
+
+#kit-carlson.modal .body .cards .card:hover {
+    border: 1px solid #f50010;
+    border-radius: 15px;
+    outline: none;
+    box-shadow: 0 0 10px #f50010;
+}
+
+#kit-carlson.modal .body .cards {
+    height: 100%;
+    text-align: center;
+}
+
+#kit-carlson.modal .body .cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#kit-carlson.modal .body .cards .card img {
+    height: 100%;
 }

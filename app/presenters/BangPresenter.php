@@ -6,10 +6,10 @@ namespace App\Presenters;
 use App\Components\Bang\BlackJackControl;
 use App\Components\Bang\EmporioControl;
 use App\Components\Bang\JesseJonesControl;
+use App\Components\Bang\KitCarlsonControl;
 use App\Components\Bang\SidKetchumControl;
 use App\Components\Chat\LogControl;
 use App\Models\Bang\GameGovernance;
-use App\Models\Bang\JesseJones;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -43,7 +43,7 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
 		
 		//$this->gameGovernance->getActingPlayer()->giveCard(new Emporio(0, "1"));
-		//$this->gameGovernance->getActingPlayer()->setCharacter(new JesseJones());
+		//$this->gameGovernance->getActingPlayer()->setCharacter(new KitCarlson());
 		
 		\Tracy\Debugger::barDump($this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog());
     }
@@ -120,6 +120,12 @@ class BangPresenter extends BasePresenter {
 	
 	public function createComponentJesseJones() {
 		$component = new JesseJonesControl($this->gameGovernance);
+		
+		return $component;
+	}
+	
+	public function createComponentKitCarlson() {
+		$component = new KitCarlsonControl($this->gameGovernance);
 		
 		return $component;
 	}

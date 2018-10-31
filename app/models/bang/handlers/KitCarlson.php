@@ -10,38 +10,40 @@ class KitCarlson extends Handler {
 
     /** @var Card[] */
     private $cards;
-
-    /**
-     * Duello constructor.
-     * @param GameGovernance $gameGovernance
-     */
+	
+	/**
+	 * KitCarlson constructor.
+	 * @param GameGovernance $gameGovernance
+	 */
     public function __construct(GameGovernance $gameGovernance) {
-        parent::__construct($gameGovernance);
-        $this->initCards();
+        $this->initCards($gameGovernance);
     }
-
-    private function initCards() {
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 */
+    private function initCards(GameGovernance $gameGovernance) {
         $this->cards = [
-            $this->gameGovernance->getGame()->getCardsDeck()->drawCard(),
-            $this->gameGovernance->getGame()->getCardsDeck()->drawCard(),
-            $this->gameGovernance->getGame()->getCardsDeck()->drawCard()
+            $gameGovernance->getGame()->getCardsDeck()->drawCard(),
+            $gameGovernance->getGame()->getCardsDeck()->drawCard(),
+            $gameGovernance->getGame()->getCardsDeck()->drawCard()
         ];
     }
-
-    /**
-     * @param Card $chosenCard
-     */
-    public function choseCard(Card $chosenCard) {
+	
+	/**
+	 * @param GameGovernance $gameGovernance
+	 * @param Card $chosenCard
+	 */
+    public function choseUnwantedCard(GameGovernance $gameGovernance, Card $chosenCard) {
         foreach ($this->getCards() as $key => $card) {
             if ($card === $chosenCard) {
-                $this->gameGovernance->getGame()->getCardsDeck()->return($card);
+                $gameGovernance->getGame()->getCardsDeck()->return($card);
             } else {
-                $this->gameGovernance->getGame()->getActivePlayer()->giveCard($card);
+                $gameGovernance->getGame()->getActivePlayer()->giveCard($card);
             }
         }
 
-        $this->gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
-        $this->setHasEventFinished(true);
+        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
     }
 
     /**

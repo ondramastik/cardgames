@@ -1,0 +1,22 @@
+<link rel="stylesheet" type="text/css" href="/css/bang-handlers.css">
+{snippet emporio}
+    <div class="modal" id="kit-carlson">
+        <div class="header">
+            <div class="text">
+                Speciální schopnost Kita Carlsna
+                <br>
+                Z karet níže vyber kartu o kterou nemáš zájem. Bude vrácena zpět do balíčku
+            </div>
+        </div>
+        <hr>
+        <div class="body">
+            <div class="cards">
+                <div class="card" n:foreach="$cards as $card">
+                    <a n:href="chooseUnwantedCard! $card->getIdentifier()" class="ajax">
+                        <img src="/images/bang/cards/{$card->getName()|webalize}.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{/snippet}
