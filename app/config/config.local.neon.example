@@ -1,0 +1,22 @@
+parameters:
+        serverIp: 127.0.0.1 
+
+doctrine:
+    user: root
+    password: plmnbvcxy
+    dbname: cardgames
+    metadata:
+        App: %appDir%
+
+webSockets:
+    clients:
+        storage:
+            driver: @clients.driver.memory
+            ttl:    0
+    server:
+        httpHost:   127.0.0.1
+        port:       8080
+        address:    127.0.0.1
+    mapping:
+        *: App\Controllers\*Controller
+
