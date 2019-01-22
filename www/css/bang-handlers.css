@@ -174,3 +174,16 @@
 #card-steal .body .cards .card img {
     height: 100%;
 }
+
+#emporio .body .cards {
+    height: 50%;
+}
+
+#emporio .body .cards .card {
+    height: 100%;
+    display: inline-block;
+}
+
+#emporio .body .cards .card img {
+    height: 100%;
+}

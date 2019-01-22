@@ -14,7 +14,9 @@ class ElGringo extends Character {
             return false;
         }
 
-        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indiani) {
+        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indiani) {
             $cards = $gameGovernance->getGame()->getActivePlayer()->getHand();
 
             shuffle($cards);

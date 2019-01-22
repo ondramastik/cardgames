@@ -1,3 +1,4 @@
+
 <div id="log">
     <div class="header">
         Event log
@@ -6,20 +7,45 @@
         <div n:foreach="array_reverse($events) as $event" class="message">
             <b>{$event->getTime()|date:'%H:%M:%S'}:</b>
             <span n:if="$event instanceof \App\Models\Bang\Events\CardPlayerInteractionEvent">
-                Hráč
                 <span class="player">
                      {$event->getPlayer()->getNickname()}
                 </span>
                 zahrál kartu
-                <span n:class="card, $event->getCard() instanceof App\Models\Bang\BeigeCard ? beige : blue">
-                    {$event->getCard()->getName()}
-                </span>
+                {include 'card.latte', card => $event->getCard()}
                 <span n:if="$event->getPlayer()->getNickname() !== $event->getTargetPlayer()->getNickname()">
                     na hráče
                     <span class="player">
                         {$event->getTargetPlayer()->getNickname()}
                     </span>
                 </span>
+            </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\CharacterPlayerInteractionEvent">
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                použil schopnost
+                <span class="character">
+                    {$event->getCharacter()->getName()}
+                </span>
+            </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\GameEvent">
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                {if $event->getType() === \App\Models\Bang\Events\GameEvent::PASS}
+                    přeskočil tah
+                {elseif $event->getType() === \App\Models\Bang\Events\GameEvent::DRAW}
+                    si líznul karty
+                {/if}
+            </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\DrawDecisionCardEvent">
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                si líznul kartu
+                {include 'card.latte', card => $event->getCard()}
+                na kartu
+                {include 'card.latte', card => $event->getInitialCard()}
             </span>
         </div>
     </div>

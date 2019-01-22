@@ -151,6 +151,10 @@
 }
 
 #log .body .message .player {
+    font-weight: bold;
+}
+
+#log .body .message .character {
     color: green;
     font-weight: bold;
 }
@@ -165,4 +169,31 @@
 
 #log .body .message .card.blue {
     color: dodgerblue;
+}
+
+#log .body .message .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+#log .body .message .tooltip .text {
+    visibility: hidden;
+    width: 190px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 2;
+    bottom: -50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#log .body .message .tooltip:hover .text {
+    visibility: visible;
+    opacity: 1;
 }

@@ -1,0 +1,4 @@
+<span n:class="tooltip, card, $card instanceof App\Models\Bang\BeigeCard ? beige : blue">
+    {$card->getName()}
+    <span class="text">Typ: {\App\Models\Bang\Card::getTypes()[$card->getType()]}, Hodnota: {$card->getValue()}</span>
+</span>

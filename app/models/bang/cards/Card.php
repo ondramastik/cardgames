@@ -12,6 +12,13 @@ abstract class Card {
     /** @var string */
     private $value;
 
+    private static $types = [
+        CardTypes::HEARTS => 'Srdcová',
+        CardTypes::TILES => 'Kárová',
+        CardTypes::CLOVERS => 'Listová',
+        CardTypes::PIKES => 'Piková',
+    ];
+
     /**
      * Card constructor.
      * @param int $type
@@ -87,6 +94,13 @@ abstract class Card {
 	 */
     public function getIdentifier() {
         return $this->getName() . $this->getType() . $this->getValue();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypes(): array {
+        return self::$types;
     }
 
 }

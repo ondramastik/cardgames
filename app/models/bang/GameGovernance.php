@@ -3,6 +3,7 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\GameEvent;
 use App\Models\Lobby\Lobby;
 use App\Models\Lobby\LobbyGovernance;
 use App\Models\Lobby\Log\Log;
@@ -111,6 +112,8 @@ class GameGovernance {
 			&& $this->getGame()->getCardsDeck()->getActiveCard()) {
 			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
 				->performPassAction($this);
+
+            $this->lobbyGovernance->log(new GameEvent($this->getActingPlayer(), GameEvent::PASS));
 		}
 		
 		return false;
@@ -123,7 +126,8 @@ class GameGovernance {
 			$this->getActingPlayer()->giveCard($this->getGame()->getCardsDeck()->drawCard());
 		
 			$this->getActingPlayer()->shiftTurnStage();
-			
+			$this->lobbyGovernance->log(new GameEvent($this->getActingPlayer(), GameEvent::DRAW));
+
 			return true;
 		}
 		
