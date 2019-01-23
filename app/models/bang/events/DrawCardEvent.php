@@ -8,7 +8,7 @@ use App\Models\Lobby\Lobby;
 use App\Models\Lobby\Log\Event;
 use App\Models\Security\UserEntity;
 
-class DrawDecisionCardEvent extends Event {
+class DrawCardEvent extends Event {
 
     /** @var Player */
     private $player;
@@ -25,7 +25,7 @@ class DrawDecisionCardEvent extends Event {
      * @param Card $card
      * @param Card $initialCard
      */
-    public function __construct(Player $player, Card $card, Card $initialCard) {
+    public function __construct(Player $player, Card $card, ?Card $initialCard) {
         parent::__construct();
         $this->card = $card;
         $this->player = $player;
@@ -49,7 +49,7 @@ class DrawDecisionCardEvent extends Event {
     /**
      * @return Card
      */
-    public function getInitialCard(): Card {
+    public function getInitialCard(): ?Card {
         return $this->initialCard;
     }
 

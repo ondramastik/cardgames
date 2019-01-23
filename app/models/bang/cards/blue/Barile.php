@@ -4,7 +4,7 @@ namespace App\Models\Bang;
 
 
 use App\Models\Bang\Events\CardPlayerInteractionEvent;
-use App\Models\Bang\Events\DrawDecisionCardEvent;
+use App\Models\Bang\Events\DrawCardEvent;
 
 class Barile extends BlueCard {
 
@@ -44,7 +44,7 @@ class Barile extends BlueCard {
             $gameGovernance->getLobbyGovernance()
                 ->log(new CardPlayerInteractionEvent($gameGovernance->getGame()->getPlayerToRespond(), $gameGovernance->getGame()->getPlayerToRespond(), $this));
             $gameGovernance->getLobbyGovernance()
-                ->log(new DrawDecisionCardEvent($gameGovernance->getGame()->getPlayerToRespond(), $checkCard, $this));
+                ->log(new DrawCardEvent($gameGovernance->getGame()->getPlayerToRespond(), $checkCard, $this));
 
             if ($checkCard->getType() === CardTypes::HEARTS) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();

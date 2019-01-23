@@ -3,20 +3,45 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\CharacterPlayerInteractionEvent;
+use App\Models\Bang\Events\DrawCardEvent;
+
 class Jourdonnais extends Character {
+
+    /** @var int */
+    protected $lastTryCardId;
 
     public function getHp(): int {
         return 4;
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        if ($gameGovernance->getGame()->getPlayer($gameGovernance->getNickname())
-            === $gameGovernance->getGame()->getPlayerToRespond()
-            && (new Barile())->performResponseAction($gameGovernance)) {
-        	
-			$this->log($gameGovernance);
-			
-            return true;
+        if ($gameGovernance->getActingPlayer()->getNickname()
+            === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
+            if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()
+                && ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
+                    || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
+                if($this->lastTryCardId !== null
+                    && $this->lastTryCardId === $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard()->getIdentifier()) {
+                    return false;
+                } else {
+                    $this->lastTryCardId = $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard()->getIdentifier();
+                }
+
+                $checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+                $gameGovernance->getLobbyGovernance()
+                    ->log(new CharacterPlayerInteractionEvent($gameGovernance->getGame()->getPlayerToRespond(), $gameGovernance->getGame()->getPlayerToRespond(), $this));
+                $gameGovernance->getLobbyGovernance()
+                    ->log(new DrawCardEvent($gameGovernance->getGame()->getPlayerToRespond(), $checkCard, null));
+
+                if ($checkCard->getType() === CardTypes::HEARTS) {
+                    $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
+                    $gameGovernance->getGame()->setPlayerToRespond(null);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         return false;

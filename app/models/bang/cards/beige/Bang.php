@@ -21,6 +21,13 @@ class Bang extends BeigeCard {
             return false;
         }
 
+        if(($gameGovernance->getActingPlayer()->calculateDistanceFromPlayer($targetPlayer)
+                - $targetPlayer->calculateDefaultNegativeDistance()
+                + $gameGovernance->getActingPlayer()->calculateDefaultPositiveDistance()
+                ) < 1) {
+            return false;
+        }
+
         $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
@@ -79,7 +86,7 @@ class Bang extends BeigeCard {
 			
 			return true;
         } else if($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Duello) {
-			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+			$gameGovernance->getActingPlayer()->drawFromHand($this);
         	if($gameGovernance->getGame()->getActivePlayer()->getNickname() === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
         		$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer());
 			} else {

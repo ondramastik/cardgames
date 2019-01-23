@@ -14,12 +14,13 @@ class BartCassidy extends Character {
             return false;
         }
 
-        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Bang
-            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling
-            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Indiani) {
+        if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling
+            || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani) {
         	
             $gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
             $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
+            $gameGovernance->getGame()->setPlayerToRespond(null);
             $gameGovernance->getGame()->getPlayerToRespond()->giveCard(
                 $gameGovernance->getGame()->getCardsDeck()->drawCard());
             

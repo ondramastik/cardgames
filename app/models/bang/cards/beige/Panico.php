@@ -8,6 +8,13 @@ use App\Models\Bang\Handlers\CardSteal;
 class Panico extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
+        if(($gameGovernance->getActingPlayer()->calculateDistanceFromPlayer($targetPlayer)
+                - $targetPlayer->calculateDefaultNegativeDistance()
+                + $gameGovernance->getActingPlayer()->calculateDefaultPositiveDistance(false)
+            ) < 1) {
+            return false;
+        }
+
 		$gameGovernance->getGame()->setHandler(new CardSteal());
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);

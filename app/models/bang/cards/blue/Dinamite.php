@@ -3,15 +3,21 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\DrawCardEvent;
+
 class Dinamite extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
             $gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
             $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            $this->log($gameGovernance);
             return true;
         }
 		$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+
+        $gameGovernance->getLobbyGovernance()
+            ->log(new DrawCardEvent($gameGovernance->getGame()->getActivePlayer(), $checkCard, $this));
 
         $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
 
@@ -22,7 +28,6 @@ class Dinamite extends BlueCard {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         } else {
 			$gameGovernance->getGame()->getActivePlayer()->getNextPlayer()->putOnTable($this);
-			$this->log($gameGovernance);
         }
 
         return true;

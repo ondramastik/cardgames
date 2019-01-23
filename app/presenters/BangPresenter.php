@@ -43,6 +43,7 @@ class BangPresenter extends BasePresenter {
 		if(!$this->gameGovernance->getGame()) {
 			$this->gameGovernance->createGame($nicknames);
 		}
+		\Tracy\Debugger::barDump($this->gameGovernance->getGame()->getHandler());
 		
 		$this->getTemplate()->game = $this->gameGovernance->getGame();
 		$this->getTemplate()->log = $this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog();

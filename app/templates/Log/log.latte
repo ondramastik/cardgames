@@ -24,28 +24,33 @@
                      {$event->getPlayer()->getNickname()}
                 </span>
                 použil schopnost
-                <span class="character">
-                    {$event->getCharacter()->getName()}
-                </span>
+                {include 'character.latte', character => $event->getCharacter()}
             </span>
-            <span n:if="$event instanceof \App\Models\Bang\Events\GameEvent">
+            <span n:if="$event instanceof \App\Models\Bang\Events\PassEvent">
                 <span class="player">
                      {$event->getPlayer()->getNickname()}
                 </span>
-                {if $event->getType() === \App\Models\Bang\Events\GameEvent::PASS}
-                    přeskočil tah
-                {elseif $event->getType() === \App\Models\Bang\Events\GameEvent::DRAW}
-                    si líznul karty
-                {/if}
+                neodpovedel na
+                {include 'card.latte', card => $event->getPlayedCard()->getCard()}
+                hráče
+                <span class="player">
+                 {$event->getPlayer()->getNickname()}
+                </span>
+                a přišel o jeden život
             </span>
-            <span n:if="$event instanceof \App\Models\Bang\Events\DrawDecisionCardEvent">
+            <span n:if="$event instanceof \App\Models\Bang\Events\DrawCardEvent">
                 <span class="player">
                      {$event->getPlayer()->getNickname()}
                 </span>
                 si líznul kartu
                 {include 'card.latte', card => $event->getCard()}
-                na kartu
-                {include 'card.latte', card => $event->getInitialCard()}
+                {if $event->getInitialCard()}
+                    na kartu
+                    {include 'card.latte', card => $event->getInitialCard()}
+                {else}
+                    na schopnost své postavy
+                    {include 'character.latte', character => $event->getPlayer()->getCharacter()}
+                {/if}
             </span>
         </div>
     </div>

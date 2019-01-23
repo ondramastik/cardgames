@@ -2,6 +2,9 @@
 
 namespace App\Models\Bang;
 
+use App\Models\Bang\Events\CardPlayerInteractionEvent;
+use App\Models\Bang\Events\DrawCardEvent;
+
 class Prigione extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
@@ -10,7 +13,8 @@ class Prigione extends BlueCard {
                 $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
 
                 $targetPlayer->putOnTable($this);
-				$this->log($gameGovernance);
+                $gameGovernance->getLobbyGovernance()
+                    ->log(new CardPlayerInteractionEvent($gameGovernance->getGame()->getActivePlayer(), $targetPlayer, $this));
 				
 				return true;
             }
@@ -19,13 +23,16 @@ class Prigione extends BlueCard {
         } else {
 			$checkCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
-            if ($checkCard->getType() !== CardTypes::HEARTS) {
-                $gameGovernance->nextPlayer();
-            }
+            $gameGovernance->getLobbyGovernance()
+                ->log(new DrawCardEvent($gameGovernance->getGame()->getActivePlayer(), $checkCard, $this));
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($checkCard);
             $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+
+            if ($checkCard->getType() !== CardTypes::HEARTS) {
+                $gameGovernance->nextPlayer();
+            }
 
             return true;
         }

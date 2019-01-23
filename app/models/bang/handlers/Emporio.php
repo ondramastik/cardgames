@@ -4,6 +4,7 @@ namespace App\Models\Bang\Handlers;
 
 
 use App\Models\Bang\Card;
+use App\Models\Bang\Events\DrawCardEvent;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Player;
 
@@ -33,12 +34,13 @@ class Emporio extends Handler {
             $this->cards[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
         }
     }
-	
-	/**
-	 * @param GameGovernance $gameGovernance
-	 * @param Card $chosenCard
-	 * @return bool
-	 */
+
+    /**
+     * @param GameGovernance $gameGovernance
+     * @param Card $chosenCard
+     * @return bool
+     * @throws \Throwable
+     */
     public function choseCard(GameGovernance $gameGovernance, Card $chosenCard): bool {
     	if($gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
 			foreach ($this->cards as $key => $card) {
@@ -49,7 +51,11 @@ class Emporio extends Handler {
 					break;
 				}
 			}
-	
+
+            $gameGovernance->getLobbyGovernance()
+                ->log(new DrawCardEvent($gameGovernance->getActingPlayer(),
+                    $chosenCard, $gameGovernance->getGame()->getCardsDeck()->getTopPlayedCard()->getCard()));
+
 			if (!count($this->cards)) {
 				$this->hasEventFinished = true;
 				$gameGovernance->getGame()->setHandler(null);
