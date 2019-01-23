@@ -4,9 +4,7 @@ namespace App\Models\Bang;
 
 
 use App\Models\Bang\Events\PassEvent;
-use App\Models\Lobby\Lobby;
 use App\Models\Lobby\LobbyGovernance;
-use App\Models\Lobby\Log\Log;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
@@ -110,11 +108,10 @@ class GameGovernance {
         if ($this->getGame()->getPlayerToRespond()
 			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
 			&& $this->getGame()->getCardsDeck()->getActiveCard()) {
-			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
-				->performPassAction($this);
-
             $this->lobbyGovernance
                 ->log(new PassEvent($this->getActingPlayer(), $this->getGame()->getCardsDeck()->getActiveCard()));
+			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
+				->performPassAction($this);
 		}
 		
 		return false;

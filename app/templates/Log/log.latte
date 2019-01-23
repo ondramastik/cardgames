@@ -32,11 +32,11 @@
                 </span>
                 neodpovedel na
                 {include 'card.latte', card => $event->getPlayedCard()->getCard()}
-                hráče
+                od
                 <span class="player">
                  {$event->getPlayer()->getNickname()}
                 </span>
-                a přišel o jeden život
+                a ztratil život
             </span>
             <span n:if="$event instanceof \App\Models\Bang\Events\DrawCardEvent">
                 <span class="player">
