@@ -64,20 +64,15 @@ class Game {
 
             if ($player->getRole() instanceof Sceriffo) {
                 $this->setActivePlayer($player);
-                $player->heal();
+                $player->setHp($player->getHp() - 1);
             }
             
             for($i = 0; $i < $player->getCharacter()->getHp(); $i++) {
-            	$player->giveCard($this->getCardsDeck()->drawCard());
+                $player->getHand()[] = $this->getCardsDeck()->drawCard();
 			}
 
             $this->players[] = $player;
-
-            if (isset($this->players[count($this->players) - 2])) {
-                $this->players[count($this->players) - 2]->setNextPlayer($player);
-            }
         }
-        $this->players[count($this->players) - 1]->setNextPlayer($this->players[0]);
     }
 	
 	/**
@@ -90,7 +85,7 @@ class Game {
     public function preparePlayers() {
         foreach ($this->getPlayers() as $player) {
             for ($i = 0; $i < $player->getCharacter()->getHp(); $i++) {
-                $player->giveCard($this->cardsDeck->drawCard());
+                $player->getHand()[] = $this->getCardsDeck()->drawCard();
             }
         }
     }

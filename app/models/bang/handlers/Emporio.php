@@ -7,6 +7,7 @@ use App\Models\Bang\Card;
 use App\Models\Bang\Events\DrawCardEvent;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Player;
+use App\Models\Bang\PlayerUtils;
 
 class Emporio extends Handler {
 
@@ -39,14 +40,13 @@ class Emporio extends Handler {
      * @param GameGovernance $gameGovernance
      * @param Card $chosenCard
      * @return bool
-     * @throws \Throwable
      */
     public function choseCard(GameGovernance $gameGovernance, Card $chosenCard): bool {
     	if($gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
 			foreach ($this->cards as $key => $card) {
 				if ($card instanceof $chosenCard) {
-					$this->playerOnTurn->giveCard($card);
-					$this->playerOnTurn = $this->playerOnTurn->getNextPlayer();
+					$this->playerOnTurn->getHand()[] = $card;
+					$this->playerOnTurn = PlayerUtils::getNextPlayer($gameGovernance->getGame(), $this->playerOnTurn);
 					unset($this->cards[$key]);
 					break;
 				}

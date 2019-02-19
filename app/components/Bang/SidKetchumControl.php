@@ -42,7 +42,6 @@ class SidKetchumControl extends Control {
 	
 	/**
 	 * @param string $cardIdentifier
-	 * @throws \ReflectionException
 	 */
 	public function handleChooseCard(string $cardIdentifier) {
 		foreach ($this->gameGovernance->getGame()->getActivePlayer()->getHand() as $card) {

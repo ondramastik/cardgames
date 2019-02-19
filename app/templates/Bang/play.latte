@@ -17,7 +17,7 @@
     </div>
 
     {snippet players}
-        {var $player = $actingPlayer->getNextPlayer()}
+        {var $player = App\Models\Bang\PlayerUtils::getNextPlayer($game, $actingPlayer)}
         {var $playerCounter = 1;}
         <div n:class="$player->getNickname() === $game->getActivePlayer()->getNickname() ? active-player,
                     $game->getPlayerToRespond() && $player->getNickname() === $game->getPlayerToRespond()->getNickname()
@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 <div class="role">
-                    <img n:if="!($player->getRole() instanceof \App\Models\Bang\Sceriffo)" src="/images/bang/roles/back-role.png">
-                    <img n:if="$player->getRole() instanceof \App\Models\Bang\Sceriffo"
+                    <img n:if="!($player->getRole() instanceof \App\Models\Bang\Sceriffo) && $player->getHp() > 0" src="/images/bang/roles/back-role.png">
+                    <img n:if="$player->getRole() instanceof \App\Models\Bang\Sceriffo || $player->getHp() <= 0"
                             src="/images/bang/roles/{$player->getRole()->getName()|lower}.png">
                 </div>
                 <div n:foreach="$player->getTable() as $card">
@@ -52,7 +52,7 @@
                     <img src="/images/bang/cards/back.png">
                 </div>
             </div>
-            {php $player = $player->getNextPlayer()}
+            {php $player = App\Models\Bang\PlayerUtils::getNextPlayer($game, $player)}
         </div>
     {/snippet}
     <div n:class="$actingPlayer->getNickname() === $game->getActivePlayer()->getNickname() ? active-player,

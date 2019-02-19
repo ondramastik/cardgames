@@ -10,12 +10,12 @@ class Mustang extends BlueCard {
             foreach ($gameGovernance->getGame()->getActivePlayer()->getTable() as $blueCard) {
                 if($blueCard instanceof Mustang) {
                     $gameGovernance->getGame()->getCardsDeck()->discardCard($blueCard);
-                    $gameGovernance->getGame()->getActivePlayer()->drawFromTable($blueCard);
+                    PlayerUtils::drawFromTable($gameGovernance->getGame()->getActivePlayer(), $blueCard);
                 }
             }
 
-            $gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
+            $gameGovernance->getGame()->getActivePlayer()->getTable()[] = $this;
 
             return true;
         } else {

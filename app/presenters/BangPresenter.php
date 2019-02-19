@@ -59,8 +59,19 @@ class BangPresenter extends BasePresenter {
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
-        $tableCard = $this->gameGovernance->getPlayersTableCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);
-		$handCard = $this->gameGovernance->getPlayersCard($this->gameGovernance->getActingPlayer(), $cardIdentifier);;
+        $handCard = $tableCard = false;
+
+        foreach ($this->gameGovernance->getActingPlayer()->getTable() as $table) {
+            if($cardIdentifier === $table->getIdentifier()) {
+                $tableCard = $table;
+            }
+        }
+
+        foreach ($this->gameGovernance->getActingPlayer()->getHand() as $hand) {
+            if($cardIdentifier === $hand->getIdentifier()) {
+                $handCard = $hand;
+            }
+        }
 
         $targetPlayer = $this->gameGovernance->getGame()->getPlayer($targetPlayer)
             ?: $this->gameGovernance->getActingPlayer();

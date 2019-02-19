@@ -27,9 +27,6 @@ class Player {
     /** @var int */
     private $hp;
 
-    /** @var Player */
-    private $nextPlayer;
-
     /** @var int */
     private $turnStage;
 
@@ -54,61 +51,12 @@ class Player {
     }
 
     /**
-     * @return string
-     */
-    public function getNickname() {
-        return $this->nickname;
-    }
-
-    /**
-     * @return Card[]
-     */
-    public function getHand() {
-        return $this->hand;
-    }
-
-    /**
-     * @param Card $card
-     */
-    public function giveCard($card) {
-        $this->hand[] = $card;
-    }
-
-    /**
-     * @param BlueCard $card
-     */
-    public function putOnTable($card) {
-        $this->table[] = $card;
-    }
-
-    /**
-     * @param Character $character
-     */
-    public function chooseCharacter($character) {
-        $this->setCharacter($character);
-    }
-
-    /**
-     * @return Role
-     */
-    public function getRole() {
-        return $this->role;
-    }
-
-    /**
-     * @return int
-     */
-    public function getHp() {
-        return $this->hp;
-    }
-
-    /**
      * @return int
      */
     public function getMaxHp() {
         $maxHp = $this->getCharacter()->getHp();
 
-        if ($this->getCharacter() instanceof Sceriffo) {
+        if ($this->getRole() instanceof Sceriffo) {
             $maxHp++;
         }
 
@@ -130,62 +78,52 @@ class Player {
     }
 
     /**
-     * @param int $amount
+     * @return Role
      */
-    public function dealDamage($amount = 1) {
-        $this->hp -= $amount;
+    public function getRole() {
+        return $this->role;
     }
 
-    public function heal() {
-        $this->hp++;
+    /**
+     * @return string
+     */
+    public function getNickname() {
+        return $this->nickname;
     }
 
-    public function drawFromTable(BlueCard $card) {
-        /** @var BlueCard $tableCard */
-        foreach ($this->table as $key => $tableCard) {
-            if ($tableCard->getIdentifier() === $card->getIdentifier()) {
-                unset($this->table[$key]);
-                return $tableCard;
-            }
-        }
-
-        return false;
-    }
-
-    public function drawFromHand(Card $card) {
-        foreach ($this->hand as $key => $handCard) {
-			if ($handCard->getIdentifier() === $card->getIdentifier()) {
-                unset($this->hand[$key]);
-                return $handCard;
-            }
-        }
-
-        return false;
-    }
-
-    public function calculateDefaultPositiveDistance($forBang = true) {
-        $distance = 1;
-        foreach ($this->getTable() as $card) {
-            if ($card instanceof Gun) {
-                if (!$forBang) continue;
-                $distance += $card->getPositiveDistanceImpact() - 1;
-            } else {
-                $distance += $card->getPositiveDistanceImpact();
-            }
-        }
-
-        if ($this->getCharacter() instanceof PaulRegret) {
-            $distance++;
-        }
-
-        return $distance;
+    /**
+     * @return Card[]
+     */
+    public function &getHand() {
+        return $this->hand;
     }
 
     /**
      * @return BlueCard[]
      */
-    public function getTable() {
+    public function &getTable() {
         return $this->table;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHp() {
+        return $this->hp;
+    }
+
+    /**
+     * @param int $hp
+     */
+    public function setHp(int $hp): void {
+        $this->hp = $hp;
+    }
+
+    /**
+     * @param int $amount
+     */
+    public function dealDamage($amount = 1) {
+        $this->hp -= $amount;
     }
 
     /**
@@ -202,53 +140,6 @@ class Player {
         $this->winner = $winner;
     }
 
-    public function calculateDefaultNegativeDistance() {
-        $distance = 1;
-        foreach ($this->getTable() as $card) {
-            $card->getNegativeDistanceImpact();
-        }
-
-        if ($this->getCharacter() instanceof RoseDoolan) {
-            $distance++;
-        }
-
-        return $distance;
-    }
-
-    public function calculateDistanceFromPlayer(Player $player) {
-        $checkPlayer = $player;
-
-        $firstWay = 0;
-        while ($checkPlayer !== $this) {
-            $firstWay++;
-            $checkPlayer = $checkPlayer->getNextPlayer();
-        }
-
-        $checkPlayer = $this;
-
-        $secondWay = 0;
-        while ($checkPlayer !== $player) {
-            $secondWay++;
-            $checkPlayer = $checkPlayer->getNextPlayer();
-        }
-
-        return ($firstWay < $secondWay ? $firstWay : $secondWay);
-    }
-
-    /**
-     * @return Player
-     */
-    public function getNextPlayer(): Player {
-        return $this->nextPlayer;
-    }
-
-    /**
-     * @param Player $nextPlayer
-     */
-    public function setNextPlayer(Player $nextPlayer): void {
-        $this->nextPlayer = $nextPlayer;
-    }
-
     /**
      * @return int
      */
@@ -262,13 +153,5 @@ class Player {
 	public function setTurnStage(int $turnStage): void {
 		$this->turnStage = $turnStage;
 	}
-
-    public function shiftTurnStage(): void {
-        $this->turnStage++;
-
-        if ($this->turnStage > 2) {
-            $this->turnStage = 0;
-        }
-    }
 
 }

@@ -100,30 +100,31 @@
 #bang .player .health-points .character {
     position: absolute;
     left: 0;
+    top: 15px;
 }
 
-#bang .acting-player .health-points .hp-1,
-#bang .player .health-points .hp-1 {
+#bang .acting-player .health-points .character.hp-1,
+#bang .player .health-points .character.hp-1 {
     top: 25%;
 }
 
-#bang .acting-player .health-points .hp-2,
-#bang .player .health-points .hp-2 {
+#bang .acting-player .health-points .character.hp-2,
+#bang .player .health-points .character.hp-2 {
     top: 40%;
 }
 
-#bang .acting-player .health-points .hp-3,
-#bang .player .health-points .hp-3 {
+#bang .acting-player .health-points .character.hp-3,
+#bang .player .health-points .character.hp-3 {
     top: 57%;
 }
 
-#bang .acting-player .health-points .hp-4,
-#bang .player .health-points .hp-4 {
+#bang .acting-player .health-points .character.hp-4,
+#bang .player .health-points .character.hp-4 {
     top: 75%;
 }
 
-#bang .acting-player .health-points .hp-5,
-#bang .player .health-points .hp-5 {
+#bang .acting-player .health-points .character.hp-5,
+#bang .player .health-points .character.hp-5 {
     top: 90%;
 }
 

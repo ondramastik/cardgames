@@ -33,11 +33,10 @@ class EmporioControl extends Control {
 		
 		$this->getTemplate()->render();
 	}
-	
-	/**
-	 * @param string $cardIdentifier
-	 * @throws \ReflectionException
-	 */
+
+    /**
+     * @param string $cardIdentifier
+     */
 	public function handleChooseCard(string $cardIdentifier) {
 		foreach ($this->handler->getCards() as $card) {
 			if($card->getIdentifier() === $cardIdentifier) {

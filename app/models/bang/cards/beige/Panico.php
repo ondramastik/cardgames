@@ -18,7 +18,7 @@ class Panico extends BeigeCard {
 		$gameGovernance->getGame()->setHandler(new CardSteal());
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-        $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 	
 	
 		$gameGovernance->getGame()->getCardsDeck()->playCard(

@@ -40,10 +40,13 @@ class LobbyGovernance {
 
     /**
      * @param $lobbies
-     * @throws \Throwable
      */
     private function saveLobbies($lobbies) {
-        $this->cache->save(self::CACHE_KEY, $lobbies);
+        try {
+            $this->cache->save(self::CACHE_KEY, $lobbies);
+        } catch (\Throwable $e) {
+            //TODO: What to do?
+        }
     }
 
     /**
@@ -130,7 +133,6 @@ class LobbyGovernance {
 
     /**
      * @param Lobby $lobby
-     * @throws \Throwable
      */
     private function saveLobby(Lobby $lobby) {
         $lobbies = $this->getLobbies();
@@ -162,7 +164,6 @@ class LobbyGovernance {
 	
 	/**
 	 * @param Event $event
-	 * @throws \Throwable
 	 */
     public function log(Event $event) {
     	$lobby = $this->findUsersLobby();

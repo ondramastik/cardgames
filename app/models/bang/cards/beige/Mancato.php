@@ -10,7 +10,7 @@ class Mancato extends BeigeCard {
             $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
             $gameGovernance->getGame()->getCardsDeck()->playCard(
                 new PlayedCard(new Bang(),
@@ -30,7 +30,7 @@ class Mancato extends BeigeCard {
         
         if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang) {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getPlayerToRespond()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getPlayerToRespond(), $this);
 
             $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
             
@@ -40,10 +40,10 @@ class Mancato extends BeigeCard {
         } else if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
             $gameGovernance->getGame()->setPlayerToRespond(
-                $gameGovernance->getGame()->getPlayerToRespond()->getNextPlayer());
+                PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond()));
 
             if ($gameGovernance->getGame()->getPlayerToRespond() === $gameGovernance->getGame()->getActivePlayer()) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();

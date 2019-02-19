@@ -9,8 +9,8 @@ class Dinamite extends BlueCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
-            $gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            $gameGovernance->getGame()->getActivePlayer()->getTable()[] = $this;
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
             $this->log($gameGovernance);
             return true;
         }
@@ -19,15 +19,20 @@ class Dinamite extends BlueCard {
         $gameGovernance->getLobbyGovernance()
             ->log(new DrawCardEvent($gameGovernance->getGame()->getActivePlayer(), $checkCard, $this));
 
-        $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
+        PlayerUtils::drawFromTable($gameGovernance->getGame()->getActivePlayer(), $this);
 
         if ($checkCard->getType() === CardTypes::PIKES
 			&& in_array($checkCard->getValue(), ["2", "3", "4", "5", "6", "7", "8", "9"])) {
             $gameGovernance->getGame()->getActivePlayer()->dealDamage(3);
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
+
+            if($gameGovernance->getActingPlayer()->getHp() < 1) {
+                $gameGovernance->playerDied($gameGovernance->getActingPlayer(), $this);
+            }
         } else {
-			$gameGovernance->getGame()->getActivePlayer()->getNextPlayer()->putOnTable($this);
+			PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getActivePlayer())
+                ->getTable()[] = $this;
         }
 
         return true;

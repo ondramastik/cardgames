@@ -6,12 +6,12 @@ namespace App\Models\Bang;
 class WellsFargo extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        $gameGovernance->getGame()->getActivePlayer()->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
-        $gameGovernance->getGame()->getActivePlayer()->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
-        $gameGovernance->getGame()->getActivePlayer()->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
+        $gameGovernance->getGame()->getActivePlayer()->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+        $gameGovernance->getGame()->getActivePlayer()->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+        $gameGovernance->getGame()->getActivePlayer()->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-        $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
         $this->playCard($gameGovernance);
 		$this->log($gameGovernance);

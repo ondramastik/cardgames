@@ -45,7 +45,6 @@ abstract class Card {
 	
 	/**
 	 * @param GameGovernance $gameGovernance
-	 * @throws \Throwable
 	 */
 	protected function log(GameGovernance $gameGovernance) {
 		$activePlayer = $gameGovernance->getGame()->getActivePlayer();
@@ -71,29 +70,35 @@ abstract class Card {
 	
 	/**
 	 * @return string
-	 * @throws \ReflectionException
 	 */
 	public function getName() {
-		$className = (new \ReflectionClass($this))->getShortName();
-		
-		$result = '';
-		
-		for($i = 0; $i < strlen($className); $i++) {
-			if(ctype_upper($className[$i]) && $i != 0) {
-				$result .= ' ';
-			}
-			$result .= $className[$i];
-		}
-		
-		return $result;
+	    try {
+            $className = (new \ReflectionClass($this))->getShortName();
+
+            $result = '';
+
+            for($i = 0; $i < strlen($className); $i++) {
+                if(ctype_upper($className[$i]) && $i != 0) {
+                    $result .= ' ';
+                }
+                $result .= $className[$i];
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+	        return null;
+        }
 	}
 	
 	/**
 	 * @return string
-	 * @throws \ReflectionException
 	 */
     public function getIdentifier() {
-        return $this->getName() . $this->getType() . $this->getValue();
+        try {
+            return $this->getName() . $this->getType() . $this->getValue();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

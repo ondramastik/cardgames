@@ -5,6 +5,7 @@ namespace App\Models\Bang\Handlers;
 
 use App\Models\Bang\Card;
 use App\Models\Bang\GameGovernance;
+use App\Models\Bang\PlayerUtils;
 
 class KitCarlson extends Handler {
 
@@ -39,11 +40,11 @@ class KitCarlson extends Handler {
             if ($card === $chosenCard) {
                 $gameGovernance->getGame()->getCardsDeck()->return($card);
             } else {
-                $gameGovernance->getGame()->getActivePlayer()->giveCard($card);
+                $gameGovernance->getGame()->getActivePlayer()->getHand()[] = $card;
             }
         }
 
-        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
+        PlayerUtils::shiftTurnStage($gameGovernance->getGame()->getActivePlayer());
     }
 
     /**

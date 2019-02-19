@@ -4,6 +4,7 @@ namespace App\Models\Bang;
 
 
 use App\Models\Bang\Events\PassEvent;
+use App\Models\Bang\Events\PlayerDeathEvent;
 use App\Models\Lobby\LobbyGovernance;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
@@ -38,30 +39,6 @@ class GameGovernance {
         }
     }
 
-    public function getActingPlayer() {
-        return $this->getGame()->getPlayer($this->user->getNickname());
-    }
-
-    public function checkPlayerOnTurn() {
-        return $this->getActingPlayer() === $this->getGame()->getActivePlayer();
-    }
-	
-	/**
-	 * @param $nicknames
-	 * @return Game
-	 */
-    public function createGame($nicknames): Game {
-        $this->game = new Game($this->generateGameId(), $nicknames);
-
-        $this->persistGame($this->game);
-
-        return $this->game;
-    }
-
-    public function getGame() {
-        return $this->game;
-    }
-
     public function findActiveGame($nickname): ?Game {
         /** @var Game $game */
         foreach ($this->getGames() as $game) {
@@ -79,13 +56,56 @@ class GameGovernance {
         return $games;
     }
 	
+    public function checkPlayerOnTurn() {
+        return $this->getActingPlayer() === $this->getGame()->getActivePlayer();
+    }
+
+    public function getActingPlayer() {
+        return $this->getGame()->getPlayer($this->user->getNickname());
+    }
+
+    public function getGame() {
+        return $this->game;
+    }
+
+	/**
+	 * @param $nicknames
+	 * @return Game
+	 */
+    public function createGame($nicknames): Game {
+        $this->game = new Game($this->generateGameId(), $nicknames);
+
+        $this->persistGame($this->game);
+
+        return $this->game;
+    }
+	
+    /**
+     * @return int
+     */
+    private function generateGameId() {
+        $gameId = rand();
+
+        while ($this->getGame($gameId)) {
+            $gameId = rand();
+        }
+
+        return $gameId;
+    }
+
+    private function persistGame(Game $game) {
+        $games = $this->cache->load(self::CACHE_KEY);
+        $games[$game->getId()] = $game;
+        $this->cache->save(self::CACHE_KEY, $games);
+    }
+
 	/**
 	 * @return LobbyGovernance
 	 */
 	public function getLobbyGovernance(): LobbyGovernance {
 		return $this->lobbyGovernance;
 	}
-
+    
     /**
      * @param Card $card
      * @param $targetPlayer
@@ -94,7 +114,7 @@ class GameGovernance {
      */
     public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true) {
         if ($this->getGame()->getHandler()) return false;
-        
+
         if($this->getGame()->getPlayerToRespond()
 			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()) {
 			return $card->performResponseAction($this);
@@ -103,7 +123,7 @@ class GameGovernance {
 		} else return false;
 
     }
-
+	
     public function pass() {
         if ($this->getGame()->getPlayerToRespond()
 			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
@@ -113,56 +133,70 @@ class GameGovernance {
 			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
 				->performPassAction($this);
 		}
-		
+
 		return false;
     }
-    
+	
     public function draw() {
     	if($this->getActingPlayer()->getNickname() === $this->getGame()->getActivePlayer()->getNickname() &&
     		$this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
-    		$this->getActingPlayer()->giveCard($this->getGame()->getCardsDeck()->drawCard());
-			$this->getActingPlayer()->giveCard($this->getGame()->getCardsDeck()->drawCard());
-		
-			$this->getActingPlayer()->shiftTurnStage();
+    		$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
+			$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
+
+			PlayerUtils::shiftTurnStage($this->getActingPlayer());
 			//$this->lobbyGovernance->log(new PassEvent($this->getActingPlayer(), $this->getGame()->getCardsDeck()->getActiveCard()->getCard()));
 
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function nextPlayer() {
-		$this->getGame()->setActivePlayer($this->getGame()->getActivePlayer()->getNextPlayer());
+        $this->getGame()->setActivePlayer(PlayerUtils::getNextPlayer($this->getGame()));
 		$this->getGame()->setWasBangCardPlayedThisTurn(false);
 		$this->getGame()->getActivePlayer()->setTurnStage(Player::TURN_STAGE_DRAWING);
-		
+
 		if ($this->getGame()->getActivePlayer()->getRole() instanceof Sceriffo) {
 			$this->getGame()->setRound($this->getGame()->getRound() + 1);
 		}
 	}
-	
-    public function playerDied(Player $deadPlayer, Player $killer) {
+
+    /**
+     * @param Player $deadPlayer
+     * @param Card $killingCard
+     * @param Player|null $killer
+     */
+    public function playerDied(Player $deadPlayer, Card $killingCard, Player $killer = null) {
+        $this->lobbyGovernance->log(new PlayerDeathEvent($deadPlayer, $killingCard, $killer));
+
         $player = $deadPlayer;
-        while ($deadPlayer !== $player->getNextPlayer()) {
-            if ($player->getCharacter() instanceof VultureSam && $deadPlayer !== $player) {
+        $consumedBySam = false;
+        while (!PlayerUtils::equals($deadPlayer, PlayerUtils::getNextPlayer($this->getGame(), $player))) {
+            if ($player->getCharacter() instanceof VultureSam && !PlayerUtils::equals($deadPlayer, $player)) {
                 $cards = array_merge($deadPlayer->getHand(), $deadPlayer->getTable());
+
                 foreach ($cards as $card) {
-                    $player->giveCard($card);
+                    $player->getHand()[] = $card;
                 }
+
+                $consumedBySam = true;
             }
-            
-            $player = $player->getNextPlayer();
+
+            $player = PlayerUtils::getNextPlayer($this->getGame(), $player);
         }
 
-        $player->setNextPlayer($deadPlayer->getNextPlayer());
+        if(!$consumedBySam) {
+            foreach (array_merge($deadPlayer->getHand(), $deadPlayer->getTable()) as $card) {
+                $this->getGame()->getCardsDeck()->discardCard($card);
+            }
+        }
+
+        PlayerUtils::dropCards($deadPlayer);
 
         $player->getRole()->playerDied($this, $killer);
-        $this->winnerCheck();
-    }
 
-    public function useCharacterAbility() {
-        return $this->getActingPlayer()->getCharacter()->processSpecialSkill($this);
+        $this->winnerCheck();
     }
 
     private function winnerCheck() {
@@ -205,45 +239,6 @@ class GameGovernance {
                 $vice->setWinner(true);
             }
         }
-    }
-
-    public function getPlayersTableCard(Player $player, string $cardIdentifier) : ?Card {
-        $cards = array_filter($player->getTable(),
-            function (Card $card) use ($cardIdentifier) {
-                return $card->getIdentifier() === $cardIdentifier;
-            }
-        );
-
-        return array_pop($cards);
-    }
-	
-	public function getPlayersCard(Player $player, string $cardIdentifier) : ?Card {
-		$cards = array_filter($player->getHand(),
-			function (Card $card) use ($cardIdentifier) {
-				return $card->getIdentifier() === $cardIdentifier;
-			}
-		);
-		
-		return array_pop($cards);
-	}
-
-    private function persistGame(Game $game) {
-        $games = $this->cache->load(self::CACHE_KEY);
-        $games[$game->getId()] = $game;
-        $this->cache->save(self::CACHE_KEY, $games);
-    }
-
-    /**
-     * @return int
-     */
-    private function generateGameId() {
-        $gameId = rand();
-
-        while ($this->getGame($gameId)) {
-            $gameId = rand();
-        }
-
-        return $gameId;
     }
 
     public function __destruct() {

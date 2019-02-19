@@ -16,12 +16,12 @@ class Barile extends BlueCard {
 			foreach ($gameGovernance->getGame()->getActivePlayer()->getTable() as $blueCard) {
 				if($blueCard instanceof Barile) {
 					$gameGovernance->getGame()->getCardsDeck()->discardCard($blueCard);
-					$gameGovernance->getGame()->getActivePlayer()->drawFromTable($blueCard);
+					PlayerUtils::drawFromTable($gameGovernance->getGame()->getActivePlayer(), $blueCard);
 				}
 			}
-		
-			$gameGovernance->getGame()->getActivePlayer()->putOnTable($this);
-			$gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+
+			$gameGovernance->getGame()->getActivePlayer()->getTable()[] = $this;
+			PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 		
 			return true;
 		}

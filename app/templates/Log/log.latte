@@ -52,6 +52,17 @@
                     {include 'character.latte', character => $event->getPlayer()->getCharacter()}
                 {/if}
             </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\PlayerDeathEvent">
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                byl zabit hráčem
+                <span class="player">
+                     {$event->getKiller()->getNickname()}
+                </span>
+                kartou
+                {include 'card.latte', card => $event->getKillingCard()}
+            </span>
         </div>
     </div>
 </div>

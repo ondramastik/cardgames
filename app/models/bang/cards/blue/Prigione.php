@@ -10,9 +10,9 @@ class Prigione extends BlueCard {
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($isSourceHand) {
             if (!$targetPlayer->getRole() instanceof Sceriffo && $targetPlayer !== $gameGovernance->getGame()->getActivePlayer()) {
-                $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+                PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
+                $targetPlayer->getTable()[] = $this;
 
-                $targetPlayer->putOnTable($this);
                 $gameGovernance->getLobbyGovernance()
                     ->log(new CardPlayerInteractionEvent($gameGovernance->getGame()->getActivePlayer(), $targetPlayer, $this));
 				
@@ -27,7 +27,7 @@ class Prigione extends BlueCard {
                 ->log(new DrawCardEvent($gameGovernance->getGame()->getActivePlayer(), $checkCard, $this));
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($checkCard);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromTable($this);
+            PlayerUtils::drawFromTable($gameGovernance->getGame()->getActivePlayer(), $this);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
 
             if ($checkCard->getType() !== CardTypes::HEARTS) {

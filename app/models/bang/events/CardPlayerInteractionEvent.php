@@ -16,11 +16,11 @@ class CardPlayerInteractionEvent extends PlayerInteractionEvent {
      * CardPlayerInteractionEvent constructor.
      * @param Player $player
      * @param Player $targetPlayer
-     * @param Card $card
+     * @param Card $killingCard
      */
-    public function __construct(Player $player, Player $targetPlayer, Card $card) {
+    public function __construct(Player $player, Player $targetPlayer, Card $killingCard) {
         parent::__construct($player, $targetPlayer);
-        $this->card = $card;
+        $this->card = $killingCard;
     }
 
     /**

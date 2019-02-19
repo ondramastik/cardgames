@@ -37,7 +37,6 @@ class LuckyDukeControl extends Control {
 	
 	/**
 	 * @param string $cardIdentifier
-	 * @throws \ReflectionException
 	 */
 	public function handleChooseBlueCard(string $cardIdentifier) {
 		$card = null;
@@ -63,7 +62,6 @@ class LuckyDukeControl extends Control {
 	
 	/**
 	 * @param string $cardIdentifier
-	 * @throws \ReflectionException
 	 */
 	public function handleChooseCard(string $cardIdentifier) {
 		$card = null;

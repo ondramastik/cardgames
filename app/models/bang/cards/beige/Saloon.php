@@ -8,12 +8,12 @@ class Saloon extends BeigeCard {
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         foreach ($gameGovernance->getGame()->getPlayers() as $player) {
             if ($player->getMaxHp() > $player->getHp()) {
-                $player->heal();
+                $player->setHp($player->getHp() + 1);
             }
         }
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-        $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
         $this->playCard($gameGovernance);
         $this->log($gameGovernance);

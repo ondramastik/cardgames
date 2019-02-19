@@ -23,13 +23,13 @@ class DrawCardEvent extends Event {
      * DrawDecisionCardEvent constructor.
      * @param Player $player
      * @param Card $card
-     * @param Card $initialCard
+     * @param Card $initialKillingCard
      */
-    public function __construct(Player $player, Card $card, ?Card $initialCard) {
+    public function __construct(Player $player, Card $card, ?Card $initialKillingCard) {
         parent::__construct();
         $this->card = $card;
         $this->player = $player;
-        $this->initialCard = $initialCard;
+        $this->initialCard = $initialKillingCard;
     }
 
     /**

@@ -31,7 +31,7 @@ class Bang extends BeigeCard {
         $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-        $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+        PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
         $gameGovernance->getGame()->getCardsDeck()->playCard(
             new PlayedCard($this,
@@ -50,7 +50,7 @@ class Bang extends BeigeCard {
         if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()
 			&& $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani) {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getPlayerToRespond()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getPlayerToRespond(), $this);
             
 			$this->log($gameGovernance);
 			new PlayedCard($this,
@@ -60,7 +60,7 @@ class Bang extends BeigeCard {
 				$gameGovernance->getGame()->getActivePlayer());
             
             $gameGovernance->getGame()->setPlayerToRespond(
-                $gameGovernance->getGame()->getPlayerToRespond()->getNextPlayer());
+                PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond()));
 
             if ($gameGovernance->getGame()->getPlayerToRespond()->getNickname() === $gameGovernance->getGame()->getActivePlayer()->getNickname()) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
@@ -73,7 +73,7 @@ class Bang extends BeigeCard {
                 || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
             (new Mancato())->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            $gameGovernance->getGame()->getActivePlayer()->drawFromHand($this);
+            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
             
 			$this->log($gameGovernance);
 			new PlayedCard($this,
@@ -86,7 +86,8 @@ class Bang extends BeigeCard {
 			
 			return true;
         } else if($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Duello) {
-			$gameGovernance->getActingPlayer()->drawFromHand($this);
+			PlayerUtils::drawFromHand($gameGovernance->getActingPlayer(), $this);
+
         	if($gameGovernance->getGame()->getActivePlayer()->getNickname() === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
         		$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer());
 			} else {
@@ -102,12 +103,14 @@ class Bang extends BeigeCard {
 	function performPassAction(GameGovernance $gameGovernance): bool {
     	$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
 		$activeCard->getTargetPlayer()->dealDamage();
+
+        if($gameGovernance->getActingPlayer()->getHp() < 1) {
+            $gameGovernance->playerDied($gameGovernance->getActingPlayer(), $this, $activeCard->getPlayer());
+        }
+
 		$activeCard->setActive(false);
-		
 		$gameGovernance->getGame()->setPlayerToRespond(null);
-		
-		//TODO: HP check nekde, LOG
-		
+
 		return true;
 	}
 	

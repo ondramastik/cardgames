@@ -6,6 +6,7 @@ namespace App\Models\Bang\Handlers;
 use App\Models\Bang\Card;
 use App\Models\Bang\CardTypes;
 use App\Models\Bang\GameGovernance;
+use App\Models\Bang\PlayerUtils;
 
 class BlackJack extends Handler {
 
@@ -17,11 +18,11 @@ class BlackJack extends Handler {
      * @param GameGovernance $gameGovernance
      */
     public function __construct(GameGovernance $gameGovernance) {
-        $gameGovernance->getGame()->getActivePlayer()->giveCard(
-            $gameGovernance->getGame()->getCardsDeck()->drawCard());
+        $gameGovernance->getGame()->getActivePlayer()->getHand()[] =
+            $gameGovernance->getGame()->getCardsDeck()->drawCard();
 
         $this->secondCard = $gameGovernance->getGame()->getCardsDeck()->drawCard();
-        $gameGovernance->getGame()->getActivePlayer()->giveCard($this->secondCard);
+        $gameGovernance->getGame()->getActivePlayer()->getHand()[] =$this->secondCard;
     }
 	
 	/**
@@ -31,12 +32,12 @@ class BlackJack extends Handler {
     public function confirmSecondCard(GameGovernance $gameGovernance): bool {
         if ($this->secondCard->getType() === CardTypes::HEARTS
             || $this->secondCard->getType() === CardTypes::PIKES) {
-            $gameGovernance->getGame()->getActivePlayer()->giveCard(
-                $gameGovernance->getGame()->getCardsDeck()->drawCard());
+            $gameGovernance->getGame()->getActivePlayer()->getHand()[] =
+                $gameGovernance->getGame()->getCardsDeck()->drawCard();
 			$gameGovernance->getGame()->setHandler(null);
         } else return false;
 
-        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
+        PlayerUtils::shiftTurnStage($gameGovernance->getGame()->getActivePlayer());
         return true;
     }
 	
@@ -45,7 +46,7 @@ class BlackJack extends Handler {
 	 * @return bool
 	 */
     public function declineSecondCard(GameGovernance $gameGovernance): bool {
-        $gameGovernance->getGame()->getActivePlayer()->shiftTurnStage();
+        PlayerUtils::shiftTurnStage($gameGovernance->getGame()->getActivePlayer());
 		$gameGovernance->getGame()->setHandler(null);
         return true;
     }

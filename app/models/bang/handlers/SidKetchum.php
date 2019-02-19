@@ -5,6 +5,7 @@ namespace App\Models\Bang\Handlers;
 
 use App\Models\Bang\Card;
 use App\Models\Bang\GameGovernance;
+use App\Models\Bang\PlayerUtils;
 
 class SidKetchum extends Handler {
 
@@ -20,11 +21,11 @@ class SidKetchum extends Handler {
     public function finish(GameGovernance $gameGovernance) {
         if ($this->getFirstCard() && $this->getSecondCard()) {
             $player = $gameGovernance->getGame()->getActivePlayer();
-            $player->heal();
+            $player->setHp($player->getHp() + 1);
             $gameGovernance->getGame()->getCardsDeck()->discardCard(
-                $player->drawFromHand($this->getFirstCard()));
+                PlayerUtils::drawFromHand($player, $this->getFirstCard()));
             $gameGovernance->getGame()->getCardsDeck()->discardCard(
-                $player->drawFromHand($this->getSecondCard()));
+                PlayerUtils::drawFromHand($player, $this->getSecondCard()));
         }
     }
 
