@@ -13,9 +13,9 @@ class PedroRamirez extends Character {
         $activePlayer = $gameGovernance->getGame()->getActivePlayer();
         if ($gameGovernance->getActingPlayer()->getNickname() === $activePlayer->getNickname()
             && $activePlayer->getTurnStage() === Player::TURN_STAGE_DRAWING) {
-            $activePlayer->giveCard($gameGovernance->getGame()->getCardsDeck()->drawFromDiscarded());
-            $activePlayer->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
-            $activePlayer->shiftTurnStage();
+            $activePlayer->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawFromDiscarded();
+            $activePlayer->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
+            PlayerUtils::shiftTurnStage($activePlayer);
             
 			$this->log($gameGovernance);
 

@@ -113,17 +113,14 @@ class Player {
     }
 
     /**
-     * @param int $hp
-     */
-    public function setHp(int $hp): void {
-        $this->hp = $hp;
-    }
-
-    /**
      * @param int $amount
      */
-    public function dealDamage($amount = 1) {
+    public function dealDamage($amount = 1): void {
         $this->hp -= $amount;
+    }
+
+    public function heal(): void {
+        $this->hp++;
     }
 
     /**

@@ -21,7 +21,7 @@ class SidKetchum extends Handler {
     public function finish(GameGovernance $gameGovernance) {
         if ($this->getFirstCard() && $this->getSecondCard()) {
             $player = $gameGovernance->getGame()->getActivePlayer();
-            $player->setHp($player->getHp() + 1);
+            $player->heal();
             $gameGovernance->getGame()->getCardsDeck()->discardCard(
                 PlayerUtils::drawFromHand($player, $this->getFirstCard()));
             $gameGovernance->getGame()->getCardsDeck()->discardCard(

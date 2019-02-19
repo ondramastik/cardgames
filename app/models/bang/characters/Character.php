@@ -39,7 +39,6 @@ abstract class Character {
 	
 	/**
 	 * @param GameGovernance $gameGovernance
-	 * @throws \Throwable
 	 */
 	protected function log(GameGovernance $gameGovernance) {
 		$activePlayer = $gameGovernance->getGame()->getActivePlayer();

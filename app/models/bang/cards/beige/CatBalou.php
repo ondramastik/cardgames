@@ -20,7 +20,8 @@ class CatBalou extends BeigeCard {
 				$gameGovernance->getGame()->getRound(),
 				false,
 				$targetPlayer));
-		$this->log($gameGovernance);
+
+        $this->log($gameGovernance, $targetPlayer);
 
         return true;
     }

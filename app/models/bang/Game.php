@@ -64,7 +64,7 @@ class Game {
 
             if ($player->getRole() instanceof Sceriffo) {
                 $this->setActivePlayer($player);
-                $player->setHp($player->getHp() - 1);
+                $player->heal();
             }
             
             for($i = 0; $i < $player->getCharacter()->getHp(); $i++) {

@@ -21,9 +21,9 @@ class Bang extends BeigeCard {
             return false;
         }
 
-        if(($gameGovernance->getActingPlayer()->calculateDistanceFromPlayer($targetPlayer)
-                - $targetPlayer->calculateDefaultNegativeDistance()
-                + $gameGovernance->getActingPlayer()->calculateDefaultPositiveDistance()
+        if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
+                - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
+                + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
                 ) < 1) {
             return false;
         }
@@ -33,14 +33,8 @@ class Bang extends BeigeCard {
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
-        $gameGovernance->getGame()->getCardsDeck()->playCard(
-            new PlayedCard($this,
-                $gameGovernance->getGame()->getActivePlayer(),
-                $gameGovernance->getGame()->getRound(),
-                true,
-                $gameGovernance->getGame()->getPlayerToRespond()));
-		$this->log($gameGovernance);
-	
+        $this->playCard($gameGovernance, $targetPlayer, true);
+		$this->log($gameGovernance, $targetPlayer);
 	
 		$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
 		return true;
@@ -51,18 +45,14 @@ class Bang extends BeigeCard {
 			&& $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani) {
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getPlayerToRespond(), $this);
-            
+
+            $this->playCard($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), false);
 			$this->log($gameGovernance);
-			new PlayedCard($this,
-				$gameGovernance->getGame()->getPlayerToRespond(),
-				$gameGovernance->getGame()->getRound(),
-				false,
-				$gameGovernance->getGame()->getActivePlayer());
             
             $gameGovernance->getGame()->setPlayerToRespond(
                 PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond()));
 
-            if ($gameGovernance->getGame()->getPlayerToRespond()->getNickname() === $gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+            if (PlayerUtils::equals($gameGovernance->getGame()->getPlayerToRespond(), $gameGovernance->getGame()->getActivePlayer())) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
                 $gameGovernance->getGame()->setPlayerToRespond(null);
             }
@@ -74,13 +64,9 @@ class Bang extends BeigeCard {
             (new Mancato())->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
-            
+
+            $this->playCard($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), false);
 			$this->log($gameGovernance);
-			new PlayedCard($this,
-				$gameGovernance->getGame()->getActivePlayer(),
-				$gameGovernance->getGame()->getRound(),
-				false,
-				$gameGovernance->getGame()->getPlayerToRespond());
 			
 			$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
 			
@@ -88,13 +74,16 @@ class Bang extends BeigeCard {
         } else if($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Duello) {
 			PlayerUtils::drawFromHand($gameGovernance->getActingPlayer(), $this);
 
-        	if($gameGovernance->getGame()->getActivePlayer()->getNickname() === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
+        	if(PlayerUtils::equals($gameGovernance->getGame()->getActivePlayer(), $gameGovernance->getGame()->getPlayerToRespond())) {
         		$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer());
 			} else {
 				$gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
 			}
+
 			$gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-        	//TODO: Log
+
+            $this->playCard($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), false);
+        	$this->log($gameGovernance);
 		}
 
         return false;

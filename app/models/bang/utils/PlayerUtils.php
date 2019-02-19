@@ -11,7 +11,7 @@ abstract class PlayerUtils {
      * @param bool $forBang
      * @return int
      */
-    public static function calculateDefaultPositiveDistance(Player $player, $forBang = true) {
+    public static function calculateDefaultPositiveDistance(Player $player, $forBang = true): int {
         $distance = 1;
         foreach ($player->getTable() as $card) {
             if ($card instanceof Gun) {
@@ -33,7 +33,7 @@ abstract class PlayerUtils {
      * @param Player $player
      * @return int
      */
-    public static function calculateDefaultNegativeDistance(Player $player) {
+    public static function calculateDefaultNegativeDistance(Player $player): int {
         $distance = 1;
         foreach ($player->getTable() as $card) {
             $card->getNegativeDistanceImpact();
@@ -49,13 +49,14 @@ abstract class PlayerUtils {
     /**
      * @param Game $game
      * @param Player $player
+     * @param Player $targetPlayer
      * @return int
      */
-    public static function calculateDistanceFromPlayer(Game $game, Player $player) { //TODO: FIX
+    public static function calculateDistanceFromPlayer(Game $game, Player $player, Player $targetPlayer): int { //TODO: FIX
         $checkPlayer = $player;
 
         $firstWay = 0;
-        while ($checkPlayer !== $player) {
+        while (!PlayerUtils::equals($checkPlayer, $targetPlayer)) {
             $firstWay++;
             $checkPlayer = PlayerUtils::getNextPlayer($game, $checkPlayer);
         }
@@ -63,9 +64,9 @@ abstract class PlayerUtils {
         $checkPlayer = $player;
 
         $secondWay = 0;
-        while ($checkPlayer !== $player) {
+        while (!PlayerUtils::equals($checkPlayer, $targetPlayer)) {
             $secondWay++;
-            $checkPlayer = PlayerUtils::getNextPlayer($game, $checkPlayer);
+            $checkPlayer = PlayerUtils::getPreviousPlayer($game, $checkPlayer);
         }
 
         return ($firstWay < $secondWay ? $firstWay : $secondWay);
@@ -160,6 +161,36 @@ abstract class PlayerUtils {
         }
 
         throw new InvalidStateException("Only one player is alive.");
+    }
+
+    /**
+     * @param Game $game
+     * @param Player|null $player
+     * @return Player
+     */
+    public static function getPreviousPlayer(Game $game, Player $player = null) : Player {
+        if($player === null) $player = $game->getActivePlayer();
+
+        $playerIndex = null;
+
+        for ($i = 0; $i < count($game->getPlayers()); $i++) {
+            if(PlayerUtils::equals($player, $game->getPlayers()[$i])) {
+                $playerIndex = $i;
+                break;
+            }
+        }
+        $previousPlayerIndex = $playerIndex - 1;
+
+        while (true) {
+            if($previousPlayerIndex < 0) {
+                $previousPlayerIndex = count($game->getPlayers()) - 1;
+            }
+
+            if(($game->getPlayers()[$previousPlayerIndex])->getHp() <= 0) {
+                $previousPlayerIndex--;
+            }
+            else return $game->getPlayers()[$previousPlayerIndex];
+        }
     }
 
 }

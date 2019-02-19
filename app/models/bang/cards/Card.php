@@ -42,14 +42,14 @@ abstract class Card {
 	 * @return bool
 	 */
     public abstract function performResponseAction(GameGovernance $gameGovernance): bool;
-	
-	/**
-	 * @param GameGovernance $gameGovernance
-	 */
-	protected function log(GameGovernance $gameGovernance) {
+
+    /**
+     * @param GameGovernance $gameGovernance
+     * @param Player|null $targetPlayer
+     */
+	protected function log(GameGovernance $gameGovernance, Player $targetPlayer = null) {
 		$activePlayer = $gameGovernance->getGame()->getActivePlayer();
-		$targetPlayer = $gameGovernance->getGame()->getPlayerToRespond()
-			?: $gameGovernance->getGame()->getActivePlayer();
+		$targetPlayer = $targetPlayer ?: $gameGovernance->getGame()->getActivePlayer();
 		
 		$gameGovernance->getLobbyGovernance()->log(new CardPlayerInteractionEvent($activePlayer, $targetPlayer, $this));
 	}

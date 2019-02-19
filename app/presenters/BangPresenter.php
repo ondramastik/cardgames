@@ -106,7 +106,7 @@ class BangPresenter extends BasePresenter {
     public function handleUseCharacterAbility() {
         $actingPlayer = $this->gameGovernance->getActingPlayer();
 
-       if($this->gameGovernance->useCharacterAbility()) {
+       if($actingPlayer->getCharacter()->processSpecialSkill($this->gameGovernance)) {
 		   $this->redrawControl('handlers');
        } else {
            //TODO: nOK

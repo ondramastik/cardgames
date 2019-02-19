@@ -8,7 +8,7 @@ class Saloon extends BeigeCard {
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
         foreach ($gameGovernance->getGame()->getPlayers() as $player) {
             if ($player->getMaxHp() > $player->getHp()) {
-                $player->setHp($player->getHp() + 1);
+                $player->heal();
             }
         }
 

@@ -9,6 +9,13 @@ class Mancato extends BeigeCard {
         if ($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet) {
             $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
 
+            if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
+                    - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
+                    + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
+                ) < 1) {
+                return false;
+            }
+
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
@@ -17,7 +24,7 @@ class Mancato extends BeigeCard {
                     $gameGovernance->getGame()->getActivePlayer(),
                     $gameGovernance->getGame()->getRound(),
                     true,
-                    $gameGovernance->getGame()->getPlayerToRespond()));
+                    $targetPlayer));
 			$this->log($gameGovernance);
 
             return true;
