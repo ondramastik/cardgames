@@ -25,10 +25,8 @@ class Duello extends BeigeCard {
 		$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
         $activeCard->setActive(false);
 
-		$gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
+		PlayerUtils::dealDamage($gameGovernance, $gameGovernance->getGame()->getPlayerToRespond());
 		$gameGovernance->getGame()->setPlayerToRespond(null);
-		
-		//TODO: HP check nekde
 
 		return true;
 	}

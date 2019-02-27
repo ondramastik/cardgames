@@ -23,12 +23,7 @@ class Indiani extends BeigeCard {
     }
 	
 	function performPassAction(GameGovernance $gameGovernance): bool {
-		$gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
-
-        if($gameGovernance->getActingPlayer()->getHp() < 1) {
-            $gameGovernance->playerDied($gameGovernance->getActingPlayer(), $this,
-                $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
-        }
+		PlayerUtils::dealDamage($gameGovernance, $gameGovernance->getGame()->getPlayerToRespond());
 
 		if($gameGovernance->getGame()->getActivePlayer()->getNickname()
 			=== PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond())->getNickname()) {
@@ -38,8 +33,7 @@ class Indiani extends BeigeCard {
 			$gameGovernance->getGame()->setPlayerToRespond(
                 PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond()));
 		}
-		
-		//TODO: HP check nekde, LOG
+		//TODO: log
 		
 		return true;
 	}

@@ -18,13 +18,8 @@ class BartCassidy extends Character {
             || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling
             || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Indiani) {
             $this->log($gameGovernance);
-            $gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
 
-            if($gameGovernance->getActingPlayer()->getHp() < 1) {
-                $gameGovernance->playerDied($gameGovernance->getActingPlayer(),
-                    $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard(),
-                    $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
-            } else {
+			if(PlayerUtils::dealDamage($gameGovernance, $gameGovernance->getGame()->getPlayerToRespond())) {
 				$gameGovernance->getGame()->getPlayerToRespond()->getHand()[]
 					= $gameGovernance->getGame()->getCardsDeck()->drawCard();
 			}

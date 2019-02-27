@@ -52,7 +52,7 @@ abstract class PlayerUtils {
      * @param Player $targetPlayer
      * @return int
      */
-    public static function calculateDistanceFromPlayer(Game $game, Player $player, Player $targetPlayer): int { //TODO: FIX
+    public static function calculateDistanceFromPlayer(Game $game, Player $player, Player $targetPlayer): int {
         $checkPlayer = $player;
 
         $firstWay = 0;
@@ -71,6 +71,24 @@ abstract class PlayerUtils {
 
         return ($firstWay < $secondWay ? $firstWay : $secondWay);
     }
+
+	/**
+	 * @param GameGovernance $gameGovernance
+	 * @param Player $player
+	 * @param int $amount
+	 * @return bool false if player died
+	 */
+    public static function dealDamage(GameGovernance $gameGovernance, Player $player, int $amount = 1) {
+    	$player->setHp($player->getHp() - $amount);
+
+    	if($player->getHp() < 1) {
+    		$gameGovernance->playerDied($player, $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard(),
+				$gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
+    		return false;
+		}
+
+    	return true;
+	}
 
     /**
      * @param Player $player

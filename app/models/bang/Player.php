@@ -112,6 +112,13 @@ class Player {
         return $this->hp;
     }
 
+	/**
+	 * @param int $hp
+	 */
+    public function setHp(int $hp) {
+    	$this->hp = $hp;
+	}
+
     /**
      * @param int $amount
      */

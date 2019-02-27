@@ -95,11 +95,7 @@ class Bang extends BeigeCard {
 	
 	function performPassAction(GameGovernance $gameGovernance): bool {
     	$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
-		$activeCard->getTargetPlayer()->dealDamage();
-
-        if($gameGovernance->getActingPlayer()->getHp() < 1) {
-            $gameGovernance->playerDied($gameGovernance->getActingPlayer(), $this, $activeCard->getPlayer());
-        }
+		PlayerUtils::dealDamage($gameGovernance, $activeCard->getTargetPlayer());
 
 		$activeCard->setActive(false);
 		$gameGovernance->getGame()->setPlayerToRespond(null);

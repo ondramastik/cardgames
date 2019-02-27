@@ -23,13 +23,9 @@ class Dinamite extends BlueCard {
 
         if ($checkCard->getType() === CardTypes::PIKES
 			&& in_array($checkCard->getValue(), ["2", "3", "4", "5", "6", "7", "8", "9"])) {
-            $gameGovernance->getGame()->getActivePlayer()->dealDamage(3);
+			PlayerUtils::dealDamage($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), 3);
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-
-            if($gameGovernance->getActingPlayer()->getHp() < 1) {
-                $gameGovernance->playerDied($gameGovernance->getActingPlayer(), $this);
-            }
         } else {
 			PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getActivePlayer())
                 ->getTable()[] = $this;

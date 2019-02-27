@@ -1,0 +1,37 @@
+{block content}
+
+<div class="container" id="bang-finish">
+    <h2>Hra skončila</h2>
+    <h5>Finální výsledky</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Hráč</th>
+                <th>Role</th>
+                <th>Charakter</th>
+                <th>Počet zabití</th>
+                <th>Konečný počet HP</th>
+                <th>Vítěz</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr n:foreach="$game->getPlayers() as $player">
+                <th>{$player->getNickname()}</th>
+                <td>{$player->getRole()->getName()}</td>
+                <td>{$player->getCharacter()->getName()}</td>
+                <td>TODO</td>
+                <td>{$player->getHp() < 0 ? 0 : $player->getHp()}/{$player->getMaxHp()}</td>
+                <td>{$player->isWinner() ? "Ano" : "Ne"}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a n:href="Lobby:" class="btn btn-warning leave-lobby" role="button">Do lobby</a>
+    <div class="row">
+        <div class="col-5">
+            {control log}
+        </div>
+        <div class="col-7">
+            {control chat}
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ use App\Components\Bang\JesseJonesControl;
 use App\Components\Bang\KitCarlsonControl;
 use App\Components\Bang\LuckyDukeControl;
 use App\Components\Bang\SidKetchumControl;
+use App\Components\Chat\ChatControl;
 use App\Components\Chat\LogControl;
 use App\Models\Bang\Barile;
 use App\Models\Bang\Dinamite;
@@ -37,8 +38,18 @@ class BangPresenter extends BasePresenter {
         $this->lobbyGovernance = $lobbyGovernance;
         $this->gameGovernance = $gameGovernance;
     }
+
+    public function renderGameHasFinished() {
+    	if(!$this->gameGovernance->getGame()->isGameFinished()) {
+    		//$this->redirect("play");
+		}
+    	$this->getTemplate()->game = $this->gameGovernance->getGame();
+	}
     
     public function renderPlay() {
+    	if($this->gameGovernance->getGame()->isGameFinished()) {
+    		$this->redirect("gameHasFinished");
+		}
 		$nicknames = ['Naxmars', 'Baxmars'];
 		
 		if(!$this->gameGovernance->getGame()) {
@@ -159,4 +170,15 @@ class BangPresenter extends BasePresenter {
     	
     	return $component;
 	}
+
+	/**
+	 * @return ChatControl
+	 */
+	public function createComponentChat() {
+		$chat = new ChatControl($this->lobbyGovernance->findUsersLobby()->getId(),
+			$this->context->getParameters()['serverIp']);
+
+		return $chat;
+	}
+
 }
