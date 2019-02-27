@@ -17,8 +17,8 @@ class SlabTheKiller extends Character {
 
         if ($topCard->getCard() instanceof Mancato
             && $underTopCard instanceof Bang
-            && $underTopCard->getPlayer() === $gameGovernance->getGame()->getActivePlayer()
-            && $underTopCard->getTargetPlayer() === $topCard->getPlayer()) {
+            && PlayerUtils::equals($underTopCard->getPlayer(), $gameGovernance->getGame()->getActivePlayer())
+            && PlayerUtils::equals($underTopCard->getTargetPlayer(), $topCard->getPlayer())) {
             $underTopCard->setActive(true);
             $gameGovernance->getGame()->setPlayerToRespond($underTopCard->getTargetPlayer());
             

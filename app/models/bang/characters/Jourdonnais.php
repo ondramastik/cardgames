@@ -16,8 +16,7 @@ class Jourdonnais extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        if ($gameGovernance->getActingPlayer()->getNickname()
-            === $gameGovernance->getGame()->getPlayerToRespond()->getNickname()) {
+        if (PlayerUtils::equals($gameGovernance->getActingPlayer(), $gameGovernance->getGame()->getPlayerToRespond())) {
             if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()
                 && ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
                     || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
@@ -40,8 +39,6 @@ class Jourdonnais extends Character {
                     return true;
                 }
             }
-
-            return false;
         }
 
         return false;

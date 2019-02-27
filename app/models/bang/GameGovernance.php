@@ -57,7 +57,7 @@ class GameGovernance {
     }
 	
     public function checkPlayerOnTurn() {
-        return $this->getActingPlayer() === $this->getGame()->getActivePlayer();
+        return PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer());
     }
 
     public function getActingPlayer() {
@@ -116,7 +116,7 @@ class GameGovernance {
         if ($this->getGame()->getHandler()) return false;
 
         if($this->getGame()->getPlayerToRespond()
-			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()) {
+			&& PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getPlayerToRespond())) {
 			return $card->performResponseAction($this);
 		} else if($this->getGame()->getPlayerToRespond() === null) {
 			return $card->performAction($this, $targetPlayer, $isSourceHand);
@@ -126,8 +126,8 @@ class GameGovernance {
 	
     public function pass() {
         if ($this->getGame()->getPlayerToRespond()
-			&& $this->getActingPlayer()->getNickname() === $this->getGame()->getPlayerToRespond()->getNickname()
-			&& $this->getGame()->getCardsDeck()->getActiveCard()) {
+			&& PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getPlayerToRespond())
+			&& $this->getGame()->getCardsDeck()->getActiveCard()->isActive()) {
             $this->lobbyGovernance
                 ->log(new PassEvent($this->getActingPlayer(), $this->getGame()->getCardsDeck()->getActiveCard()));
 			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
@@ -136,15 +136,14 @@ class GameGovernance {
 
 		return false;
     }
-	
+
     public function draw() {
-    	if($this->getActingPlayer()->getNickname() === $this->getGame()->getActivePlayer()->getNickname() &&
+    	if(PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer()) &&
     		$this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
     		$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
 			$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
 
 			PlayerUtils::shiftTurnStage($this->getActingPlayer());
-			//$this->lobbyGovernance->log(new PassEvent($this->getActingPlayer(), $this->getGame()->getCardsDeck()->getActiveCard()->getCard()));
 
 			return true;
 		}

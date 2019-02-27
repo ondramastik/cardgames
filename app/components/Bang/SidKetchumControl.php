@@ -39,19 +39,22 @@ class SidKetchumControl extends Control {
 		
 		$this->getTemplate()->render();
 	}
-	
+
 	/**
 	 * @param string $cardIdentifier
 	 */
 	public function handleChooseCard(string $cardIdentifier) {
-		foreach ($this->gameGovernance->getGame()->getActivePlayer()->getHand() as $card) {
-			if($card->getIdentifier() === $cardIdentifier) {
-				if(!$this->handler->getFirstCard()) {
-					$this->handler->setFirstCard($card);
-				} else if(!$this->handler->getSecondCard()) {
-					$this->handler->setSecondCard($card);
+		if($this->gameGovernance->getActingPlayer()->getNickname()
+			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+			foreach ($this->gameGovernance->getGame()->getActivePlayer()->getHand() as $card) {
+				if($card->getIdentifier() === $cardIdentifier) {
+					if(!$this->handler->getFirstCard()) {
+						$this->handler->setFirstCard($card);
+					} else if(!$this->handler->getSecondCard()) {
+						$this->handler->setSecondCard($card);
+					}
+					$this->redrawControl('sid-ketchum');
 				}
-				$this->redrawControl('sid-ketchum');
 			}
 		}
 	}

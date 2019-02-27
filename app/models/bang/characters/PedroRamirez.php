@@ -11,7 +11,7 @@ class PedroRamirez extends Character {
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
         $activePlayer = $gameGovernance->getGame()->getActivePlayer();
-        if ($gameGovernance->getActingPlayer()->getNickname() === $activePlayer->getNickname()
+        if (PlayerUtils::equals($gameGovernance->getActingPlayer(), $activePlayer)
             && $activePlayer->getTurnStage() === Player::TURN_STAGE_DRAWING) {
             $activePlayer->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawFromDiscarded();
             $activePlayer->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();

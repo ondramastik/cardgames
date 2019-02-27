@@ -7,6 +7,7 @@ use App\Models\Bang\Card;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Handlers\KitCarlson;
 use App\Models\Bang\Handlers\SidKetchum;
+use App\Models\Bang\PlayerUtils;
 use Nette\Application\UI\Control;
 
 class KitCarlsonControl extends Control {
@@ -37,11 +38,9 @@ class KitCarlsonControl extends Control {
 	
 	/**
 	 * @param string $cardIdentifier
-	 * @throws \ReflectionException
 	 */
 	public function handleChooseUnwantedCard(string $cardIdentifier) {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			
 			$chosenCard = null;
 			foreach ($this->handler->getCards() as $card) {

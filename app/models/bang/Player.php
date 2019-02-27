@@ -143,7 +143,7 @@ class Player {
     public function getTurnStage(): int {
         return $this->turnStage;
     }
-	
+
 	/**
 	 * @param int $turnStage
 	 */

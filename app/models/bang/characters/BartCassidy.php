@@ -10,7 +10,7 @@ class BartCassidy extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-        if ($gameGovernance->getActingPlayer() !== $gameGovernance->getGame()->getPlayerToRespond()) {
+        if (!PlayerUtils::equals($gameGovernance->getActingPlayer(), $gameGovernance->getGame()->getPlayerToRespond())) {
             return false;
         }
 
@@ -24,11 +24,12 @@ class BartCassidy extends Character {
                 $gameGovernance->playerDied($gameGovernance->getActingPlayer(),
                     $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard(),
                     $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getPlayer());
-            }
+            } else {
+				$gameGovernance->getGame()->getPlayerToRespond()->getHand()[]
+					= $gameGovernance->getGame()->getCardsDeck()->drawCard();
+			}
 
             $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
-            $gameGovernance->getGame()->getPlayerToRespond()->getHand()[]
-                = $gameGovernance->getGame()->getCardsDeck()->drawCard();
             $gameGovernance->getGame()->setPlayerToRespond(null);
             
             return true;

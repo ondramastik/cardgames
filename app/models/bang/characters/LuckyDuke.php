@@ -10,8 +10,8 @@ class LuckyDuke extends Character {
     }
 
     public function processSpecialSkill(GameGovernance $gameGovernance): bool {
-		if ($gameGovernance->getGame()->getActivePlayer()->getNickname() === $gameGovernance->getActingPlayer()->getNickname()
-			|| $gameGovernance->getGame()->getPlayerToRespond()->getNickname() === $gameGovernance->getActingPlayer()->getNickname()) {
+		if (PlayerUtils::equals($gameGovernance->getGame()->getActivePlayer(), $gameGovernance->getActingPlayer())
+			|| PlayerUtils::equals($gameGovernance->getGame()->getPlayerToRespond(), $gameGovernance->getActingPlayer())) {
 			$gameGovernance->getGame()->setHandler(new Handlers\LuckyDuke());
 		
 			$this->log($gameGovernance);

@@ -11,6 +11,7 @@ use App\Models\Bang\Dinamite;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Gatling;
 use App\Models\Bang\Player;
+use App\Models\Bang\PlayerUtils;
 use App\Models\Bang\Prigione;
 
 class LuckyDuke extends Handler {
@@ -29,8 +30,8 @@ class LuckyDuke extends Handler {
 			if($gameGovernance->getGame()->getActivePlayer()->getTurnStage() === Player::TURN_STAGE_PLAYING
 				&& $gameGovernance->getGame()->getCardsDeck()->getActiveCard()
 				&& $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer()
-				&& $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer()->getNickname()
-					=== $gameGovernance->getGame()->getPlayerToRespond()->getNickname()
+				&& PlayerUtils::equals($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getTargetPlayer(),
+					$gameGovernance->getGame()->getPlayerToRespond())
 				&& ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
 					|| $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)
 				&& $blueCard instanceof Barile) {

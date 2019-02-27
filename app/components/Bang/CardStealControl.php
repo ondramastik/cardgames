@@ -5,6 +5,7 @@ namespace App\Components\Bang;
 
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Handlers\CardSteal;
+use App\Models\Bang\PlayerUtils;
 use Nette\Application\UI\Control;
 
 class CardStealControl extends Control {
@@ -32,14 +33,12 @@ class CardStealControl extends Control {
 		
 		$this->getTemplate()->render();
 	}
-	
+
 	/**
 	 * @param string|null $cardIdentifier
-	 * @throws \ReflectionException
 	 */
 	public function handleSteal(string $cardIdentifier = null) {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			$card = null;
 			
 			foreach ($this->gameGovernance->getGame()->getCardsDeck()->getTopPlayedCard()->getTargetPlayer()->getTable() as $blueCard) {

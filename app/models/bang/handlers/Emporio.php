@@ -42,7 +42,7 @@ class Emporio extends Handler {
      * @return bool
      */
     public function choseCard(GameGovernance $gameGovernance, Card $chosenCard): bool {
-    	if($gameGovernance->getActingPlayer()->getNickname() === $this->playerOnTurn->getNickname()) {
+    	if(PlayerUtils::equals($gameGovernance->getActingPlayer(), $this->playerOnTurn)) {
 			foreach ($this->cards as $key => $card) {
 				if ($card instanceof $chosenCard) {
 					$this->playerOnTurn->getHand()[] = $card;

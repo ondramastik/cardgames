@@ -15,9 +15,9 @@ abstract class Handler {
         return $this->hasEventFinished;
     }
 
-    /**
-     * @param bool $hasEventFinished
-     */
+	/**
+	 * @param bool $hasEventFinished
+	 */
     public function setHasEventFinished(bool $hasEventFinished): void {
         $this->hasEventFinished = $hasEventFinished;
     }

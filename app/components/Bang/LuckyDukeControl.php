@@ -5,6 +5,7 @@ namespace App\Components\Bang;
 
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Handlers\LuckyDuke;
+use App\Models\Bang\PlayerUtils;
 use Nette\Application\UI\Control;
 
 class LuckyDukeControl extends Control {
@@ -48,10 +49,8 @@ class LuckyDukeControl extends Control {
 			}
 		}
 		
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()
-			|| $this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getPlayerToRespond()->getNickname()
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())
+			|| PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getPlayerToRespond())
 			&& $this->handler->getBlueCard() === null && $card !== null) {
 			
 			$this->handler->chooseBlueCard($this->gameGovernance, $card);

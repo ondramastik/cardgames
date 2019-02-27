@@ -5,6 +5,7 @@ namespace App\Components\Bang;
 
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Handlers\JesseJones;
+use App\Models\Bang\PlayerUtils;
 use Nette\Application\UI\Control;
 
 class JesseJonesControl extends Control {
@@ -37,8 +38,7 @@ class JesseJonesControl extends Control {
 	 * @param string $nickname
 	 */
 	public function handleSteal(string $nickname) {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			$player = $this->gameGovernance->getGame()->getPlayer($nickname);
 			
 			if($player) {
@@ -51,8 +51,7 @@ class JesseJonesControl extends Control {
 	}
 	
 	public function handleCancel() {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			$this->gameGovernance->getGame()->setHandler(null);
 			$this->getPresenter()->redrawControl('handlers');
 		}

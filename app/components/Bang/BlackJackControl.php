@@ -7,6 +7,7 @@ use App\Models\Bang\Card;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\Handlers\BlackJack;
 use App\Models\Bang\Handlers\SidKetchum;
+use App\Models\Bang\PlayerUtils;
 use Nette\Application\UI\Control;
 
 class BlackJackControl extends Control {
@@ -38,16 +39,14 @@ class BlackJackControl extends Control {
 	}
 	
 	public function handleConfirm() {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			$this->handler->confirmSecondCard($this->gameGovernance);
 			$this->getPresenter()->redrawControl('handlers');
 		}
 	}
 	
 	public function handleDecline() {
-		if($this->gameGovernance->getActingPlayer()->getNickname()
-			=== $this->gameGovernance->getGame()->getActivePlayer()->getNickname()) {
+		if(PlayerUtils::equals($this->gameGovernance->getActingPlayer(), $this->gameGovernance->getGame()->getActivePlayer())) {
 			$this->handler->declineSecondCard($this->gameGovernance);
 			$this->getPresenter()->redrawControl('handlers');
 		}
