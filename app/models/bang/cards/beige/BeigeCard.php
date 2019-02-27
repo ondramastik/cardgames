@@ -15,7 +15,7 @@ abstract class BeigeCard extends Card {
      * @param Player|null $targetPlayer
      * @param bool $isActive
      */
-    protected function playCard(GameGovernance $gameGovernance, Player $targetPlayer = null, bool $isActive = false) {
+    protected function playCard(GameGovernance $gameGovernance, Player $targetPlayer = null, $isActive = false) {
         $gameGovernance->getGame()->getCardsDeck()->playCard(
             new PlayedCard($this,
                 $gameGovernance->getGame()->getActivePlayer(),

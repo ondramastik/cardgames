@@ -12,7 +12,7 @@ class Indiani extends BeigeCard {
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
-        $this->playCard($gameGovernance, true);
+        $this->playCard($gameGovernance, null,true);
 		$this->log($gameGovernance);
 		
 		return true;

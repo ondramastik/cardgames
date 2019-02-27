@@ -13,7 +13,7 @@ class SuzyLafayette extends Character {
         $player = $gameGovernance->getActingPlayer();
 
         if (!count($player->getHand())) {
-            $player->giveCard($gameGovernance->getGame()->getCardsDeck()->drawCard());
+			$player->getHand()[] = $gameGovernance->getGame()->getCardsDeck()->drawCard();
             
 			$this->log($gameGovernance);
 			

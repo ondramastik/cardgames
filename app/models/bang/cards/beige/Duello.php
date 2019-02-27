@@ -3,8 +3,6 @@
 namespace App\Models\Bang;
 
 
-use App\Models\Bang\Events\PassEvent;
-
 class Duello extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
@@ -13,7 +11,7 @@ class Duello extends BeigeCard {
         
         $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
-        $this->playCard($gameGovernance, true);
+        $this->playCard($gameGovernance, $targetPlayer, true);
 		$this->log($gameGovernance, $targetPlayer);
 
         return true;
@@ -26,9 +24,6 @@ class Duello extends BeigeCard {
 	function performPassAction(GameGovernance $gameGovernance): bool {
 		$activeCard = $gameGovernance->getGame()->getCardsDeck()->getActiveCard();
         $activeCard->setActive(false);
-
-        $gameGovernance->getLobbyGovernance()->log(
-            new PassEvent($gameGovernance->getGame()->getPlayerToRespond(), $activeCard));
 
 		$gameGovernance->getGame()->getPlayerToRespond()->dealDamage();
 		$gameGovernance->getGame()->setPlayerToRespond(null);

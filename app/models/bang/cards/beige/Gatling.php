@@ -6,12 +6,13 @@ namespace App\Models\Bang;
 class Gatling extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getActivePlayer()->getNextPlayer());
+        $gameGovernance->getGame()->setPlayerToRespond(
+        	PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getActivePlayer()));
 
         $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
         PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
-        $this->playCard($gameGovernance, true);
+        $this->playCard($gameGovernance, $targetPlayer, true);
 		$this->log($gameGovernance);
 
         return true;

@@ -3,11 +3,14 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\CardPlayerInteractionEvent;
+use App\Models\Bang\Events\CharacterPlayerInteractionEvent;
+
 class Mancato extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        if ($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet) {
-            $gameGovernance->getGame()->setPlayerToRespond($gameGovernance->getGame()->getPlayer($targetPlayer));
+        if ($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet && $targetPlayer) {
+            $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
             if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
                     - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
@@ -20,12 +23,18 @@ class Mancato extends BeigeCard {
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
             $gameGovernance->getGame()->getCardsDeck()->playCard(
-                new PlayedCard(new Bang(),
+                new PlayedCard(new Bang(0,0),
                     $gameGovernance->getGame()->getActivePlayer(),
                     $gameGovernance->getGame()->getRound(),
                     true,
                     $targetPlayer));
-			$this->log($gameGovernance);
+
+			$gameGovernance->getLobbyGovernance()->log(
+				new CharacterPlayerInteractionEvent($gameGovernance->getActingPlayer(), $targetPlayer,
+					$gameGovernance->getActingPlayer()->getCharacter()));
+
+			$gameGovernance->getLobbyGovernance()->log(new CardPlayerInteractionEvent($gameGovernance->getActingPlayer(), $targetPlayer,
+				$gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard()));
 
             return true;
         }

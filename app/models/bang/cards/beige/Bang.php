@@ -3,6 +3,8 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\CharacterPlayerInteractionEvent;
+
 class Bang extends BeigeCard {
 
     private static function volcanicFilter(BlueCard $blueCard): bool {
@@ -21,8 +23,11 @@ class Bang extends BeigeCard {
             return false;
         }
 
+        \Tracy\Debugger::barDump(PlayerUtils::calculateDefaultNegativeDistance($targetPlayer), "negative");
+		\Tracy\Debugger::barDump(PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer()), "positive");
+		\Tracy\Debugger::barDump(PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer), "default");
+
         if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
-                - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
                 + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
                 ) < 1) {
             return false;
@@ -61,12 +66,14 @@ class Bang extends BeigeCard {
         } else if ($gameGovernance->getGame()->getPlayerToRespond()->getCharacter() instanceof CalamityJanet
             && ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
                 || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
-            (new Mancato())->performResponseAction($gameGovernance);
+            (new Mancato(0, 0))->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
             $this->playCard($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), false);
-			$this->log($gameGovernance);
+			$gameGovernance->getLobbyGovernance()->log(
+				new CharacterPlayerInteractionEvent($gameGovernance->getActingPlayer(), $gameGovernance->getGame()->getActivePlayer(),
+					$gameGovernance->getActingPlayer()->getCharacter()));
 			
 			$gameGovernance->getGame()->setWasBangCardPlayedThisTurn(true);
 			
