@@ -23,15 +23,11 @@ class Bang extends BeigeCard {
             return false;
         }
 
-        \Tracy\Debugger::barDump(PlayerUtils::calculateDefaultNegativeDistance($targetPlayer), "negative");
-		\Tracy\Debugger::barDump(PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer()), "positive");
-		\Tracy\Debugger::barDump(PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer), "default");
-
-        if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
-                + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
-                ) < 1) {
-            return false;
-        }
+		if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
+				+ PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
+			) > PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())) {
+			return false;
+		}
 
         $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
@@ -66,9 +62,10 @@ class Bang extends BeigeCard {
         } else if ($gameGovernance->getGame()->getPlayerToRespond()->getCharacter() instanceof CalamityJanet
             && ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Bang
                 || $gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling)) {
-            (new Mancato(0, 0))->performResponseAction($gameGovernance);
+
+            (new Mancato($this->getType(), $this->getValue()))->performResponseAction($gameGovernance);
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
-            PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
+            PlayerUtils::drawFromHand($gameGovernance->getActingPlayer(), $this);
 
             $this->playCard($gameGovernance, $gameGovernance->getGame()->getActivePlayer(), false);
 			$gameGovernance->getLobbyGovernance()->log(

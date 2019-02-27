@@ -12,18 +12,17 @@ class Mancato extends BeigeCard {
         if ($gameGovernance->getGame()->getActivePlayer()->getCharacter() instanceof CalamityJanet && $targetPlayer) {
             $gameGovernance->getGame()->setPlayerToRespond($targetPlayer);
 
-            if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
-                    - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
-                    + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
-                ) < 1) {
-                return false;
-            }
+			if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
+					+ PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
+				) > PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())) {
+				return false;
+			}
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
 
             $gameGovernance->getGame()->getCardsDeck()->playCard(
-                new PlayedCard(new Bang(0,0),
+                new PlayedCard(new Bang($this->getType(),$this->getValue()),
                     $gameGovernance->getGame()->getActivePlayer(),
                     $gameGovernance->getGame()->getRound(),
                     true,
@@ -53,7 +52,7 @@ class Mancato extends BeigeCard {
             $gameGovernance->getGame()->setPlayerToRespond(null);
             
             $valid = true;
-        } else if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard() instanceof Gatling) {
+        } else if ($gameGovernance->getGame()->getCardsDeck()->getActiveCard()->getCard() instanceof Gatling) {
 
             $gameGovernance->getGame()->getCardsDeck()->discardCard($this);
             PlayerUtils::drawFromHand($gameGovernance->getGame()->getActivePlayer(), $this);
@@ -61,7 +60,7 @@ class Mancato extends BeigeCard {
             $gameGovernance->getGame()->setPlayerToRespond(
                 PlayerUtils::getNextPlayer($gameGovernance->getGame(), $gameGovernance->getGame()->getPlayerToRespond()));
 
-            if ($gameGovernance->getGame()->getPlayerToRespond() === $gameGovernance->getGame()->getActivePlayer()) {
+            if (PlayerUtils::equals($gameGovernance->getGame()->getPlayerToRespond(), $gameGovernance->getGame()->getActivePlayer())) {
                 $gameGovernance->getGame()->getCardsDeck()->disableActiveCard();
             }
 

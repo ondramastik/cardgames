@@ -8,12 +8,11 @@ use App\Models\Bang\Handlers\CardSteal;
 class Panico extends BeigeCard {
 
     public function performAction(GameGovernance $gameGovernance, Player $targetPlayer = null, $isSourceHand = true): bool {
-        if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
-                - PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
-                + PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer())
-            ) < 1) {
-            return false;
-        }
+		if((PlayerUtils::calculateDistanceFromPlayer($gameGovernance->getGame(), $gameGovernance->getActingPlayer(), $targetPlayer)
+				+ PlayerUtils::calculateDefaultNegativeDistance($targetPlayer)
+			) > PlayerUtils::calculateDefaultPositiveDistance($gameGovernance->getActingPlayer(),false) + 1) {
+			return false;
+		}
 
 		$gameGovernance->getGame()->setHandler(new CardSteal());
 

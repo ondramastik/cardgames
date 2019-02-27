@@ -12,11 +12,11 @@ abstract class PlayerUtils {
      * @return int
      */
     public static function calculateDefaultPositiveDistance(Player $player, $forBang = true): int {
-        $distance = 1;
+        $distance = 0;
         foreach ($player->getTable() as $card) {
             if ($card instanceof Gun) {
                 if (!$forBang) continue;
-                $distance += $card->getPositiveDistanceImpact() - 1;
+                $distance += $card->getPositiveDistanceImpact();
             } else {
                 $distance += $card->getPositiveDistanceImpact();
             }
@@ -34,9 +34,9 @@ abstract class PlayerUtils {
      * @return int
      */
     public static function calculateDefaultNegativeDistance(Player $player): int {
-        $distance = 1;
+        $distance = 0;
         foreach ($player->getTable() as $card) {
-            $card->getNegativeDistanceImpact();
+            $distance += $card->getNegativeDistanceImpact();
         }
 
         if ($player->getCharacter() instanceof RoseDoolan) {
