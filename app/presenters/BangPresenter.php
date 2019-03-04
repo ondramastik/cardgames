@@ -12,12 +12,8 @@ use App\Components\Bang\LuckyDukeControl;
 use App\Components\Bang\SidKetchumControl;
 use App\Components\Chat\ChatControl;
 use App\Components\Chat\LogControl;
-use App\Models\Bang\Barile;
-use App\Models\Bang\Dinamite;
 use App\Models\Bang\GameGovernance;
-use App\Models\Bang\LuckyDuke;
 use App\Models\Bang\PlayerUtils;
-use App\Models\Bang\Prigione;
 use App\Models\Lobby\LobbyGovernance;
 
 class BangPresenter extends BasePresenter {
@@ -144,7 +140,10 @@ class BangPresenter extends BasePresenter {
 	}
     
     public function handleEndTurn() {
-		$this->gameGovernance->nextPlayer();
+		if(!$this->gameGovernance->endTurn()) {
+			$this->flashMessage("nOK");
+			$this->redrawControl("flashes");
+		}
 	}
 	
 	public function handleDraw() {

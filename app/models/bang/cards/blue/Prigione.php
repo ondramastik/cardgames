@@ -50,4 +50,14 @@ class Prigione extends BlueCard {
         return 0;
     }
 
+	public static function performDrawingCheck(GameGovernance $gameGovernance, Player $player) {
+		foreach ($player->getTable() as $blueCard) {
+			if($blueCard instanceof Prigione) {
+				$gameGovernance->getGame()->getCardsDeck()->discardCard($blueCard);
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

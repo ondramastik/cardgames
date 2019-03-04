@@ -70,6 +70,14 @@
                 zničil kartu
                 {include 'card.latte', card => $event->getDiscardedCard()}
             </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\DinamiteExplosionEvent">
+                U hráče
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                vybuchl
+                {include 'card.latte', card => $event->getCard()}
+            </span>
         </div>
     </div>
 </div>

@@ -151,9 +151,25 @@ class GameGovernance {
 		return false;
     }
 
+    public function endTurn() {
+    	if(PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer())
+			&& in_array($this->getActingPlayer()->getTurnStage(), [Player::TURN_STAGE_DISCARDING, Player::TURN_STAGE_PLAYING])) {
+			$this->nextPlayer();
+			return true;
+		}
+    	return false;
+	}
+
     public function draw() {
-    	if(PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer()) &&
-    		$this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
+    	if(PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer())
+			&& $this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
+    		Dinamite::performDrawingCheck($this, $this->getActingPlayer());
+
+    		if(Prigione::performDrawingCheck($this, $this->getActingPlayer())) {
+    			$this->nextPlayer();
+    			return false;
+			}
+
     		$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
 			$this->getActingPlayer()->getHand()[] = $this->getGame()->getCardsDeck()->drawCard();
 
