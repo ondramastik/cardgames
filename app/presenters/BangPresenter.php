@@ -136,7 +136,10 @@ class BangPresenter extends BasePresenter {
     }
 
 	public function handlePass() {
-		$this->gameGovernance->pass();
+		if(!$this->gameGovernance->pass()) {
+			$this->flashMessage("nOK");
+			$this->redrawControl("flashes");
+		}
 	}
     
     public function handleEndTurn() {
@@ -147,7 +150,10 @@ class BangPresenter extends BasePresenter {
 	}
 	
 	public function handleDraw() {
-		$this->gameGovernance->draw();
+		if(!$this->gameGovernance->draw()) {
+			$this->flashMessage("nOK");
+			$this->redrawControl("flashes");
+		}
 	}
 	
 	public function createComponentEmporio() {

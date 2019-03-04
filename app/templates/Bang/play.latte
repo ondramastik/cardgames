@@ -14,6 +14,28 @@
 {/block}
 
 <div id="bang" class="player-count-4"><!---{count($game->getPlayers())}">-->
+    <div class="info-header">
+        <div class="column">
+            {$actingPlayer->getNickname()}
+        </div>
+        <div class="column">
+            Hráč na tahu: {$game->getActivePlayer()->getNickname()} |
+            Fáze:
+            {if $game->getActivePlayer()->getTurnStage() === App\Models\Bang\Player::TURN_STAGE_DRAWING}
+                Lízání
+            {elseif $game->getActivePlayer()->getTurnStage() === App\Models\Bang\Player::TURN_STAGE_PLAYING}
+                Hraní karet
+            {elseif $game->getActivePlayer()->getTurnStage() === App\Models\Bang\Player::TURN_STAGE_DISCARDING}
+                Ničení karet
+            {/if}
+        </div>
+        <div class="column">
+            Kolo: {$game->getRound()}
+        </div>
+        <div class="column">
+            Čeká se na akci hráče: {$game->getPlayerToRespond() ? $game->getPlayerToRespond()->getNickname() : $game->getActivePlayer()->getNickname()}
+        </div>
+    </div>
     <div class="cards-deck" n:snippet="cards-deck">
         <div class="cards">
             <a n:href="draw!" class="ajax">

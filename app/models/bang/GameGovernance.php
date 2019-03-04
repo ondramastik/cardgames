@@ -121,8 +121,14 @@ class GameGovernance {
 			&& PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getPlayerToRespond())) {
 			return $card->performResponseAction($this);
 		} else if($this->getGame()->getPlayerToRespond() === null) {
-			return $card->performAction($this, $targetPlayer, $isSourceHand);
-		} else return false;
+			if($card->performAction($this, $targetPlayer, $isSourceHand)) {
+				if($this->getActingPlayer()->getTurnStage() === Player::TURN_STAGE_DRAWING) {
+					PlayerUtils::shiftTurnStage($this->getActingPlayer());
+				}
+				return true;
+			}
+		}
+        return false;
 
     }
 
@@ -132,6 +138,7 @@ class GameGovernance {
 				|| ($card instanceof BlueCard && PlayerUtils::drawFromTable($this->getActingPlayer(), $card))) {
 				$this->getGame()->getCardsDeck()->discardCard($card);
 				$this->lobbyGovernance->log(new DiscardEvent($this->getActingPlayer(), $card));
+				$this->getActingPlayer()->setTurnStage(Player::TURN_STAGE_DISCARDING);
 				return true;
 			}
 		}
@@ -144,7 +151,7 @@ class GameGovernance {
 			&& $this->getGame()->getCardsDeck()->getActiveCard()->isActive()) {
             $this->lobbyGovernance
                 ->log(new PassEvent($this->getActingPlayer(), $this->getGame()->getCardsDeck()->getActiveCard()));
-			$this->getGame()->getCardsDeck()->getActiveCard()->getCard()
+			return $this->getGame()->getCardsDeck()->getActiveCard()->getCard()
 				->performPassAction($this);
 		}
 
@@ -154,7 +161,7 @@ class GameGovernance {
     public function endTurn() {
     	if(PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer())
 			&& in_array($this->getActingPlayer()->getTurnStage(), [Player::TURN_STAGE_DISCARDING, Player::TURN_STAGE_PLAYING])) {
-			$this->nextPlayer();
+			$this->nextPlayer(); //TODO: Nice to have - can also end turn in drawing stage (reconsider how dinamite and prigione validations are done to avoid redudant code)
 			return true;
 		}
     	return false;
