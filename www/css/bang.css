@@ -53,6 +53,27 @@
     max-width: 100%;
 }
 
+#bang .acting-player .card .discard {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    display: none;
+}
+
+#bang .acting-player .card:hover .discard {
+    display: block;
+}
+
+#bang .acting-player .card .discard a:visited,
+#bang .acting-player .card .discard a:link {
+    color: black;
+}
+
+#bang .acting-player .card .discard:hover {
+    font-size: 150%;
+    top: 1px;
+    right: 5px;
+}
 
 #bang .acting-player .row > div {
     width: 10%;

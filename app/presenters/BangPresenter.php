@@ -41,23 +41,24 @@ class BangPresenter extends BasePresenter {
 
     public function renderGameHasFinished() {
     	if(!$this->gameGovernance->getGame()->isGameFinished()) {
-    		//$this->redirect("play");
+    		$this->redirect("play");
 		}
     	$this->getTemplate()->game = $this->gameGovernance->getGame();
 	}
     
     public function renderPlay() {
+		if(!$this->gameGovernance->getGame()) {
+			$this->gameGovernance->createGame($this->lobbyGovernance->findUsersLobby()->getMembers());
+		}
+
     	if($this->gameGovernance->getGame()->isGameFinished()) {
     		$this->redirect("gameHasFinished");
 		}
-		$nicknames = ['Naxmars', 'Baxmars'];
-		
-		if(!$this->gameGovernance->getGame()) {
-			$this->gameGovernance->createGame($nicknames);
-		}
+
 		
 		$this->getTemplate()->game = $this->gameGovernance->getGame();
 		$this->getTemplate()->log = $this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog();
+		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
     }
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
@@ -100,6 +101,33 @@ class BangPresenter extends BasePresenter {
         }
 		$this->redrawControl('flashes');
     }
+
+	public function handleDiscardCard(string $cardIdentifier) {
+		$handCard = $tableCard = false;
+
+		foreach ($this->gameGovernance->getActingPlayer()->getTable() as $table) {
+			if($cardIdentifier === $table->getIdentifier()) {
+				$tableCard = $table;
+			}
+		}
+
+		foreach ($this->gameGovernance->getActingPlayer()->getHand() as $hand) {
+			if($cardIdentifier === $hand->getIdentifier()) {
+				$handCard = $hand;
+			}
+		}
+
+		$card = $handCard ?: $tableCard;
+
+		if($this->gameGovernance->discardCard($card)) {
+			$this->redrawControl('cards-deck');
+			$this->redrawControl('acting-player');
+			$this->redrawControl('log');
+		} else {
+			$this->flashMessage("nOK");
+			$this->redrawControl('flashes');
+		}
+	}
 
     public function handleUseCharacterAbility() {
         $actingPlayer = $this->gameGovernance->getActingPlayer();

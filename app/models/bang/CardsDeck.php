@@ -89,10 +89,17 @@ class CardsDeck {
     }
 	
 	/**
-	 * @return Card|null
+	 * @return PlayedCard|null
 	 */
 	public function getTopPlayedCard(): ?PlayedCard  {
 		return (end($this->playedCards) !== false ? end($this->playedCards) : null);
+	}
+
+	/**
+	 * @return Card|null
+	 */
+	public function getTopDiscardedCard(): ?Card  {
+		return (end($this->discardedCards) !== false ? end($this->discardedCards) : null);
 	}
 
     public function disableActiveCard() {
@@ -143,11 +150,6 @@ class CardsDeck {
      * @return Role[]
      */
     private function initRoles(): array {
-		return [
-			new Sceriffo(),
-			new Rinnegato(),
-		];
-    	
         if($this->playersCount === 4) {
             return [
                 new Sceriffo(),

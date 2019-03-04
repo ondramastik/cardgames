@@ -4,5 +4,8 @@
     "nette-forms": "nette/forms",
     "nette.ajax.js": "vojtech-dobes/nette.ajax.js",
     "websockets-wamp": "iPublikuj/websockets-wamp"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.7.2"
   }
 }

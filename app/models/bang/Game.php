@@ -4,6 +4,7 @@ namespace App\Models\Bang;
 
 
 use App\Models\Bang\Handlers\Handler;
+use App\Models\Security\UserEntity;
 
 class Game {
 
@@ -40,27 +41,27 @@ class Game {
     /**
      * Game constructor.
      * @param $id int
-     * @param $nicknames string[]
+     * @param UserEntity[] $users
      */
-    public function __construct($id, $nicknames) {
+    public function __construct($id, $users) {
         $this->id = $id;
         $this->players = [];
-        $this->cardsDeck = new CardsDeck(count($nicknames));
+        $this->cardsDeck = new CardsDeck(count($users));
         $this->gameFinished = false;
         $this->wasBangCardPlayedThisTurn = false;
         $this->round = 0;
 
-        $this->initPlayers($nicknames);
+        $this->initPlayers($users);
     }
 
     /**
-     * @param $nicknames string[]
+     * @param UserEntity[] $users
      */
-    private function initPlayers($nicknames) {
-        shuffle($nicknames);
+    private function initPlayers($users) {
+        shuffle($users);
 
-        foreach ($nicknames as $key => $nickname) {
-            $player = new Player($nickname, $this->cardsDeck->drawRole(), $this->cardsDeck->drawCharacter());
+        foreach ($users as $key => $nickname) {
+            $player = new Player($nickname->getNickname(), $this->cardsDeck->drawRole(), $this->cardsDeck->drawCharacter());
 
             if ($player->getRole() instanceof Sceriffo) {
                 $this->setActivePlayer($player);

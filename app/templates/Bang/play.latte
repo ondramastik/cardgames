@@ -2,6 +2,15 @@
 
 {block head}
     <link rel="stylesheet" type="text/css" href="/css/bang.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/node_modules/nette.ajax.js/nette.ajax.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.nette.init();
+            $.nette.ext('redirect');
+        });
+    </script>
 {/block}
 
 <div id="bang" class="player-count-4"><!---{count($game->getPlayers())}">-->
@@ -11,8 +20,8 @@
                 <img src="/images/bang/cards/back.png">
             </a>
         </div>
-        <div n:if="$game->getCardsDeck()->getTopPlayedCard()" class="played-cards">
-            <img src="/images/bang/cards/{$game->getCardsDeck()->getTopPlayedCard()->getCard()->getName()|webalize}.png">
+        <div n:if="$game->getCardsDeck()->getTopDiscardedCard()" class="played-cards">
+            <img src="/images/bang/cards/{$game->getCardsDeck()->getTopDiscardedCard()->getName()|webalize}.png">
         </div>
     </div>
 
@@ -74,23 +83,31 @@
             <div class="role">
                 <img src="/images/bang/roles/{$actingPlayer->getRole()->getName()|lower}.png">
             </div>
-            <div n:foreach="$actingPlayer->getTable() as $card">
-                <a n:href="playCard! $card->getIdentifier()" class="card">
+            <div n:foreach="$actingPlayer->getTable() as $card" class="card">
+                <a n:href="playCard! $card->getIdentifier()">
                     <img src="/images/bang/cards/{$card->getName()|webalize}.png">
                 </a>
+                <div class="discard">
+                    <a class="ajax" n:href="discardCard! $card->getIdentifier()"><i class="far fa-trash-alt"></i></a>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div n:foreach="$actingPlayer->getHand() as $card">
-                <a n:href="playCard! $card->getIdentifier()" class="card"  >
+            <div n:foreach="$actingPlayer->getHand() as $card" class="card">
+                <a n:href="playCard! $card->getIdentifier()">
                     <img src="/images/bang/cards/{$card->getName()|webalize}.png">
                 </a>
+                <div class="discard">
+                    <a class="ajax" n:href="discardCard! $card->getIdentifier()"><i class="far fa-trash-alt"></i></a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-{control log}
+{snippet log}
+    {control log}
+{/snippet}
 
 <div n:snippet="handlers">
     {if $game->getHandler() && $game->getHandler() instanceof \App\Models\Bang\Handlers\Emporio}

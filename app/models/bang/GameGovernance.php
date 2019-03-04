@@ -3,9 +3,11 @@
 namespace App\Models\Bang;
 
 
+use App\Models\Bang\Events\DiscardEvent;
 use App\Models\Bang\Events\PassEvent;
 use App\Models\Bang\Events\PlayerDeathEvent;
 use App\Models\Lobby\LobbyGovernance;
+use App\Models\Security\UserEntity;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
@@ -69,11 +71,11 @@ class GameGovernance {
     }
 
 	/**
-	 * @param $nicknames
+	 * @param UserEntity[] $users
 	 * @return Game
 	 */
-    public function createGame($nicknames): Game {
-        $this->game = new Game($this->generateGameId(), $nicknames);
+    public function createGame(array $users): Game {
+        $this->game = new Game($this->generateGameId(), $users);
 
         $this->persistGame($this->game);
 
@@ -112,7 +114,7 @@ class GameGovernance {
      * @param bool $isSourceHand
      * @return boolean
      */
-    public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true) {
+    public function play(Card $card, Player $targetPlayer = null, $isSourceHand = true): bool {
         if ($this->getGame()->getHandler()) return false;
 
         if($this->getGame()->getPlayerToRespond()
@@ -123,6 +125,18 @@ class GameGovernance {
 		} else return false;
 
     }
+
+    public function discardCard(Card $card): bool {
+    	if($card && PlayerUtils::equals($this->getActingPlayer(), $this->getGame()->getActivePlayer())) {
+			if(PlayerUtils::drawFromHand($this->getActingPlayer(), $card)
+				|| ($card instanceof BlueCard && PlayerUtils::drawFromTable($this->getActingPlayer(), $card))) {
+				$this->getGame()->getCardsDeck()->discardCard($card);
+				$this->lobbyGovernance->log(new DiscardEvent($this->getActingPlayer(), $card));
+				return true;
+			}
+		}
+    	return false;
+	}
 	
     public function pass() {
         if ($this->getGame()->getPlayerToRespond()

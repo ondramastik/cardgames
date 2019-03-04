@@ -63,6 +63,13 @@
                 kartou
                 {include 'card.latte', card => $event->getKillingCard()}
             </span>
+            <span n:if="$event instanceof \App\Models\Bang\Events\DiscardEvent">
+                <span class="player">
+                     {$event->getPlayer()->getNickname()}
+                </span>
+                zničil kartu
+                {include 'card.latte', card => $event->getDiscardedCard()}
+            </span>
         </div>
     </div>
 </div>
