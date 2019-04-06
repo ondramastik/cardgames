@@ -13,11 +13,11 @@ class WebSocketsRouterFactory {
     public static function createRouter(): RouteList {
         $router = new RouteList;
 
-        $router[] = new Route('/communication/prsi/play/<gameId>', 'Prsi:');
+        $router[] = new Route('/prsi/play/<gameId>', 'Prsi:');
 
-        $router[] = new Route('/communication/chat/<lobbyId>', 'Chat:');
+        $router[] = new Route('/chat/<lobbyId>', 'Chat:');
 
-        $router[] = new Route('/communication/lobby/<lobbyId>', 'Lobby:');
+        $router[] = new Route('/lobby/<lobbyId>', 'Lobby:');
 
         return $router;
     }

@@ -20,12 +20,12 @@
     }
 
     $(function () {
-        var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8080');
+        var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8443');
 
         webSocket.on('socket/connect', function(session) {
             console.log('Successfully connected to chat!');
 
-            session.subscribe('communication/chat/' + {$lobbyId}, function(uri, payload) {
+            session.subscribe('/chat/' + {$lobbyId}, function(uri, payload) {
                 insertMessage(payload);
             });
 
@@ -34,7 +34,7 @@
 
                 if(!messageField.val()) return;
 
-                session.publish('communication/chat/' + {$lobbyId}, {
+                session.publish('/chat/' + {$lobbyId}, {
                     text: messageField.val(),
                     sender: {$presenter->getUser()->getIdentity()->userEntity->getNickname()}
                 });

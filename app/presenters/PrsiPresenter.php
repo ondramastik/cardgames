@@ -4,33 +4,22 @@ namespace App\Presenters;
 
 
 use App\Components\Chat\ChatControl;
-use App\Models\Lobby\LobbyGovernance;
 use App\Models\Prsi\Card;
-use App\Models\Prsi\FinishReasons;
-use App\Models\Prsi\GameGovernance;
-use Tracy\Debugger;
+use App\Models\Prsi\FinishReasons;;
 
 class PrsiPresenter extends BasePresenter {
 
     /** @var int */
-    public $activeGameId;
+    private $activeGameId;
 
-    /** @var GameGovernance */
-    private $gameGovernance;
+    /** @var \App\Models\Prsi\GameGovernance @inject */
+    public $gameGovernance;
 
-    /** @var LobbyGovernance */
-    private $lobbyGovernance;
+    /** @var \App\Models\Lobby\LobbyGovernance @inject */
+	public $lobbyGovernance;
 
-    /**
-     * PrsiPresenter constructor.
-     * @param GameGovernance $gameGovernance
-     * @param LobbyGovernance $lobbyGovernance
-     */
-    public function __construct(GameGovernance $gameGovernance, LobbyGovernance $lobbyGovernance) {
-        parent::__construct();
-        $this->gameGovernance = $gameGovernance;
-        $this->lobbyGovernance = $lobbyGovernance;
-    }
+	/** @var \App\Models\Lobby\LobbyPusher @inject */
+	public $lobbyPusher;
 
     /**
      * @throws \Nette\Application\AbortException
@@ -86,6 +75,7 @@ class PrsiPresenter extends BasePresenter {
         $gameId = $this->gameGovernance->createGame($lobby->getMembers());
 
         $this->gameGovernance->startGame($gameId);
+		$this->lobbyPusher->pushGameStarted($this->lobbyGovernance->findUsersLobby(), \GameTypes::PRSI);
 
         $this->lobbyGovernance->setActiveGame($lobbyId, \GameTypes::PRSI);
 

@@ -1,7 +1,7 @@
 {block prsiScripts}
 <script type="application/javascript">
     $(function () {
-        var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8080');
+        var webSocket = IPub.WebSockets.WAMP.initialize('ws://' + {$serverIp} + ':8443');
         var globalSession = null;
 
         webSocket.on('socket/connect', function(session) {
@@ -9,7 +9,7 @@
 
             globalSession = session;
 
-            globalSession.subscribe('communication/prsi/play/{$game->getId()}', function(uri, payload) {
+            globalSession.subscribe('/prsi/play/{$game->getId()}', function(uri, payload) {
                 console.log("Prisla zprava", payload);
                 $.nette.ajax({
                     url: {link play},
@@ -26,7 +26,7 @@
             success: function () {
                 if(globalSession) {
                     console.log("Publishing");
-                    globalSession.publish('communication/prsi/play/{$game->getId()}', "played");
+                    globalSession.publish('/prsi/play/{$game->getId()}', "played");
                 }
             }
         });

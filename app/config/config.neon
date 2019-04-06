@@ -17,23 +17,16 @@ services:
 	prsiGovernance: App\Models\Prsi\GameGovernance
 	bangGovernance: App\Models\Bang\GameGovernance
 	lobbyGovernance: App\Models\Lobby\LobbyGovernance
+	lobbyPusher: App\Models\Lobby\LobbyPusher
 	- {class: App\WebSocketsRouterFactory, tags: [ipub.websockets.routes]}
 	formFactory: App\Forms\FormFactory
 	signInFormFactory: App\Forms\SignFormFactory
-	- IPub\WebSocketsWAMP\Application\Application
-	- IPub\WebSocketsWAMP\Serializers\PushMessageSerializer
-	- IPub\WebSocketsWAMP\Topics\Drivers\InMemory
-	storage:
-	    factory: IPub\WebSocketsWAMP\Topics\Storage
-	    setup:
-	        - setStorageDriver
-
 
 extensions:
     webSockets: IPub\WebSockets\DI\WebSocketsExtension
+    webSocketsWAMP: IPub\WebSocketsWAMP\DI\WebSocketsWAMPExtension
     webSocketsZMQ: IPub\WebSocketsZMQ\DI\WebSocketsZMQExtension
     console: Kdyby\Console\DI\ConsoleExtension
     events: Kdyby\Events\DI\EventsExtension
     annotations: Kdyby\Annotations\DI\AnnotationsExtension
     doctrine: Kdyby\Doctrine\DI\OrmExtension
-

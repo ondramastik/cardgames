@@ -4,8 +4,8 @@ namespace App\Presenters;
 
 use App\Components\Chat\ChatControl;
 use App\Models\Lobby\LobbyGovernance;
+use App\Models\Lobby\LobbyPusher;
 use App\Models\Security\UserEntity;
-use IPub\WebSocketsZMQ\Pusher\Pusher;
 use Nette\Security\User;
 
 class LobbyPresenter extends BasePresenter {
@@ -13,8 +13,8 @@ class LobbyPresenter extends BasePresenter {
     /** @var LobbyGovernance */
     private $lobbyGovernance;
 
-	/** @var Pusher */
-	private $zmqPusher;
+	/** @var LobbyPusher */
+	private $lobbyPusher;
 
 	/** @var UserEntity */
 	private $user;
@@ -22,13 +22,13 @@ class LobbyPresenter extends BasePresenter {
 	/**
 	 * LobbyPresenter constructor.
 	 * @param LobbyGovernance $lobbyGovernance
-	 * @param Pusher $zmqPusher
+	 * @param LobbyPusher $lobbyPusher
 	 * @param User $user
 	 */
-    public function __construct(LobbyGovernance $lobbyGovernance, Pusher $zmqPusher, User $user) {
+    public function __construct(LobbyGovernance $lobbyGovernance, LobbyPusher $lobbyPusher, User $user) {
         parent::__construct();
         $this->lobbyGovernance = $lobbyGovernance;
-        $this->zmqPusher = $zmqPusher;
+        $this->lobbyPusher = $lobbyPusher;
         $this->user = $user->getIdentity()->userEntity;
     }
 
@@ -57,13 +57,6 @@ class LobbyPresenter extends BasePresenter {
         $this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
     }
 
-    public function actionPushMessage($message) {
-		$this->zmqPusher->push(["text" => $message],"Chat:",
-			["lobbyId" => strval($this->lobbyGovernance->findUsersLobby()->getId())]);
-		$this->redirect("Lobby:");
-	}
-
-
     public function renderList() {
         $this->getTemplate()->lobbies = $this->lobbyGovernance->getLobbies();
 
@@ -91,11 +84,12 @@ class LobbyPresenter extends BasePresenter {
      * @throws \Nette\Application\AbortException
      * @throws \Throwable
      */
-    public function actionJoinLobby($id) {
+    public function handleJoinLobby($id) {
         $lobby = $this->lobbyGovernance->getLobby($id);
 
         if ($lobby) {
             $this->lobbyGovernance->addMember($lobby->getId(), $this->getUser()->getIdentity()->userEntity);
+			$this->lobbyPusher->pushMemberHasJoined($lobby);
             $this->redirect("default");
         }
 
@@ -108,8 +102,10 @@ class LobbyPresenter extends BasePresenter {
      */
     public function handleLeaveLobby() {
         $lobby = $this->lobbyGovernance->findUsersLobby();
+
         if ($lobby) {
             $this->lobbyGovernance->kickMember($lobby->getId(), $this->getUser()->getId());
+			$this->lobbyPusher->pushMemberHasLeft($lobby);
             $this->redirect("list");
         }
 
@@ -126,6 +122,7 @@ class LobbyPresenter extends BasePresenter {
         $lobby = $this->lobbyGovernance->getLobby($id);
         if ($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
             $this->lobbyGovernance->removeLobby($id);
+			$this->lobbyPusher->pushLobbyCancelled($lobby);
             $this->redirect("list");
         }
 
@@ -141,6 +138,7 @@ class LobbyPresenter extends BasePresenter {
     public function handleKickMember($lobbyId, $userId) {
         $lobby = $this->lobbyGovernance->getLobby($lobbyId);
         if ($lobby && $lobby->getOwner()->getId() === $this->getUser()->getId()) {
+			$this->lobbyPusher->pushMemberHasLeft($lobby);
             $this->lobbyGovernance->kickMember($lobby->getId(), $userId);
         } else {
             $this->flashMessage("Nelze vyhodit člena z tohto lobby");

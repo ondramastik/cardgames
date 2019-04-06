@@ -31,8 +31,4 @@ class ChatController extends IPub\WebSockets\Application\Controller\Controller {
         $client->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
     }
 
-    public function actionPush(array $event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic) {
-    	$topic->broadcast(new Message("System", new \DateTime(), $event["text"]));
-	}
-
 }

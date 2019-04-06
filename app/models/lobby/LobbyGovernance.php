@@ -19,7 +19,6 @@ class LobbyGovernance {
     /**
      * LobbyGovernance constructor.
      * @param \Nette\Security\User $user
-     * @throws \Throwable
      */
     public function __construct(\Nette\Security\User $user) {
         $storage = new \Nette\Caching\Storages\FileStorage(dirname(__DIR__) . '/../../temp');
@@ -65,7 +64,6 @@ class LobbyGovernance {
     /**
      * @param $name
      * @return Lobby
-     * @throws \Throwable
      */
     public function createLobby($name) {
         $lobbies = $this->getLobbies();
@@ -110,7 +108,6 @@ class LobbyGovernance {
 
     /**
      * @param $id
-     * @throws \Throwable
      */
     public function removeLobby($id) {
         $lobbies = $this->getLobbies();
@@ -123,7 +120,6 @@ class LobbyGovernance {
     /**
      * @param $lobbyId
      * @param $userId
-     * @throws \Throwable
      */
     public function kickMember($lobbyId, $userId) {
         $lobby = $this->getLobby($lobbyId);
@@ -154,7 +150,6 @@ class LobbyGovernance {
     /**
      * @param $lobbyId
      * @param $gameId
-     * @throws \Throwable
      */
     public function setActiveGame($lobbyId, $gameId) {
         $lobby = $this->getLobby($lobbyId);

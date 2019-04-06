@@ -15,7 +15,7 @@ webSockets:
             ttl:    0
     server:
         httpHost:   127.0.0.1
-        port:       8080
+        port:       8443
         address:    127.0.0.1
     mapping:
         *: App\Controllers\*Controller

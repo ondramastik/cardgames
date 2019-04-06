@@ -12,35 +12,19 @@ use App\Components\Bang\LuckyDukeControl;
 use App\Components\Bang\SidKetchumControl;
 use App\Components\Chat\ChatControl;
 use App\Components\Chat\LogControl;
-use App\Models\Bang\GameGovernance;
 use App\Models\Bang\PlayerUtils;
-use App\Models\Lobby\LobbyGovernance;
-use IPub\WebSocketsZMQ\Pusher\Pusher;
 use Nette\InvalidStateException;
 
 class BangPresenter extends BasePresenter {
 	
-    /** @var GameGovernance */
-    private $gameGovernance;
+    /** @var \App\Models\Bang\GameGovernance @inject */
+	public $gameGovernance;
 
-    /** @var LobbyGovernance */
-    private $lobbyGovernance;
+    /** @var \App\Models\Lobby\LobbyGovernance @inject */
+	public $lobbyGovernance;
 
-    /** @var Pusher */
-    private $zmqPusher;
-
-	/**
-	 * BangPresenter constructor.
-	 * @param LobbyGovernance $lobbyGovernance
-	 * @param GameGovernance $gameGovernance
-	 * @param Pusher $zmqPusher
-	 */
-    public function __construct(LobbyGovernance $lobbyGovernance, GameGovernance $gameGovernance, Pusher $zmqPusher) {
-        parent::__construct();
-        $this->lobbyGovernance = $lobbyGovernance;
-        $this->gameGovernance = $gameGovernance;
-        $this->zmqPusher = $zmqPusher;
-    }
+    /** @var \App\Models\Lobby\LobbyPusher @inject */
+	public $lobbyPusher;
 
     public function renderGameHasFinished() {
     	if(!$this->gameGovernance->getGame()->isGameFinished()) {
@@ -68,6 +52,8 @@ class BangPresenter extends BasePresenter {
     public function actionStartGame() {
     	try {
 			$this->gameGovernance->createGame($this->lobbyGovernance->findUsersLobby()->getMembers());
+			$this->lobbyPusher->pushGameStarted($this->lobbyGovernance->findUsersLobby(), \GameTypes::BANG);
+			$this->lobbyGovernance->setActiveGame($this->lobbyGovernance->findUsersLobby()->getId(), \GameTypes::BANG);
 		} catch (InvalidStateException $e) {
     		$this->flashMessage("Pro bang jsou potřeba minimálně 4 hráči", "warning");
     		$this->redirect("Lobby:");

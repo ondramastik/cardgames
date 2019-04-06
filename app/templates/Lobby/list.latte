@@ -25,7 +25,7 @@
                 <td>{$lobby->getName()}</td>
                 <td n:inner-foreach="$lobby->getMembers() as $member">{$member->getNickname()} </td>
                 <td>
-                    <a n:href="joinLobby $lobby->getId()" class="btn btn-default" role="button">Připojit</a>
+                    <a n:href="joinLobby! $lobby->getId()" class="btn btn-default" role="button">Připojit</a>
                 </td>
             </tr>
         </tbody>

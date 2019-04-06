@@ -26,7 +26,7 @@ class ChatControl extends Control {
 
 
     public function render() {
-        $this->getTemplate()->setFile(__DIR__ . '/../../templates/Chat/chat.latte');
+        $this->getTemplate()->setFile(__DIR__ . '/../../templates/chat/chat.latte');
 
         $this->getTemplate()->lobbyId = $this->lobbyId;
         $this->getTemplate()->serverIp = $this->serverIp;
