@@ -38,6 +38,7 @@
         <div class="admin-controls" n:if="$lobby->getOwner()->getId() === $presenter->getUser()->getId()">
             <a n:href="cancelLobby! $lobby->getId()" class="btn btn-danger cancel-lobby" role="button">Rozpustit lobby</a>
             <a n:href="Prsi:startGame $lobby->getId()" class="btn btn-success float-right start-prsi" role="button">Spustit prší</a>
+            <a n:href="Bang:startGame" class="btn btn-warning float-right start-prsi" role="button">Spustit bang</a>
         </div>
     </div>
     {control chat}

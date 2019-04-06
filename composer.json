@@ -1,11 +1,11 @@
 {
-	"name": "cardgames",
+	"name": "ondramastik/cardgames",
 	"description": "Card games",
 	"keywords": ["nette", "card", "games", "cardgames"],
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"require": {
-		"php": ">= 7.3",
+		"php": ">= 7.2",
 		"nette/application": "^2.4",
 		"nette/bootstrap": "^2.4.2",
 		"nette/caching": "^2.5",
@@ -20,9 +20,8 @@
 		"nette/utils": "^2.4",
 		"latte/latte": "^2.4",
 		"tracy/tracy": "^2.4",
-		"ipub/websockets-wamp": "^1.0",
-		"ipub/websockets": "^1.0",
-		"kdyby/doctrine": "^3.3"
+		"kdyby/doctrine": "^3.3",
+		"ipub/websockets-zmq": "^1.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"
@@ -30,7 +29,7 @@
 	"minimum-stability": "stable",
 	"config": {
 		"platform": {
-			"php": "7.3.1"
+			"php": "7.2.1"
 		}
 	}
 }

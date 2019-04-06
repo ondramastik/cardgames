@@ -15,6 +15,8 @@ use App\Components\Chat\LogControl;
 use App\Models\Bang\GameGovernance;
 use App\Models\Bang\PlayerUtils;
 use App\Models\Lobby\LobbyGovernance;
+use IPub\WebSocketsZMQ\Pusher\Pusher;
+use Nette\InvalidStateException;
 
 class BangPresenter extends BasePresenter {
 	
@@ -23,16 +25,21 @@ class BangPresenter extends BasePresenter {
 
     /** @var LobbyGovernance */
     private $lobbyGovernance;
-	
+
+    /** @var Pusher */
+    private $zmqPusher;
+
 	/**
 	 * BangPresenter constructor.
 	 * @param LobbyGovernance $lobbyGovernance
 	 * @param GameGovernance $gameGovernance
+	 * @param Pusher $zmqPusher
 	 */
-    public function __construct(LobbyGovernance $lobbyGovernance, GameGovernance $gameGovernance) {
+    public function __construct(LobbyGovernance $lobbyGovernance, GameGovernance $gameGovernance, Pusher $zmqPusher) {
         parent::__construct();
         $this->lobbyGovernance = $lobbyGovernance;
         $this->gameGovernance = $gameGovernance;
+        $this->zmqPusher = $zmqPusher;
     }
 
     public function renderGameHasFinished() {
@@ -44,7 +51,8 @@ class BangPresenter extends BasePresenter {
     
     public function renderPlay() {
 		if(!$this->gameGovernance->getGame()) {
-			$this->gameGovernance->createGame($this->lobbyGovernance->findUsersLobby()->getMembers());
+			$this->flashMessage("Momentálně nemáte rozehranou žádnou hru.", "warning");
+			$this->redirect("Lobby:");
 		}
 
     	if($this->gameGovernance->getGame()->isGameFinished()) {
@@ -56,6 +64,15 @@ class BangPresenter extends BasePresenter {
 		$this->getTemplate()->log = $this->gameGovernance->getLobbyGovernance()->findUsersLobby()->getLog();
 		$this->getTemplate()->actingPlayer = $this->gameGovernance->getActingPlayer();
     }
+
+    public function actionStartGame() {
+    	try {
+			$this->gameGovernance->createGame($this->lobbyGovernance->findUsersLobby()->getMembers());
+		} catch (InvalidStateException $e) {
+    		$this->flashMessage("Pro bang jsou potřeba minimálně 4 hráči", "warning");
+    		$this->redirect("Lobby:");
+		}
+	}
     
     public function handlePlayCard(string $cardIdentifier, string $targetPlayer = null) {
         $handCard = $tableCard = false;

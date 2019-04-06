@@ -4,19 +4,32 @@ namespace App\Presenters;
 
 use App\Components\Chat\ChatControl;
 use App\Models\Lobby\LobbyGovernance;
+use App\Models\Security\UserEntity;
+use IPub\WebSocketsZMQ\Pusher\Pusher;
+use Nette\Security\User;
 
 class LobbyPresenter extends BasePresenter {
 
     /** @var LobbyGovernance */
     private $lobbyGovernance;
 
-    /**
-     * LobbyPresenter constructor.
-     * @param LobbyGovernance $gameGovernance
-     */
-    public function __construct(LobbyGovernance $gameGovernance) {
+	/** @var Pusher */
+	private $zmqPusher;
+
+	/** @var UserEntity */
+	private $user;
+
+	/**
+	 * LobbyPresenter constructor.
+	 * @param LobbyGovernance $lobbyGovernance
+	 * @param Pusher $zmqPusher
+	 * @param User $user
+	 */
+    public function __construct(LobbyGovernance $lobbyGovernance, Pusher $zmqPusher, User $user) {
         parent::__construct();
-        $this->lobbyGovernance = $gameGovernance;
+        $this->lobbyGovernance = $lobbyGovernance;
+        $this->zmqPusher = $zmqPusher;
+        $this->user = $user->getIdentity()->userEntity;
     }
 
     public function handleDefault() {
@@ -43,6 +56,12 @@ class LobbyPresenter extends BasePresenter {
         $this->getTemplate()->lobby = $lobby;
         $this->getTemplate()->serverIp = $this->context->getParameters()['serverIp'];
     }
+
+    public function actionPushMessage($message) {
+		$this->zmqPusher->push(["text" => $message],"Chat:",
+			["lobbyId" => strval($this->lobbyGovernance->findUsersLobby()->getId())]);
+		$this->redirect("Lobby:");
+	}
 
 
     public function renderList() {

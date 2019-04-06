@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Chat\Message;
 use IPub;
 use Nette\Utils\Json;
 
@@ -14,7 +15,7 @@ class ChatController extends IPub\WebSockets\Application\Controller\Controller {
      * @throws \Nette\Utils\JsonException
      */
     public function actionPublish(array $event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic, IPub\WebSockets\Entities\Clients\IClient $client) {
-        $message = new \App\Models\Chat\Message($event['sender'], new \DateTime(), $event['text']);
+        $message = new Message($event['sender'], new \DateTime(), $event['text']);
 
         /** @var IPub\WebSocketsWAMP\Entities\Clients\IClient $otherClient */
         foreach ($topic as $otherClient) {
@@ -29,5 +30,9 @@ class ChatController extends IPub\WebSockets\Application\Controller\Controller {
 
         $client->send(Json::encode([IPub\WebSocketsWAMP\Application\Application::MSG_EVENT, $topic->getId(), $message->create()]));
     }
+
+    public function actionPush(array $event, IPub\WebSocketsWAMP\Entities\Topics\ITopic $topic) {
+    	$topic->broadcast(new Message("System", new \DateTime(), $event["text"]));
+	}
 
 }

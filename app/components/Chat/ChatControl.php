@@ -15,12 +15,12 @@ class ChatControl extends Control {
 
     /**
      * ChatControl constructor.
-     * @param string $lobbyId
+     * @param string $gameId
      * @param string $serverIp
      */
-    public function __construct(string $lobbyId, string $serverIp) {
+    public function __construct(string $gameId, string $serverIp) {
         parent::__construct();
-        $this->lobbyId = $lobbyId;
+        $this->lobbyId = $gameId;
         $this->serverIp = $serverIp;
     }
 

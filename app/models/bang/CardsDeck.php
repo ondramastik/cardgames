@@ -184,7 +184,7 @@ class CardsDeck {
                 new Vice(),
                 new Vice(),
             ];
-        } else throw new InvalidStateException();
+        } else throw new InvalidStateException("Only " . $this->playersCount . " players are in this lobby. Minimum is 4");
     }
 
     /**
