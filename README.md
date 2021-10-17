@@ -9,7 +9,7 @@ Currently, you can play two games
 ## Project Status
 
 I realised it was a bad idea to implement platform like this using PHP and Nette. During development, I faced several issues which could be easily solved by other technologies.
-Nette is not my favorite framework, and I don't desire to finish this project. Instead, I decided I will create new project and use tools better suited for this task. See [https://github.com/ondramastik/Bang-online](this) repo
+Nette is not my favorite framework, and I don't desire to finish this project. Instead, I decided I will create new project and use tools better suited for this task. See [this](https://github.com/ondramastik/Bang-online) repo
 
 ## Requirements
 
