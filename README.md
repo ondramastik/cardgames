@@ -24,3 +24,6 @@ PHP 7.3 or higher, apache server, MariaDB, Composer, Yarn
     mkdir temp temp/cache log
 
 Make directories `temp/` and `log/` writable.
+
+## Screenshots
+![screenshot 1](screen_bang.png "Bang")
