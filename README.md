@@ -1,6 +1,6 @@
 # Card games
 
-Goal of this project is to create a social platform where players can communicate, create lobbies and play various board games.
+The goal of this project is to create a social platform where players can communicate, create lobbies and play various board games.
 
 Currently, you can play two games
   * Prší (Mau-Mau) - Card game for 2 to 5 players
@@ -8,8 +8,8 @@ Currently, you can play two games
 
 ## Project Status
 
-I realised it was a bad idea to implement platform like this using PHP and Nette. During development, I faced several issues which could be easily solved by other technologies.
-Nette is not my favorite framework, and I don't desire to finish this project. Instead, I decided I will create new project and use tools better suited for this task. See [this](https://github.com/ondramastik/Bang-online) repo
+I realized it was a bad idea to implement a platform like this using PHP and Nette. During development, I faced several issues which could be easily solved by other technologies.
+Nette is not my favorite framework, and I don't desire to finish this project. Instead, I decided I will create a new project and use tools better suited for this task. See [this](https://github.com/ondramastik/Bang-online) repo
 
 ## Requirements
 
